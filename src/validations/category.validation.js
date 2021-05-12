@@ -3,7 +3,7 @@ const { objectId } = require('./custom.validation');
 
 const createCategory = {
   body: Joi.object().keys({
-    name: Joi.string().required().email(),
+    name: Joi.string().required(),
   }),
 };
 
