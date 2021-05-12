@@ -4,3 +4,5 @@ module.exports.categoryValidation = require('./category.validation');
 module.exports.subCategoryValidation = require('./sub-category.validation');
 module.exports.courseValidation = require('./course.validation');
 module.exports.sectionValidation = require('./section.validation');
+module.exports.lectureValidation = require('./lecture.validation');
+module.exports.commentValidation = require('./comment.validation');
