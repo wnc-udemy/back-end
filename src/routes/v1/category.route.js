@@ -22,17 +22,17 @@ module.exports = router;
 /**
  * @swagger
  * tags:
- *   name: Users
- *   description: User management and retrieval
+ *   name: Categories
+ *   description: Category management and retrieval
  */
 
 /**
  * @swagger
- * /users:
+ * /categories:
  *   post:
- *     summary: Create a user
- *     description: Only admins can create other users.
- *     tags: [Users]
+ *     summary: Create a category
+ *     description: Only admins can create other categories.
+ *     tags: [Categories]
  *     security:
  *       - bearerAuth: []
  *     requestBody:
@@ -43,36 +43,18 @@ module.exports = router;
  *             type: object
  *             required:
  *               - name
- *               - email
- *               - password
- *               - role
  *             properties:
  *               name:
  *                 type: string
- *               email:
- *                 type: string
- *                 format: email
- *                 description: must be unique
- *               password:
- *                 type: string
- *                 format: password
- *                 minLength: 8
- *                 description: At least one number and one letter
- *               role:
- *                  type: string
- *                  enum: [user, admin]
  *             example:
  *               name: fake name
- *               email: fake@example.com
- *               password: password1
- *               role: user
  *     responses:
  *       "201":
  *         description: Created
  *         content:
  *           application/json:
  *             schema:
- *                $ref: '#/components/schemas/User'
+ *                $ref: '#/components/schemas/Category'
  *       "400":
  *         $ref: '#/components/responses/DuplicateEmail'
  *       "401":
@@ -81,9 +63,9 @@ module.exports = router;
  *         $ref: '#/components/responses/Forbidden'
  *
  *   get:
- *     summary: Get all users
- *     description: Only admins can retrieve all users.
- *     tags: [Users]
+ *     summary: Get all categories
+ *     description: All user can retrieve all categories.
+ *     tags: [Categories]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -91,12 +73,7 @@ module.exports = router;
  *         name: name
  *         schema:
  *           type: string
- *         description: User name
- *       - in: query
- *         name: role
- *         schema:
- *           type: string
- *         description: User role
+ *         description: Category name
  *       - in: query
  *         name: sortBy
  *         schema:
@@ -108,7 +85,7 @@ module.exports = router;
  *           type: integer
  *           minimum: 1
  *         default: 10
- *         description: Maximum number of users
+ *         description: Maximum number of categories
  *       - in: query
  *         name: page
  *         schema:
@@ -127,7 +104,7 @@ module.exports = router;
  *                 results:
  *                   type: array
  *                   items:
- *                     $ref: '#/components/schemas/User'
+ *                     $ref: '#/components/schemas/Category'
  *                 page:
  *                   type: integer
  *                   example: 1
@@ -148,11 +125,11 @@ module.exports = router;
 
 /**
  * @swagger
- * /users/{id}:
+ * /categories/{id}:
  *   get:
- *     summary: Get a user
- *     description: Logged in users can fetch only their own user information. Only admins can fetch other users.
- *     tags: [Users]
+ *     summary: Get a category
+ *     description: all users can fetch other users.
+ *     tags: [Categories]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -161,14 +138,14 @@ module.exports = router;
  *         required: true
  *         schema:
  *           type: string
- *         description: User id
+ *         description: Category id
  *     responses:
  *       "200":
  *         description: OK
  *         content:
  *           application/json:
  *             schema:
- *                $ref: '#/components/schemas/User'
+ *                $ref: '#/components/schemas/Category'
  *       "401":
  *         $ref: '#/components/responses/Unauthorized'
  *       "403":
@@ -178,7 +155,7 @@ module.exports = router;
  *
  *   patch:
  *     summary: Update a user
- *     description: Logged in users can only update their own information. Only admins can update other users.
+ *     description: Only admins can update other categories.
  *     tags: [Users]
  *     security:
  *       - bearerAuth: []
@@ -188,7 +165,7 @@ module.exports = router;
  *         required: true
  *         schema:
  *           type: string
- *         description: User id
+ *         description: Category id
  *     requestBody:
  *       required: true
  *       content:
@@ -198,26 +175,15 @@ module.exports = router;
  *             properties:
  *               name:
  *                 type: string
- *               email:
- *                 type: string
- *                 format: email
- *                 description: must be unique
- *               password:
- *                 type: string
- *                 format: password
- *                 minLength: 8
- *                 description: At least one number and one letter
  *             example:
  *               name: fake name
- *               email: fake@example.com
- *               password: password1
  *     responses:
  *       "200":
  *         description: OK
  *         content:
  *           application/json:
  *             schema:
- *                $ref: '#/components/schemas/User'
+ *                $ref: '#/components/schemas/Category'
  *       "400":
  *         $ref: '#/components/responses/DuplicateEmail'
  *       "401":
@@ -229,7 +195,7 @@ module.exports = router;
  *
  *   delete:
  *     summary: Delete a user
- *     description: Logged in users can delete only themselves. Only admins can delete other users.
+ *     description: Only admins can delete other categories.
  *     tags: [Users]
  *     security:
  *       - bearerAuth: []
@@ -239,7 +205,7 @@ module.exports = router;
  *         required: true
  *         schema:
  *           type: string
- *         description: User id
+ *         description: Category id
  *     responses:
  *       "200":
  *         description: No content
