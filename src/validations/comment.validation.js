@@ -31,8 +31,8 @@ const updateComment = {
   }),
   body: Joi.object()
     .keys({
-      content: Joi.string().required(),
-      rating: Joi.number().required(),
+      content: Joi.string(),
+      rating: Joi.number(),
       createAt: Joi.date(),
     })
     .min(1),

@@ -8,9 +8,23 @@ const historySchema = mongoose.Schema(
       required: true,
       index: true,
     },
-    subCategories: {
+    atTime: {
+      type: Number,
+      default: 0,
+    },
+    status: {
+      // 0: not watch, 1: watching, 2: watched
+      type: Number,
+      default: 0,
+    },
+    lecture: {
       type: mongoose.SchemaTypes.ObjectId,
-      ref: 'SubCategory',
+      ref: 'Lecture',
+      required: true,
+    },
+    course: {
+      type: mongoose.SchemaTypes.ObjectId,
+      ref: 'Course',
       required: true,
     },
   },

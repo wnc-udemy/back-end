@@ -37,14 +37,14 @@ const updateCourse = {
   }),
   body: Joi.object()
     .keys({
-      name: Joi.string().required(),
-      url: Joi.string().required(),
-      urlThumb: Joi.string().required(),
-      fee: Joi.number().precision(2).required(),
-      discount: Joi.number().min(0).max(100).required(),
-      averageRating: Joi.number().precision(2).min(0).max(5).required(),
-      introDescription: Joi.string().description().required(),
-      detailDescription: Joi.string().description().required(),
+      name: Joi.string(),
+      url: Joi.string(),
+      urlThumb: Joi.string(),
+      fee: Joi.number().precision(2),
+      discount: Joi.number().min(0).max(100),
+      averageRating: Joi.number().precision(2).min(0).max(5),
+      introDescription: Joi.string().description(),
+      detailDescription: Joi.string().description(),
       updatedAt: Joi.date(),
     })
     .min(1),

@@ -54,6 +54,11 @@ const userSchema = mongoose.Schema(
       ref: 'Course',
       default: [],
     },
+    histories: {
+      type: mongoose.SchemaTypes.ObjectId,
+      ref: 'History',
+      default: [],
+    },
   },
   {
     timestamps: true,
