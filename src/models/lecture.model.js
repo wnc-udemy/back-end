@@ -17,15 +17,6 @@ const lectureSchema = mongoose.Schema(
       type: Number,
       required: true,
     },
-    isPreview: {
-      type: Boolean,
-      required: true,
-    },
-    viewedStudent: {
-      type: mongoose.SchemaTypes.ObjectId,
-      ref: 'User',
-      required: true,
-    },
   },
   {
     timestamps: true,
