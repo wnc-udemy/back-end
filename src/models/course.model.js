@@ -36,24 +36,33 @@ const courseSchema = mongoose.Schema(
       type: String,
       require: true,
     },
+    updatedAt: {
+      type: Date,
+      default: Date.now(),
+    },
     instructor: {
       type: mongoose.SchemaTypes.ObjectId,
       ref: 'User',
       required: true,
     },
-    student: {
+    students: {
       type: mongoose.SchemaTypes.ObjectId,
       ref: 'User',
       default: [],
     },
-    introLecture: {
+    introLectures: {
       type: mongoose.SchemaTypes.ObjectId,
       ref: 'Lecture',
       default: [],
     },
-    comment: {
+    comments: {
       type: mongoose.SchemaTypes.ObjectId,
       ref: 'Comment',
+      default: [],
+    },
+    sections: {
+      type: mongoose.SchemaTypes.ObjectId,
+      ref: 'Section',
       default: [],
     },
   },

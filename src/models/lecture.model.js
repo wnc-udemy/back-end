@@ -12,6 +12,10 @@ const lectureSchema = mongoose.Schema(
       type: String,
       default: '',
     },
+    lengthTime: {
+      type: Number,
+      required: true,
+    },
     type: {
       // 0: videos, 1: markdown, 2: html, 3: question
       type: Number,

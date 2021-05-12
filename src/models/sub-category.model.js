@@ -8,12 +8,12 @@ const subCategorySchema = mongoose.Schema(
       required: true,
       index: true,
     },
-    course: {
+    courses: {
       type: mongoose.SchemaTypes.ObjectId,
       ref: 'Course',
       required: true,
     },
-    bestSellerCourse: {
+    bestSellerCourses: {
       type: mongoose.SchemaTypes.ObjectId,
       ref: 'Course',
       required: true,

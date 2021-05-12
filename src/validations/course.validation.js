@@ -11,6 +11,7 @@ const createCourse = {
     averageRating: Joi.number().precision(2).min(0).max(5),
     introDescription: Joi.string().description().required(),
     detailDescription: Joi.string().description().required(),
+    updatedAt: Joi.date(),
   }),
 };
 
@@ -44,6 +45,7 @@ const updateCourse = {
       averageRating: Joi.number().precision(2).min(0).max(5).required(),
       introDescription: Joi.string().description().required(),
       detailDescription: Joi.string().description().required(),
+      updatedAt: Joi.date(),
     })
     .min(1),
 };

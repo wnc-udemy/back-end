@@ -5,6 +5,7 @@ const createComment = {
   body: Joi.object().keys({
     content: Joi.string().required(),
     rating: Joi.number().required(),
+    createAt: Joi.date(),
   }),
 };
 
@@ -32,6 +33,7 @@ const updateComment = {
     .keys({
       content: Joi.string().required(),
       rating: Joi.number().required(),
+      createAt: Joi.date(),
     })
     .min(1),
 };

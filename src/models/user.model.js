@@ -44,17 +44,12 @@ const userSchema = mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    comment: {
-      type: mongoose.SchemaTypes.ObjectId,
-      ref: 'Comment',
-      default: [],
-    },
-    course: {
+    courses: {
       type: mongoose.SchemaTypes.ObjectId,
       ref: 'Course',
       default: [],
     },
-    favoriteCourse: {
+    favoriteCourses: {
       type: mongoose.SchemaTypes.ObjectId,
       ref: 'Course',
       default: [],

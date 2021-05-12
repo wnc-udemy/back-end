@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const { toJSON } = require('./plugins');
 
-const categorySchema = mongoose.Schema(
+const historySchema = mongoose.Schema(
   {
     name: {
       type: String,
@@ -20,11 +20,11 @@ const categorySchema = mongoose.Schema(
 );
 
 // add plugin that converts mongoose to json
-categorySchema.plugin(toJSON);
+historySchema.plugin(toJSON);
 
 /**
- * @typedef Category
+ * @typedef History
  */
-const Category = mongoose.model('Category', categorySchema);
+const History = mongoose.model('History', historySchema);
 
-module.exports = Category;
+module.exports = History;
