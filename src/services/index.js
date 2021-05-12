@@ -6,3 +6,4 @@ module.exports.categoryService = require('./category.service');
 module.exports.subCategoryService = require('./sub-category.service');
 module.exports.courseService = require('./course.service');
 module.exports.sectionService = require('./section.service');
+module.exports.lectureService = require('./lecture.service');
