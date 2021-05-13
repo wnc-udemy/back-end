@@ -8,3 +8,4 @@ module.exports.courseService = require('./course.service');
 module.exports.sectionService = require('./section.service');
 module.exports.lectureService = require('./lecture.service');
 module.exports.commentService = require('./comment.service');
+module.exports.historyService = require('./history.service');
