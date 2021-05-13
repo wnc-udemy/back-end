@@ -12,6 +12,7 @@ const createCourse = {
     introDescription: Joi.string().description().required(),
     detailDescription: Joi.string().description().required(),
     updatedAt: Joi.date(),
+    instructor: Joi.string().custom(objectId).required(),
   }),
 };
 
@@ -46,6 +47,7 @@ const updateCourse = {
       introDescription: Joi.string().description(),
       detailDescription: Joi.string().description(),
       updatedAt: Joi.date(),
+      instructor: Joi.string().custom(objectId),
     })
     .min(1),
 };
