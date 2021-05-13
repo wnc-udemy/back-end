@@ -30,6 +30,66 @@ components:
         id: 5ebac534954b54139806c112
         name: fake name
 
+    SubCategory:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+      example:
+        id: 5ebac534954b54139806c112
+        name: fake name       
+
+    Course:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        url:
+          type: string
+        urlThumb:
+          type: string
+        fee:
+          type: number
+        discount:
+          type: number
+          default: 0
+        averageRating:
+          type: number
+          default: 0
+        introDescription: 
+          type: string
+        detailDescription:
+          type: string
+        introLectures:
+          type: array
+          default: []
+        comments:
+          type: array
+          default: []
+        instructor:
+          type: string
+        students:
+          type: array
+          default: []
+        updatedAt:
+          type: string
+      example:
+        id: 5ebac534954b54139806c112
+        name: fake name 
+        url: https://www.facebook.com/
+        urlThumb: https://www.facebook.com/    
+        fee: 100
+        discount: 0.3
+        averageRating: 4.5
+        introDescription: fake intro description
+        detailDescription: fake detail description  
+        instructor: ObjectId("609b9838b28d283ef805f15d")
+        updatedAt: 2016-05-18T16:00:00Z
+
     Token:
       type: object
       properties:

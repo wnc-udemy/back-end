@@ -42,7 +42,7 @@ const updateLecture = {
 
 const deleteLecture = {
   params: Joi.object().keys({
-    property: Joi.string().custom(objectId),
+    lectureId: Joi.string().custom(objectId),
   }),
 };
 

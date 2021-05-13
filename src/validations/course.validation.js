@@ -9,8 +9,8 @@ const createCourse = {
     fee: Joi.number().precision(2).required(),
     discount: Joi.number().min(0).max(100),
     averageRating: Joi.number().precision(2).min(0).max(5),
-    introDescription: Joi.string().description().required(),
-    detailDescription: Joi.string().description().required(),
+    introDescription: Joi.string().required(),
+    detailDescription: Joi.string().required(),
     updatedAt: Joi.date(),
     instructor: Joi.string().custom(objectId).required(),
   }),
@@ -44,8 +44,8 @@ const updateCourse = {
       fee: Joi.number().precision(2),
       discount: Joi.number().min(0).max(100),
       averageRating: Joi.number().precision(2).min(0).max(5),
-      introDescription: Joi.string().description(),
-      detailDescription: Joi.string().description(),
+      introDescription: Joi.string(),
+      detailDescription: Joi.string(),
       updatedAt: Joi.date(),
       instructor: Joi.string().custom(objectId),
     })
@@ -54,7 +54,7 @@ const updateCourse = {
 
 const deleteCourse = {
   params: Joi.object().keys({
-    property: Joi.string().custom(objectId),
+    courseId: Joi.string().custom(objectId),
   }),
 };
 

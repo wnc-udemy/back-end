@@ -40,7 +40,7 @@ const updateComment = {
 
 const deleteComment = {
   params: Joi.object().keys({
-    property: Joi.string().custom(objectId),
+    commentId: Joi.string().custom(objectId),
   }),
 };
 

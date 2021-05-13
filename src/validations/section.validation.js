@@ -38,7 +38,7 @@ const updateSection = {
 
 const deleteSection = {
   params: Joi.object().keys({
-    property: Joi.string().custom(objectId),
+    sectionId: Joi.string().custom(objectId),
   }),
 };
 

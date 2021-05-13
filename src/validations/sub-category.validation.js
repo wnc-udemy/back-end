@@ -36,7 +36,7 @@ const updateSubCategory = {
 
 const deleteSubCategory = {
   params: Joi.object().keys({
-    property: Joi.string().custom(objectId),
+    subCategoryId: Joi.string().custom(objectId),
   }),
 };
 

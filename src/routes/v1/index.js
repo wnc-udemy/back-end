@@ -3,6 +3,7 @@ const authRoute = require('./auth.route');
 const userRoute = require('./user.route');
 const categoryRoute = require('./category.route');
 const subCategoryRoute = require('./sub-category.route');
+const courseRoute = require('./course.route');
 const docsRoute = require('./docs.route');
 const config = require('../../config/config');
 
@@ -24,6 +25,10 @@ const defaultRoutes = [
   {
     path: '/sub-categories',
     route: subCategoryRoute,
+  },
+  {
+    path: '/courses',
+    route: courseRoute,
   },
 ];
 

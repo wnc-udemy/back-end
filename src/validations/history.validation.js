@@ -42,7 +42,7 @@ const updateHistory = {
 
 const deleteHistory = {
   params: Joi.object().keys({
-    property: Joi.string().custom(objectId),
+    historyId: Joi.string().custom(objectId),
   }),
 };
 
