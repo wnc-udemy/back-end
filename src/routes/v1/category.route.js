@@ -2,20 +2,20 @@ const express = require('express');
 const auth = require('../../middlewares/auth');
 const validate = require('../../middlewares/validate');
 const categoryValidation = require('../../validations/category.validation');
-const userController = require('../../controllers/user.controller');
+const categoryController = require('../../controllers/category.controller');
 
 const router = express.Router();
 
 router
   .route('/')
-  .post(auth('manageCategories'), validate(categoryValidation.createCategory), userController.createUser)
-  .get(auth('getCategories'), validate(categoryValidation.getCategories), userController.getUsers);
+  .post(auth('manageCategories'), validate(categoryValidation.createCategory), categoryController.createCategory)
+  .get(auth('getCategories'), validate(categoryValidation.getCategories), categoryController.getCategories);
 
 router
   .route('/:categoryId')
-  .get(auth('getCategories'), validate(categoryValidation.getCategory), userController.getUser)
-  .patch(auth('manageCategories'), validate(categoryValidation.updateCategory), userController.updateUser)
-  .delete(auth('manageCategories'), validate(categoryValidation.deleteCategory), userController.deleteUser);
+  .get(auth('getCategories'), validate(categoryValidation.getCategory), categoryController.getCategory)
+  .patch(auth('manageCategories'), validate(categoryValidation.updateCategory), categoryController.updateCategory)
+  .delete(auth('manageCategories'), validate(categoryValidation.deleteCategory), categoryController.deleteCategory);
 
 module.exports = router;
 
@@ -128,7 +128,7 @@ module.exports = router;
  * /categories/{id}:
  *   get:
  *     summary: Get a category
- *     description: all users can fetch other users.
+ *     description: all users can fetch other categories.
  *     tags: [Categories]
  *     security:
  *       - bearerAuth: []
@@ -154,9 +154,9 @@ module.exports = router;
  *         $ref: '#/components/responses/NotFound'
  *
  *   patch:
- *     summary: Update a user
+ *     summary: Update a category
  *     description: Only admins can update other categories.
- *     tags: [Users]
+ *     tags: [Categories]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -194,9 +194,9 @@ module.exports = router;
  *         $ref: '#/components/responses/NotFound'
  *
  *   delete:
- *     summary: Delete a user
+ *     summary: Delete a category
  *     description: Only admins can delete other categories.
- *     tags: [Users]
+ *     tags: [Categories]
  *     security:
  *       - bearerAuth: []
  *     parameters:
