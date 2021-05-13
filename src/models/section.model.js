@@ -3,7 +3,7 @@ const { toJSON } = require('./plugins');
 
 const sectionSchema = mongoose.Schema(
   {
-    title: {
+    name: {
       type: String,
       required: true,
       index: true,

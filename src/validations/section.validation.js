@@ -3,7 +3,7 @@ const { objectId } = require('./custom.validation');
 
 const createSection = {
   body: Joi.object().keys({
-    title: Joi.string().required(),
+    name: Joi.string().required(),
     totalTime: Joi.number().required(),
   }),
 };

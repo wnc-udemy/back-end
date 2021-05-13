@@ -13,6 +13,7 @@ const createCourse = {
     detailDescription: Joi.string().required(),
     updatedAt: Joi.date(),
     instructor: Joi.string().custom(objectId).required(),
+    status: Joi.number(),
   }),
 };
 
@@ -48,6 +49,7 @@ const updateCourse = {
       detailDescription: Joi.string(),
       updatedAt: Joi.date(),
       instructor: Joi.string().custom(objectId),
+      status: Joi.number(),
     })
     .min(1),
 };

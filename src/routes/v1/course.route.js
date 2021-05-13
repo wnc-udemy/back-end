@@ -76,6 +76,8 @@ module.exports = router;
  *                 type: string
  *               updatedAt:
  *                 type: string
+ *               status:
+ *                 type: number
  *             example:
  *               name: fake name
  *               url: https://www.facebook.com/
@@ -85,8 +87,7 @@ module.exports = router;
  *               averageRating: 4.5
  *               introDescription: fake intro description
  *               detailDescription: fake detail description
- *               instructor: ObjectId("609b9838b28d283ef805f15d")
- *               updatedAt: 2016-05-18T16:00:00Z
+ *               instructor: 609b9838b28d283ef805f15d
  *     responses:
  *       "201":
  *         description: Created
@@ -195,7 +196,7 @@ module.exports = router;
  *   patch:
  *     summary: Update a course
  *     description: Only instructor can update owner course.
- *     tags: [Categories]
+ *     tags: [Courses]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -238,6 +239,8 @@ module.exports = router;
  *                 type: string
  *               updatedAt:
  *                 type: string
+ *               status:
+ *                 type: number
  *             example:
  *               name: fake name
  *               url: https://www.facebook.com/
@@ -247,8 +250,7 @@ module.exports = router;
  *               averageRating: 4.5
  *               introDescription: fake intro description
  *               detailDescription: fake detail description
- *               instructor: ObjectId("609b9838b28d283ef805f15d")
- *               updatedAt: 2016-05-18T16:00:00Z
+ *               instructor: 609b9838b28d283ef805f15d
  *     responses:
  *       "200":
  *         description: OK

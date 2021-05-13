@@ -34,7 +34,7 @@ module.exports = router;
 /**
  * @swagger
  * tags:
- *   name: Sub categories
+ *   name: SubCategories
  *   description: Sub category management and retrieval
  */
 

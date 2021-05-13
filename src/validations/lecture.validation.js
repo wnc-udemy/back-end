@@ -3,7 +3,7 @@ const { objectId } = require('./custom.validation');
 
 const createLecture = {
   body: Joi.object().keys({
-    title: Joi.string().required(),
+    name: Joi.string().required(),
     url: Joi.string(),
     type: Joi.number(),
     lengthTime: Joi.number().required(),
@@ -32,7 +32,7 @@ const updateLecture = {
   }),
   body: Joi.object()
     .keys({
-      title: Joi.string(),
+      name: Joi.string(),
       url: Joi.string(),
       type: Joi.number(),
       lengthTime: Joi.number(),

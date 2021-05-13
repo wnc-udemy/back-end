@@ -40,6 +40,11 @@ const courseSchema = mongoose.Schema(
       type: Date,
       default: Date.now(),
     },
+    status: {
+      // 0: Not complete, 1: Complete, 2: Blocked
+      type: Number,
+      default: 0,
+    },
     instructor: {
       type: mongoose.SchemaTypes.ObjectId,
       ref: 'User',

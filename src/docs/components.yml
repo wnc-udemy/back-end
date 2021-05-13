@@ -77,6 +77,8 @@ components:
           default: []
         updatedAt:
           type: string
+        status:
+          type: number
       example:
         id: 5ebac534954b54139806c112
         name: fake name 
@@ -87,8 +89,22 @@ components:
         averageRating: 4.5
         introDescription: fake intro description
         detailDescription: fake detail description  
-        instructor: ObjectId("609b9838b28d283ef805f15d")
+        instructor: 609b9838b28d283ef805f15d
         updatedAt: 2016-05-18T16:00:00Z
+        status: 0
+    Section:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        totalTime:
+          type: number
+      example:
+        id: 5ebac534954b54139806c112
+        name: fake name  
+        totalTime: 100          
 
     Token:
       type: object
