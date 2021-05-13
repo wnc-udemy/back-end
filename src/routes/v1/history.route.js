@@ -1,38 +1,38 @@
 const express = require('express');
 const auth = require('../../middlewares/auth');
 const validate = require('../../middlewares/validate');
-const lectureValidation = require('../../validations/lecture.validation');
-const lectureController = require('../../controllers/lecture.controller');
+const historyValidation = require('../../validations/history.validation');
+const historyController = require('../../controllers/history.controller');
 
 const router = express.Router();
 
 router
   .route('/')
-  .post(auth('manageLectures'), validate(lectureValidation.createLecture), lectureController.createLecture)
-  .get(auth('getLectures'), validate(lectureValidation.getLectures), lectureController.getLectures);
+  .post(auth('manageHistories'), validate(historyValidation.createHistory), historyController.createHistory)
+  .get(auth('getHistories'), validate(historyValidation.getHistories), historyController.getHistories);
 
 router
-  .route('/:lectureId')
-  .get(auth('getLectures'), validate(lectureValidation.getLecture), lectureController.getLecture)
-  .patch(auth('manageLectures'), validate(lectureValidation.updateLecture), lectureController.updateLecture)
-  .delete(auth('manageLectures'), validate(lectureValidation.deleteLecture), lectureController.deleteLecture);
+  .route('/:historyId')
+  .get(auth('getHistories'), validate(historyValidation.getHistory), historyController.getHistory)
+  .patch(auth('manageHistories'), validate(historyValidation.updateHistory), historyController.updateHistory)
+  .delete(auth('manageHistories'), validate(historyValidation.deleteHistory), historyController.deleteHistory);
 
 module.exports = router;
 
 /**
  * @swagger
  * tags:
- *   name: Lectures
- *   description: Lecture management and retrieval
+ *   name: Histories
+ *   description: History management and retrieval
  */
 
 /**
  * @swagger
- * /lectures:
+ * /categories:
  *   post:
- *     summary: Create a lecture
- *     description: Only instructor can create owner lectures.
- *     tags: [Lectures]
+ *     summary: Create a history
+ *     description: Only user can create owner histories.
+ *     tags: [Histories]
  *     security:
  *       - bearerAuth: []
  *     requestBody:
@@ -42,35 +42,29 @@ module.exports = router;
  *           schema:
  *             type: object
  *             required:
- *               - name
- *               - url
- *               - type
- *               - lengthTime
- *               - isPreview
+ *               - lecture
+ *               - course
+ *               - atTime
  *             properties:
- *               name:
+ *               lecture:
  *                 type: string
- *               url:
+ *               course:
  *                 type: string
- *               type:
+ *               atTime:
  *                 type: number
- *               lengthTime:
+ *               status:
  *                 type: number
- *               isPreview:
- *                 type: bool
  *             example:
- *               name: fake name
- *               url: https://www.facebook.com/
- *               type: 0
- *               lengthTime: 60
- *               isPreview: true
+ *               lecture: 609b9838b28d283ef805f15d
+ *               course: 609b9838b28d283ef805f15d
+ *               atTime: 60
  *     responses:
  *       "201":
  *         description: Created
  *         content:
  *           application/json:
  *             schema:
- *                $ref: '#/components/schemas/Lecture'
+ *                $ref: '#/components/schemas/History'
  *       "400":
  *         $ref: '#/components/responses/DuplicateEmail'
  *       "401":
@@ -79,17 +73,12 @@ module.exports = router;
  *         $ref: '#/components/responses/Forbidden'
  *
  *   get:
- *     summary: Get all lectures
- *     description: All user can retrieve all lectures.
- *     tags: [Lectures]
+ *     summary: Get all histories
+ *     description: All user can retrieve all histories.
+ *     tags: [Histories]
  *     security:
  *       - bearerAuth: []
  *     parameters:
- *       - in: query
- *         name: name
- *         schema:
- *           type: string
- *         description: Lecture name
  *       - in: query
  *         name: sortBy
  *         schema:
@@ -101,7 +90,7 @@ module.exports = router;
  *           type: integer
  *           minimum: 1
  *         default: 10
- *         description: Maximum number of lectures
+ *         description: Maximum number of histories
  *       - in: query
  *         name: page
  *         schema:
@@ -120,7 +109,7 @@ module.exports = router;
  *                 results:
  *                   type: array
  *                   items:
- *                     $ref: '#/components/schemas/Lecture'
+ *                     $ref: '#/components/schemas/History'
  *                 page:
  *                   type: integer
  *                   example: 1
@@ -141,11 +130,11 @@ module.exports = router;
 
 /**
  * @swagger
- * /lectures/{id}:
+ * /histories/{id}:
  *   get:
- *     summary: Get a lecture
- *     description: all users can fetch other lectures.
- *     tags: [Lectures]
+ *     summary: Get a history
+ *     description: Only users can fetch owner histories.
+ *     tags: [Histories]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -154,14 +143,14 @@ module.exports = router;
  *         required: true
  *         schema:
  *           type: string
- *         description: Lecture id
+ *         description: History id
  *     responses:
  *       "200":
  *         description: OK
  *         content:
  *           application/json:
  *             schema:
- *                $ref: '#/components/schemas/Lecture'
+ *                $ref: '#/components/schemas/History'
  *       "401":
  *         $ref: '#/components/responses/Unauthorized'
  *       "403":
@@ -170,9 +159,9 @@ module.exports = router;
  *         $ref: '#/components/responses/NotFound'
  *
  *   patch:
- *     summary: Update a lecture
- *     description: Only instructor can update owner lectures.
- *     tags: [Lectures]
+ *     summary: Update a history
+ *     description: Only user can update owner histories.
+ *     tags: [Histories]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -181,7 +170,7 @@ module.exports = router;
  *         required: true
  *         schema:
  *           type: string
- *         description: Lecture id
+ *         description: History id
  *     requestBody:
  *       required: true
  *       content:
@@ -189,29 +178,25 @@ module.exports = router;
  *           schema:
  *             type: object
  *             properties:
- *               name:
+ *               lecture:
  *                 type: string
- *               url:
+ *               course:
  *                 type: string
- *               type:
+ *               atTime:
  *                 type: number
- *               lengthTime:
+ *               status:
  *                 type: number
- *               isPreview:
- *                 type: bool
  *             example:
- *               name: fake name
- *               url: https://www.facebook.com/
- *               type: 0
- *               lengthTime: 60
- *               isPreview: true
+ *               lecture: 609b9838b28d283ef805f15d
+ *               course: 609b9838b28d283ef805f15d
+ *               atTime: 60
  *     responses:
  *       "200":
  *         description: OK
  *         content:
  *           application/json:
  *             schema:
- *                $ref: '#/components/schemas/Lecture'
+ *                $ref: '#/components/schemas/History'
  *       "400":
  *         $ref: '#/components/responses/DuplicateEmail'
  *       "401":
@@ -222,9 +207,9 @@ module.exports = router;
  *         $ref: '#/components/responses/NotFound'
  *
  *   delete:
- *     summary: Delete a lecture
- *     description: Only admins can delete other lectures.
- *     tags: [Lectures]
+ *     summary: Delete a history
+ *     description: Only admins can delete other histories.
+ *     tags: [Histories]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -233,7 +218,7 @@ module.exports = router;
  *         required: true
  *         schema:
  *           type: string
- *         description: Lecture id
+ *         description: History id
  *     responses:
  *       "200":
  *         description: No content

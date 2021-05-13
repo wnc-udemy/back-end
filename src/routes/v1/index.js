@@ -6,6 +6,8 @@ const subCategoryRoute = require('./sub-category.route');
 const courseRoute = require('./course.route');
 const sectionRoute = require('./section.route');
 const lectureRoute = require('./lecture.route');
+const commentRoute = require('./comment.route');
+const historyRoute = require('./history.route');
 const docsRoute = require('./docs.route');
 const config = require('../../config/config');
 
@@ -39,6 +41,14 @@ const defaultRoutes = [
   {
     path: '/lectures',
     route: lectureRoute,
+  },
+  {
+    path: '/comments',
+    route: commentRoute,
+  },
+  {
+    path: '/histories',
+    route: historyRoute,
   },
 ];
 

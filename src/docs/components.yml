@@ -128,7 +128,44 @@ components:
         url: https://www.facebook.com/    
         type: 0
         lengthTime: 60
-        isPreview: true           
+        isPreview: true    
+        
+    Comment:
+      type: object
+      properties:
+        id:
+          type: string
+        content:
+          type: string
+        rating:
+          type: number
+        user:
+          type: string
+      example:
+        id: 5ebac534954b54139806c112
+        content: fake content  
+        rating: 5    
+        user: 5ebac534954b54139806c112       
+
+    History:
+      type: object
+      properties:
+        id:
+          type: string
+        lecture:
+          type: string
+        course:
+          type: string
+        atTime:
+          type: number
+        status:
+          type: int
+      example:
+        id: 5ebac534954b54139806c112
+        lecture: 5ebac534954b54139806c112 
+        course: 5ebac534954b54139806c112   
+        atTime: 60
+        status: 0
 
     Token:
       type: object
