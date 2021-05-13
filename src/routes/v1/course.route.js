@@ -125,7 +125,7 @@ module.exports = router;
  *           type: integer
  *           minimum: 1
  *         default: 10
- *         description: Maximum number of categories
+ *         description: Maximum number of courses
  *       - in: query
  *         name: page
  *         schema:
@@ -168,7 +168,7 @@ module.exports = router;
  * /courses/{id}:
  *   get:
  *     summary: Get a course
- *     description: all users can fetch all course status active.
+ *     description: all users can fetch all courses status active.
  *     tags: [Courses]
  *     security:
  *       - bearerAuth: []
@@ -195,7 +195,7 @@ module.exports = router;
  *
  *   patch:
  *     summary: Update a course
- *     description: Only instructor can update owner course.
+ *     description: Only instructor can update owner courses.
  *     tags: [Courses]
  *     security:
  *       - bearerAuth: []
@@ -269,7 +269,7 @@ module.exports = router;
  *
  *   delete:
  *     summary: Delete a course
- *     description: Only admins can delete other course.
+ *     description: Only admins can delete other courses.
  *     tags: [Courses]
  *     security:
  *       - bearerAuth: []

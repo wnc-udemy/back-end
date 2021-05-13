@@ -92,6 +92,7 @@ components:
         instructor: 609b9838b28d283ef805f15d
         updatedAt: 2016-05-18T16:00:00Z
         status: 0
+
     Section:
       type: object
       properties:
@@ -104,7 +105,30 @@ components:
       example:
         id: 5ebac534954b54139806c112
         name: fake name  
-        totalTime: 100          
+        totalTime: 100     
+        
+    Lecture:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        url:
+          type: string
+        type:
+          type: number
+        lengthTime:
+          type: number
+        isPreview:
+          type: bool
+      example:
+        id: 5ebac534954b54139806c112
+        name: fake name  
+        url: https://www.facebook.com/    
+        type: 0
+        lengthTime: 60
+        isPreview: true           
 
     Token:
       type: object

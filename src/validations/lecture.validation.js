@@ -7,6 +7,7 @@ const createLecture = {
     url: Joi.string(),
     type: Joi.number(),
     lengthTime: Joi.number().required(),
+    isPreview: Joi.boolean().required(),
   }),
 };
 
@@ -36,6 +37,7 @@ const updateLecture = {
       url: Joi.string(),
       type: Joi.number(),
       lengthTime: Joi.number(),
+      isPreview: Joi.boolean(),
     })
     .min(1),
 };

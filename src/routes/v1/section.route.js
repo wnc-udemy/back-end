@@ -88,7 +88,7 @@ module.exports = router;
  *           type: integer
  *           minimum: 1
  *         default: 10
- *         description: Maximum number of categories
+ *         description: Maximum number of sections
  *       - in: query
  *         name: page
  *         schema:
@@ -131,7 +131,7 @@ module.exports = router;
  * /sections/{id}:
  *   get:
  *     summary: Get a section
- *     description: all users can fetch other section.
+ *     description: all users can fetch other sections.
  *     tags: [Sections]
  *     security:
  *       - bearerAuth: []
@@ -158,7 +158,7 @@ module.exports = router;
  *
  *   patch:
  *     summary: Update a section
- *     description: Only instructor can update owner section.
+ *     description: Only instructor can update owner sections.
  *     tags: [Sections]
  *     security:
  *       - bearerAuth: []

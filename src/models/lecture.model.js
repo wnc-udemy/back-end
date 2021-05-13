@@ -21,6 +21,10 @@ const lectureSchema = mongoose.Schema(
       type: Number,
       required: true,
     },
+    isPreview: {
+      type: Boolean,
+      required: true,
+    },
   },
   {
     timestamps: true,
