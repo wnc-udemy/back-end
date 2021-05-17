@@ -1,0 +1,53 @@
+image: gcr.io/farmhub-313500/ubuntu-custom-image:v1.0.0
+
+variables:
+  IMAGE: back-end-service
+  IMAGE_NAME: $IMAGE-$CI_COMMIT_REF_NAME
+  NAMESPACE: wnc-udemy
+  HELM_VALUE: $CI_COMMIT_REF_NAME
+  HELM_VERSION: 0.6.0
+  FULLREPO: gcr.io/farmhub-313500/$IMAGE-$CI_COMMIT_REF_NAME
+
+.predeploy: &predeploy |
+  helm repo add farmhub gs://farmhub-313500-helmcharts/deploychart
+  helm pull farmhub/helm-template --untar=true --version $HELM_VERSION
+
+.replace_helm: &replace_helm |
+  sed -i "s|<IMAGE>|$FULLREPO:$CI_COMMIT_SHORT_SHA|g" helm/$HELM_VALUE.yaml
+  sed -i "s|<IMAGE_NAME>|$IMAGE_NAME|g" helm/$HELM_VALUE.yaml
+
+.replace_skaffold: &replace_skaffold |
+  sed -i "s|<FULLREPO>|$FULLREPO|g" skaffold.yaml
+  sed -i "s|<HELM_VALUE>|$HELM_VALUE|g" skaffold.yaml
+  sed -i "s|<IMAGE_NAME>|$IMAGE_NAME|g" skaffold.yaml
+  sed -i "s|<NAMESPACE>|$NAMESPACE|g" skaffold.yaml
+  sed -i "s|<CI_PROJECT_DIR>|$CI_PROJECT_DIR|g" skaffold.yaml
+
+stages:
+  - build
+  - deploy
+
+build:
+  stage: build
+  script:
+    - *replace_skaffold
+    - /usr/bin/skaffold version
+    - cat skaffold.yaml
+    - /usr/bin/skaffold build --file-output=build.json
+  artifacts:
+    paths:
+      - build.json
+  only:
+    - main
+
+deploy_dev:
+  stage: deploy
+  script:
+    - *predeploy
+    - *replace_skaffold
+    - *replace_helm
+    - cat skaffold.yaml
+    - cat helm/$HELM_VALUE.yaml
+    - /usr/bin/skaffold deploy -a build.json
+  only:
+    - main

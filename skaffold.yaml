@@ -1,0 +1,30 @@
+apiVersion: skaffold/v2beta10
+kind: Config
+build:
+  tagPolicy:
+    envTemplate:
+      template: "{{.IMAGE_NAME}}:{{.CI_COMMIT_SHORT_SHA}}"
+  artifacts:
+  - image: <FULLREPO>
+    kaniko:
+      image: gcr.io/kaniko-project/executor:v1.3.0
+      dockerfile: Dockerfile
+      cache: {}
+      useNewRun: true
+  cluster:
+    pullSecretName: kaniko-secret
+    namespace: gitlab-runner
+  #googleCloudBuild:
+  #  projectId: spinnaker-study
+  #  kanikoImage: gcr.io/kaniko-project/executor
+  #  machineType: n1-highcpu-8
+deploy:
+  helm:
+    releases:
+    - name: <IMAGE_NAME>
+      chartPath: helm-template
+      namespace: <NAMESPACE>
+      artifactOverrides:
+        image.repository: <FULLREPO>
+      valuesFiles:
+        - helm/<HELM_VALUE>.yaml
