@@ -9,14 +9,12 @@ const subCategorySchema = mongoose.Schema(
       index: true,
     },
     courses: {
-      type: mongoose.SchemaTypes.ObjectId,
-      ref: 'Course',
-      required: true,
+      type: [{ type: mongoose.SchemaTypes.ObjectId, ref: 'Course' }],
+      default: [],
     },
     bestSellerCourses: {
-      type: mongoose.SchemaTypes.ObjectId,
-      ref: 'Course',
-      required: true,
+      type: [{ type: mongoose.SchemaTypes.ObjectId, ref: 'Course' }],
+      default: [],
     },
   },
   {

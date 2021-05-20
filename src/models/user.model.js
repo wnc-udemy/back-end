@@ -45,18 +45,15 @@ const userSchema = mongoose.Schema(
       default: false,
     },
     courses: {
-      type: mongoose.SchemaTypes.ObjectId,
-      ref: 'Course',
+      type: [{ type: mongoose.SchemaTypes.ObjectId, ref: 'Course' }],
       default: [],
     },
     favoriteCourses: {
-      type: mongoose.SchemaTypes.ObjectId,
-      ref: 'Course',
+      type: [{ type: mongoose.SchemaTypes.ObjectId, ref: 'Course' }],
       default: [],
     },
     histories: {
-      type: mongoose.SchemaTypes.ObjectId,
-      ref: 'History',
+      type: [{ type: mongoose.SchemaTypes.ObjectId, ref: 'History' }],
       default: [],
     },
   },

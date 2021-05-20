@@ -51,23 +51,19 @@ const courseSchema = mongoose.Schema(
       required: true,
     },
     students: {
-      type: mongoose.SchemaTypes.ObjectId,
-      ref: 'User',
+      type: [{ type: mongoose.SchemaTypes.ObjectId, ref: 'User' }],
       default: [],
     },
     introLectures: {
-      type: mongoose.SchemaTypes.ObjectId,
-      ref: 'Lecture',
+      type: [{ type: mongoose.SchemaTypes.ObjectId, ref: 'Lecture' }],
       default: [],
     },
     comments: {
-      type: mongoose.SchemaTypes.ObjectId,
-      ref: 'Comment',
+      type: [{ type: mongoose.SchemaTypes.ObjectId, ref: 'Comment' }],
       default: [],
     },
     sections: {
-      type: mongoose.SchemaTypes.ObjectId,
-      ref: 'Section',
+      type: [{ type: mongoose.SchemaTypes.ObjectId, ref: 'Section' }],
       default: [],
     },
   },

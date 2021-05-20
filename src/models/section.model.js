@@ -13,9 +13,8 @@ const sectionSchema = mongoose.Schema(
       default: 0,
     },
     lectures: {
-      type: mongoose.SchemaTypes.ObjectId,
-      ref: 'Lecture',
-      required: true,
+      type: [{ type: mongoose.SchemaTypes.ObjectId, ref: 'Lecture' }],
+      default: [],
     },
   },
   {

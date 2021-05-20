@@ -7,6 +7,10 @@ const createUser = {
     password: Joi.string().required().custom(password),
     name: Joi.string().required(),
     role: Joi.string().required().valid('user', 'student', 'instructor', 'admin'),
+    isEmailVerified: Joi.boolean(),
+    courses: Joi.array(),
+    favoriteCourses: Joi.array(),
+    histories: Joi.array(),
   }),
 };
 
@@ -35,6 +39,11 @@ const updateUser = {
       email: Joi.string().email(),
       password: Joi.string().custom(password),
       name: Joi.string(),
+      role: Joi.string().valid('user', 'student', 'instructor', 'admin'),
+      isEmailVerified: Joi.boolean(),
+      courses: Joi.array(),
+      favoriteCourses: Joi.array(),
+      histories: Joi.array(),
     })
     .min(1),
 };

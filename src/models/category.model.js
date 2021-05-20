@@ -9,9 +9,8 @@ const categorySchema = mongoose.Schema(
       index: true,
     },
     subCategories: {
-      type: mongoose.SchemaTypes.ObjectId,
-      ref: 'SubCategory',
-      required: true,
+      type: [{ type: mongoose.SchemaTypes.ObjectId, ref: 'SubCategory' }],
+      default: [],
     },
   },
   {
