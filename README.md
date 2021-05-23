@@ -61,6 +61,18 @@ cp .env.example .env
 # open .env and modify the environment variables (if needed)
 ```
 
+## Verify email
+
+What you're looking for is called "account verification" or "email verification". There are plenty of Node modules that can perform this, but the principle goes like this:
+
+- Your User model should have an active attribute that is false by default
+- When the user submits a valid sign up form, create a new User (who's active will be false initially)
+- Create a long random string (128 characters is usually good) with a crypto library and store it in your database with a reference to the User ID
+- Send an email to the supplied email address with the hash as part of a link pointing back to a route on your server
+- When a user clicks the link and hits your route, check for the hash passed in the URL
+- If the hash exists in the database, get the related user and set their active property to true
+- Delete the hash from the database, it is no longer needed
+
 ## Table of Contents
 
 - [Features](#features)
