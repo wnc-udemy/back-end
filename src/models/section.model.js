@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const { toJSON } = require('./plugins');
+const { toJSON, paginate } = require('./plugins');
 
 const sectionSchema = mongoose.Schema(
   {
@@ -19,11 +19,13 @@ const sectionSchema = mongoose.Schema(
   },
   {
     timestamps: true,
+    collection: 'section',
   }
 );
 
 // add plugin that converts mongoose to json
 sectionSchema.plugin(toJSON);
+sectionSchema.plugin(paginate);
 
 /**
  * @typedef Section

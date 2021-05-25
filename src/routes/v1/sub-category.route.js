@@ -13,7 +13,11 @@ router
     validate(subCategoryValidation.createSubCategory),
     subCategoryController.createSubCategory
   )
-  .get(auth('getSubCategories'), validate(subCategoryValidation.getSubCategories), subCategoryController.getSubCategories);
+  .get(validate(subCategoryValidation.getSubCategories), subCategoryController.getSubCategories);
+
+router
+  .route('/most-subscribed')
+  .get(validate(subCategoryValidation.getSubCategories), subCategoryController.getMostSubscribedSubCategories);
 
 router
   .route('/:subCategoryId')
@@ -36,6 +40,45 @@ module.exports = router;
  * tags:
  *   name: SubCategories
  *   description: Sub category management and retrieval
+ */
+
+/**
+ * @swagger
+ * /sub-categories/most-subscribed:
+ *   get:
+ *     summary: Get all most subscribed sub categories
+ *     description: All user can retrieve all most subscribed sub categories
+ *     tags: [SubCategories]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       "200":
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 results:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/SubCategory'
+ *                 page:
+ *                   type: integer
+ *                   example: 1
+ *                 limit:
+ *                   type: integer
+ *                   example: 10
+ *                 totalPages:
+ *                   type: integer
+ *                   example: 1
+ *                 totalResults:
+ *                   type: integer
+ *                   example: 1
+ *       "401":
+ *         $ref: '#/components/responses/Unauthorized'
+ *       "403":
+ *         $ref: '#/components/responses/Forbidden'
  */
 
 /**

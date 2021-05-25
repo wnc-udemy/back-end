@@ -27,6 +27,30 @@ const querySubCategories = async (filter, options) => {
 };
 
 /**
+ * Query for best register sub categories
+ * @returns {Promise<QueryResult>}
+ */
+const queryMostSubscribedSubCategories = async () => {
+  const subCategories = await SubCategory.aggregate([
+    {
+      $project: {
+        name: 1,
+        total: {
+          $reduce: {
+            input: '$totalRegister',
+            initialValue: 0,
+            in: { $sum: ['$$value', '$$this'] },
+          },
+        },
+      },
+    },
+    { $sort: { total: -1 } },
+    { $limit: 10 },
+  ]);
+  return subCategories;
+};
+
+/**
  * Get sub category by id
  * @param {ObjectId} id
  * @returns {Promise<SubCategory>}
@@ -68,6 +92,7 @@ const deleteSubCategoryById = async (subCategoryId) => {
 module.exports = {
   createSubCategory,
   querySubCategories,
+  queryMostSubscribedSubCategories,
   getSubCategoryById,
   updateSubCategoryById,
   deleteSubCategoryById,

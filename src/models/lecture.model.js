@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const { toJSON } = require('./plugins');
+const { toJSON, paginate } = require('./plugins');
 
 const lectureSchema = mongoose.Schema(
   {
@@ -28,11 +28,13 @@ const lectureSchema = mongoose.Schema(
   },
   {
     timestamps: true,
+    collection: 'lecture',
   }
 );
 
 // add plugin that converts mongoose to json
 lectureSchema.plugin(toJSON);
+lectureSchema.plugin(paginate);
 
 /**
  * @typedef Lecture

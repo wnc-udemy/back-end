@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const { toJSON } = require('./plugins');
+const { toJSON, paginate } = require('./plugins');
 
 const commentSchema = mongoose.Schema(
   {
@@ -24,11 +24,13 @@ const commentSchema = mongoose.Schema(
   },
   {
     timestamps: true,
+    collection: 'comment',
   }
 );
 
 // add plugin that converts mongoose to json
 commentSchema.plugin(toJSON);
+commentSchema.plugin(paginate);
 
 /**
  * @typedef Comment

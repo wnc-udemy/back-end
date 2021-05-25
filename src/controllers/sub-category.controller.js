@@ -16,6 +16,11 @@ const getSubCategories = catchAsync(async (req, res) => {
   res.send(result);
 });
 
+const getMostSubscribedSubCategories = catchAsync(async (req, res) => {
+  const result = await subCategoryService.queryMostSubscribedSubCategories();
+  res.send(result);
+});
+
 const getSubCategory = catchAsync(async (req, res) => {
   const subCategory = await subCategoryService.getSubCategoryById(req.params.subCategoryId);
   if (!subCategory) {
@@ -37,6 +42,7 @@ const deleteSubCategory = catchAsync(async (req, res) => {
 module.exports = {
   createSubCategory,
   getSubCategories,
+  getMostSubscribedSubCategories,
   getSubCategory,
   updateSubCategory,
   deleteSubCategory,

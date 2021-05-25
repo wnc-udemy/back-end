@@ -11,6 +11,8 @@ router
   .post(auth('manageCourses'), validate(courseValidation.createCourse), courseController.createCourse)
   .get(auth('getCourses'), validate(courseValidation.getCourses), courseController.getCourses);
 
+router.route('/most-view').get(validate(courseValidation.getCourses), courseController.getMostViewCourses);
+
 router
   .route('/:categoryId')
   .get(auth('getCategories'), validate(courseValidation.getCourse), courseController.getCourse)
@@ -24,6 +26,45 @@ module.exports = router;
  * tags:
  *   name: Courses
  *   description: Course management and retrieval
+ */
+
+/**
+ * @swagger
+ * /courses/most-view:
+ *   get:
+ *     summary: Get most view courses
+ *     description: All user can retrieve all most view courses
+ *     tags: [Courses]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       "200":
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 results:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/Course'
+ *                 page:
+ *                   type: integer
+ *                   example: 1
+ *                 limit:
+ *                   type: integer
+ *                   example: 10
+ *                 totalPages:
+ *                   type: integer
+ *                   example: 1
+ *                 totalResults:
+ *                   type: integer
+ *                   example: 1
+ *       "401":
+ *         $ref: '#/components/responses/Unauthorized'
+ *       "403":
+ *         $ref: '#/components/responses/Forbidden'
  */
 
 /**

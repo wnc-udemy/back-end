@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const { toJSON } = require('./plugins');
+const { toJSON, paginate } = require('./plugins');
 
 const courseSchema = mongoose.Schema(
   {
@@ -28,6 +28,14 @@ const courseSchema = mongoose.Schema(
       type: Number,
       default: 0.0,
     },
+    totalTime: {
+      type: Number,
+      default: 0,
+    },
+    totalLecture: {
+      type: Number,
+      default: 0,
+    },
     introDescription: {
       type: String,
       require: true,
@@ -50,6 +58,10 @@ const courseSchema = mongoose.Schema(
       ref: 'User',
       required: true,
     },
+    viewers: {
+      type: [{ type: mongoose.SchemaTypes.ObjectId, ref: 'User' }],
+      default: [],
+    },
     students: {
       type: [{ type: mongoose.SchemaTypes.ObjectId, ref: 'User' }],
       default: [],
@@ -69,11 +81,13 @@ const courseSchema = mongoose.Schema(
   },
   {
     timestamps: true,
+    collection: 'course',
   }
 );
 
 // add plugin that converts mongoose to json
 courseSchema.plugin(toJSON);
+courseSchema.plugin(paginate);
 
 /**
  * @typedef Course

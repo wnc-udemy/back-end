@@ -27,6 +27,57 @@ const queryCourses = async (filter, options) => {
 };
 
 /**
+ * Query for most view courses
+ * @returns {Promise<QueryResult>}
+ */
+const queryMostViewCourses = async () => {
+  const courses = await Course.aggregate([
+    {
+      $project: {
+        name: 1,
+        introDescription: { $trim: { input: '$introDescription' } },
+        instructor: 1,
+        averageRating: 1,
+        totalTime: 1,
+        totalLecture: 1,
+        urlThumb: 1,
+        totalComment: {
+          $size: '$comments',
+        },
+        totalViewer: {
+          $size: '$viewers',
+        },
+      },
+    },
+    { $sort: { total: -1 } },
+    { $limit: 10 },
+    {
+      $lookup: {
+        from: 'user',
+        localField: 'instructor',
+        foreignField: '_id',
+        as: 'instructor',
+      },
+    },
+    {
+      $project: {
+        name: 1,
+        introDescription: 1,
+        instructor: 1,
+        averageRating: 1,
+        totalTime: 1,
+        totalLecture: 1,
+        urlThumb: 1,
+        totalComment: 1,
+        totalViewer: 1,
+        'instructor.name': 1,
+      },
+    },
+  ]);
+  return courses;
+};
+
+/**
  * Get course by id
  * @param {ObjectId} id
  * @returns {Promise<Category>}
@@ -68,6 +119,7 @@ const deleteCourseById = async (courseId) => {
 module.exports = {
   createCourse,
   queryCourses,
+  queryMostViewCourses,
   getCourseById,
   updateCourseById,
   deleteCourseById,

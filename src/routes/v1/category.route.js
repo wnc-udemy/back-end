@@ -9,7 +9,9 @@ const router = express.Router();
 router
   .route('/')
   .post(auth('manageCategories'), validate(categoryValidation.createCategory), categoryController.createCategory)
-  .get(auth('getCategories'), validate(categoryValidation.getCategories), categoryController.getCategories);
+  .get(validate(categoryValidation.getCategories), categoryController.getCategories);
+
+router.route('/all').get(validate(categoryValidation.getCategories), categoryController.getAllCategories);
 
 router
   .route('/:categoryId')
@@ -24,6 +26,45 @@ module.exports = router;
  * tags:
  *   name: Categories
  *   description: Category management and retrieval
+ */
+
+/**
+ * @swagger
+ * /categories/all:
+ *   get:
+ *     summary: Get all categories and sub categories
+ *     description: All user can retrieve all categories and sub categories
+ *     tags: [Categories]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       "200":
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 results:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/Category'
+ *                 page:
+ *                   type: integer
+ *                   example: 1
+ *                 limit:
+ *                   type: integer
+ *                   example: 10
+ *                 totalPages:
+ *                   type: integer
+ *                   example: 1
+ *                 totalResults:
+ *                   type: integer
+ *                   example: 1
+ *       "401":
+ *         $ref: '#/components/responses/Unauthorized'
+ *       "403":
+ *         $ref: '#/components/responses/Forbidden'
  */
 
 /**

@@ -28,7 +28,7 @@ module.exports = router;
 
 /**
  * @swagger
- * /categories:
+ * /histories:
  *   post:
  *     summary: Create a history
  *     description: Only user can create owner histories.

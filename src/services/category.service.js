@@ -27,6 +27,30 @@ const queryCategories = async (filter, options) => {
 };
 
 /**
+ * Query for categories
+ * @returns {Promise<QueryResult>}
+ */
+const queryAllCategories = async () => {
+  const categories = await Category.aggregate([
+    {
+      $lookup: {
+        from: 'sub-category',
+        localField: 'subCategories',
+        foreignField: '_id',
+        as: 'subCategories',
+      },
+    },
+    {
+      $project: {
+        'subCategories.courses': 0,
+        'subCategories.bestSellerCourses': 0,
+      },
+    },
+  ]);
+  return categories;
+};
+
+/**
  * Get category by id
  * @param {ObjectId} id
  * @returns {Promise<Category>}
@@ -68,6 +92,7 @@ const deleteCategoryById = async (categoryId) => {
 module.exports = {
   createCategory,
   queryCategories,
+  queryAllCategories,
   getCategoryById,
   updateCategoryById,
   deleteCategoryById,

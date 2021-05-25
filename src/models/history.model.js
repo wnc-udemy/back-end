@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const { toJSON } = require('./plugins');
+const { toJSON, paginate } = require('./plugins');
 
 const historySchema = mongoose.Schema(
   {
@@ -30,11 +30,13 @@ const historySchema = mongoose.Schema(
   },
   {
     timestamps: true,
+    collection: 'history',
   }
 );
 
 // add plugin that converts mongoose to json
 historySchema.plugin(toJSON);
+historySchema.plugin(paginate);
 
 /**
  * @typedef History
