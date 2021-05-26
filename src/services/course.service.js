@@ -1,4 +1,5 @@
 const httpStatus = require('http-status');
+const moment = require('moment');
 const { Course } = require('../models');
 const ApiError = require('../utils/ApiError');
 
@@ -125,6 +126,68 @@ const queryLatestCourses = async () => {
 };
 
 /**
+ * Query for highlight courses
+ * @returns {Promise<QueryResult>}
+ */
+const queryHighlightCourses = async () => {
+  const start = moment().subtract(7, 'days').toDate().toISOString();
+
+  const courses = await Course.aggregate([
+    {
+      $match: {
+        createdAt: {
+          $gte: start,
+        },
+      },
+    },
+    {
+      $project: {
+        name: 1,
+        introDescription: { $trim: { input: '$introDescription' } },
+        instructor: 1,
+        averageRating: 1,
+        totalTime: 1,
+        totalLecture: 1,
+        urlThumb: 1,
+        createdAt: 1,
+        totalComment: {
+          $size: '$comments',
+        },
+        totalViewer: {
+          $size: '$viewers',
+        },
+      },
+    },
+    { $sort: { totalViewer: -1 } },
+    { $limit: 10 },
+    {
+      $lookup: {
+        from: 'user',
+        localField: 'instructor',
+        foreignField: '_id',
+        as: 'instructor',
+      },
+    },
+    {
+      $addFields: {
+        instructorName: '$instructor.name',
+      },
+    },
+    {
+      $project: {
+        instructor: 0,
+      },
+    },
+    {
+      $unwind: '$instructorName',
+    },
+    { $sort: { createdAt: -1 } },
+    { $limit: 4 },
+  ]);
+  return courses;
+};
+
+/**
  * Get course by id
  * @param {ObjectId} id
  * @returns {Promise<Category>}
@@ -168,6 +231,7 @@ module.exports = {
   queryCourses,
   queryMostViewCourses,
   queryLatestCourses,
+  queryHighlightCourses,
   getCourseById,
   updateCourseById,
   deleteCourseById,

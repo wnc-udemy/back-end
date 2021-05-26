@@ -8,6 +8,7 @@ const router = express.Router();
 
 router.route('/most-view').get(validate(courseValidation.getCourses), courseController.getMostViewCourses);
 router.route('/latest').get(validate(courseValidation.getCourses), courseController.getLatestCourses);
+router.route('/highlight').get(validate(courseValidation.getCourses), courseController.getHighlightCourses);
 
 router
   .route('/')
@@ -74,6 +75,45 @@ module.exports = router;
  *   get:
  *     summary: Get latest courses
  *     description: All user can retrieve all latest courses
+ *     tags: [Courses]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       "200":
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 results:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/Course'
+ *                 page:
+ *                   type: integer
+ *                   example: 1
+ *                 limit:
+ *                   type: integer
+ *                   example: 10
+ *                 totalPages:
+ *                   type: integer
+ *                   example: 1
+ *                 totalResults:
+ *                   type: integer
+ *                   example: 1
+ *       "401":
+ *         $ref: '#/components/responses/Unauthorized'
+ *       "403":
+ *         $ref: '#/components/responses/Forbidden'
+ */
+
+/**
+ * @swagger
+ * /courses/highlight:
+ *   get:
+ *     summary: Get highlight courses
+ *     description: All user can retrieve all highlight courses
  *     tags: [Courses]
  *     security:
  *       - bearerAuth: []
