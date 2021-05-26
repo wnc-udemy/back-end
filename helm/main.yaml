@@ -5,139 +5,107 @@
 replicaCount: 1
 
 image:
-    containerPort: 3000
-    repository: <FULLREPO>
-    pullPolicy: IfNotPresent
-    healthCheck:
-        livenessProbe:
-            httpGet:
-                path: /api/v1
-                port: http
-            initialDelaySeconds: 30
-            periodSeconds: 10
-            failureThreshold: 10
-        readinessProbe:
-            httpGet:
-                path: /api/v1
-                port: http
-            initialDelaySeconds: 30
-            periodSeconds: 10
-            failureThreshold: 10
+  containerPort: 3000
+  repository: <FULLREPO>
+  pullPolicy: IfNotPresent
+  healthCheck:
+    livenessProbe:
+      httpGet:
+        path: /api/v1
+        port: http
+      initialDelaySeconds: 30
+      periodSeconds: 10
+      failureThreshold: 10
+    readinessProbe:
+      httpGet:
+        path: /api/v1
+        port: http
+      initialDelaySeconds: 30
+      periodSeconds: 10
+      failureThreshold: 10
 
 imagePullSecrets: []
-nameOverride: "<IMAGE_NAME>"
-fullnameOverride: "<IMAGE_NAME>"
+nameOverride: '<IMAGE_NAME>'
+fullnameOverride: '<IMAGE_NAME>'
 
 serviceAccount:
-    # Specifies whether a service account should be created
-    create: false
-    # Annotations to add to the service account
-    annotations: {}
-    # The name of the service account to use.
-    # If not set and create is true, a name is generated using the fullname template
-    name: "default"
+  # Specifies whether a service account should be created
+  create: false
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: 'default'
 
 podAnnotations: {}
 
 podSecurityContext:
-    {}
-    # fsGroup: 2000
+  {}
+  # fsGroup: 2000
 
 securityContext:
-    {}
-    # capabilities:
-    #   drop:
-    #   - ALL
-    # readOnlyRootFilesystem: true
-    # runAsNonRoot: true
-    # runAsUser: 1000
+  {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
 
 service:
-    type: ClusterIP
-    port: 80
+  type: ClusterIP
+  port: 80
 
 ingress:
-    enabled: true
-    annotations:
-        kubernetes.io/ingress.class: nginx
-        ingress.kubernetes.io/enable-cors: "true"
-        nginx.ingress.kubernetes.io/cors-allow-origin: "*"
-        nginx.ingress.kubernetes.io/ssl-redirect: "true"
-        cert-manager.io/cluster-issuer: "letsencrypt-prod"
-        #kubernetes.io/tls-acme: "true"
-    hosts:
-        - host: wnc-backend.farmhub.asia
-          paths:
-              - path: "/"
-    tls:
-        - secretName: wnc-backend-tls
-          hosts:
-              - wnc-backend.farmhub.asia
+  enabled: true
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    ingress.kubernetes.io/enable-cors: 'true'
+    nginx.ingress.kubernetes.io/cors-allow-origin: '*'
+    nginx.ingress.kubernetes.io/ssl-redirect: 'true'
+    cert-manager.io/cluster-issuer: 'letsencrypt-prod'
+    #kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: wnc-backend.farmhub.asia
+      paths:
+        - path: '/'
+  tls:
+    - secretName: wnc-backend-tls
+      hosts:
+        - wnc-backend.farmhub.asia
 
 configmap:
-    APP_NAME: product-app
-    APP_SCHEMA: http
-    APP_HOST: localhost
-    APP_PORT: 3000
-    APP_ROUTE_PREFIX: /api/v1
-    APP_BANNER: true
-    AUTH0_AUDIENCE: https://lotusfam.us.auth0.com/api/v2/
-    AUTH0_DOMAIN: https://lotusfam.us.auth0.com
-    PRODUCT_SERVICE: https://product.farmhub.asia/api/v1/
-    USER_SERVICE: https://user.farmhub.asia/api/v1/
-    PUSH_LOG_SERVICE: http://pushlog.farmhub.asia/
-    LOG_LEVEL: debug
-    LOG_OUTPUT: dev
-    TYPEORM_CONNECTION: postgres
-    TYPEORM_HOST: farm-postgres.database
-    TYPEORM_PORT: 5432
-    TYPEORM_USERNAME: postgres
-    TYPEORM_PASSWORD: "1234"
-    TYPEORM_DATABASE: postgres
-    TYPEORM_SYNCHRONIZE: false
-    TYPEORM_LOGGING: error
-    TYPEORM_LOGGER: advanced-console
-    TYPEORM_DEFAULT_PAGE_SIZE: 10
-    TYPEORM_MIGRATIONS: src/database/migrations/**/*.ts
-    TYPEORM_MIGRATIONS_DIR: src/database/migrations
-    TYPEORM_ENTITIES: src/api/models/**/*.ts
-    TYPEORM_ENTITIES_DIR: src/api/models
-    CONTROLLERS: src/api/controllers/**/*Controller.ts
-    MIDDLEWARES: src/api/middlewares/**/*Middleware.ts
-    INTERCEPTORS: src/api/interceptors/**/*Interceptor.ts
-    SUBSCRIBERS: src/api/subscribers/**/*Subscriber.ts
-    RESOLVERS: src/api/resolvers/**/*Resolver.ts
-    GRAPHQL_ENABLED: false
-    GRAPHQL_ROUTE: /graphql
-    GRAPHQL_EDITOR: true
-    SWAGGER_ENABLED: true
-    SWAGGER_ROUTE: /swagger
-    SWAGGER_USERNAME: admin
-    SWAGGER_PASSWORD: 1234
-    MONITOR_ENABLED: false
-    MONITOR_ROUTE: /monitor
-    MONITOR_USERNAME: admin
-    MONITOR_PASSWORD: 1234
-
+  MONGODB_URL: mongodb://127.0.0.1:27017/udemy
+  JWT_SECRET: thisisasamplesecret
+  JWT_ACCESS_EXPIRATION_MINUTES: 30
+  JWT_REFRESH_EXPIRATION_DAYS: 30
+  JWT_RESET_PASSWORD_EXPIRATION_MINUTES: 10
+  JWT_VERIFY_EMAIL_EXPIRATION_MINUTES: 10
+  SMTP_HOST: smtp.gmail.com
+  SMTP_PORT: 587
+  SMTP_USERNAME: farm.udemy@gmail.com
+  SMTP_PASSWORD: Tuanh0909@
+  EMAIL_FROM: farm.udemy@gmail.com
+  URL_VERIFY_EMAIL: https://wnc-backend.farmhub.asia/v1/auth
 resources:
-    {}
-    # We usually recommend not to specify default resources and to leave this as a conscious
-    # choice for the user. This also increases chances charts run on environments with little
-    # resources, such as Minikube. If you do want to specify resources, uncomment the following
-    # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-    # limits:
-    #   cpu: 100m
-    #   memory: 128Mi
-    # requests:
-    #   cpu: 100m
-    #   memory: 128Mi
+  {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
 
 autoscaling:
-    enabled: false
-    minReplicas: 1
-    maxReplicas: 2
-    targetCPUUtilizationPercentage: 80
-    # targetMemoryUtilizationPercentage: 80
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 2
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
 
 nodeSelector: {}
 

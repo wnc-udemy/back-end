@@ -61,6 +61,12 @@ cp .env.example .env
 # open .env and modify the environment variables (if needed)
 ```
 
+Setup database: seeding:
+
+```bash
+yarn setup
+```
+
 ## Verify email
 
 What you're looking for is called "account verification" or "email verification". There are plenty of Node modules that can perform this, but the principle goes like this:
