@@ -16,10 +16,10 @@ router
   .get(auth('getCourses'), validate(courseValidation.getCourses), courseController.getCourses);
 
 router
-  .route('/:categoryId')
-  .get(auth('getCategories'), validate(courseValidation.getCourse), courseController.getCourse)
-  .patch(auth('manageCategories'), validate(courseValidation.updateCourse), courseController.updateCourse)
-  .delete(auth('manageCategories'), validate(courseValidation.deleteCourse), courseController.deleteCourse);
+  .route('/:courseId')
+  .get(validate(courseValidation.getCourse), courseController.getCourse)
+  .patch(auth('manageCourses'), validate(courseValidation.updateCourse), courseController.updateCourse)
+  .delete(auth('manageCourses'), validate(courseValidation.deleteCourse), courseController.deleteCourse);
 
 module.exports = router;
 
