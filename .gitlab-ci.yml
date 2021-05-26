@@ -1,11 +1,11 @@
-image: gcr.io/farmhub-313500/ubuntu-custom-image:v1.0.0
+image: gcr.io/farmhub-313500/ubuntu-custom-image:v1.1.0
 
 variables:
   IMAGE: back-end-service
   IMAGE_NAME: $IMAGE-$CI_COMMIT_REF_NAME
   NAMESPACE: wnc-udemy
   HELM_VALUE: $CI_COMMIT_REF_NAME
-  HELM_VERSION: 0.6.0
+  HELM_VERSION: 0.7.0
   FULLREPO: gcr.io/farmhub-313500/$IMAGE-$CI_COMMIT_REF_NAME
 
 .predeploy: &predeploy |
