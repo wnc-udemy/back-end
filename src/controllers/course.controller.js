@@ -21,6 +21,11 @@ const getMostViewCourses = catchAsync(async (req, res) => {
   res.send(result);
 });
 
+const getLatestCourses = catchAsync(async (req, res) => {
+  const result = await courseService.queryLatestCourses();
+  res.send(result);
+});
+
 const getCourse = catchAsync(async (req, res) => {
   const course = await courseService.getCourseById(req.params.courseId);
   if (!course) {
@@ -43,6 +48,7 @@ module.exports = {
   createCourse,
   getCourses,
   getMostViewCourses,
+  getLatestCourses,
   getCourse,
   updateCourse,
   deleteCourse,

@@ -77,6 +77,54 @@ const queryMostViewCourses = async () => {
 };
 
 /**
+ * Query for latest courses
+ * @returns {Promise<QueryResult>}
+ */
+const queryLatestCourses = async () => {
+  const courses = await Course.aggregate([
+    {
+      $project: {
+        name: 1,
+        introDescription: { $trim: { input: '$introDescription' } },
+        instructor: 1,
+        averageRating: 1,
+        totalTime: 1,
+        totalLecture: 1,
+        urlThumb: 1,
+        totalComment: {
+          $size: '$comments',
+        },
+        createdAt: 1,
+      },
+    },
+    { $sort: { createdAt: -1 } },
+    { $limit: 10 },
+    {
+      $lookup: {
+        from: 'user',
+        localField: 'instructor',
+        foreignField: '_id',
+        as: 'instructor',
+      },
+    },
+    {
+      $addFields: {
+        instructorName: '$instructor.name',
+      },
+    },
+    {
+      $project: {
+        instructor: 0,
+      },
+    },
+    {
+      $unwind: '$instructorName',
+    },
+  ]);
+  return courses;
+};
+
+/**
  * Get course by id
  * @param {ObjectId} id
  * @returns {Promise<Category>}
@@ -119,6 +167,7 @@ module.exports = {
   createCourse,
   queryCourses,
   queryMostViewCourses,
+  queryLatestCourses,
   getCourseById,
   updateCourseById,
   deleteCourseById,
