@@ -15,6 +15,10 @@ router
   .post(auth('manageCourses'), validate(courseValidation.createCourse), courseController.createCourse)
   .get(auth('getCourses'), validate(courseValidation.getCourses), courseController.getCourses);
 
+router.route('/:courseId/comment').get(validate(courseValidation.getCourse), courseController.getCourseComment);
+router.route('/:courseId/section').get(validate(courseValidation.getCourse), courseController.getCourseSection);
+router.route('/:courseId/similar').get(validate(courseValidation.getCourse), courseController.getCourseSimilar);
+
 router
   .route('/:courseId')
   .get(validate(courseValidation.getCourse), courseController.getCourse)
@@ -282,6 +286,99 @@ module.exports = router;
  *         $ref: '#/components/responses/Unauthorized'
  *       "403":
  *         $ref: '#/components/responses/Forbidden'
+ */
+
+/**
+ * @swagger
+ * /courses/{id}/comment:
+ *   get:
+ *     summary: Get a course comment
+ *     description: all users can fetch all courses comment status active.
+ *     tags: [Courses]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Course id
+ *     responses:
+ *       "200":
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *                $ref: '#/components/schemas/Course'
+ *       "401":
+ *         $ref: '#/components/responses/Unauthorized'
+ *       "403":
+ *         $ref: '#/components/responses/Forbidden'
+ *       "404":
+ *         $ref: '#/components/responses/NotFound'
+ */
+
+/**
+ * @swagger
+ * /courses/{id}/section:
+ *   get:
+ *     summary: Get a course section
+ *     description: all users can fetch all courses section status active.
+ *     tags: [Courses]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Course id
+ *     responses:
+ *       "200":
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *                $ref: '#/components/schemas/Course'
+ *       "401":
+ *         $ref: '#/components/responses/Unauthorized'
+ *       "403":
+ *         $ref: '#/components/responses/Forbidden'
+ *       "404":
+ *         $ref: '#/components/responses/NotFound'
+ */
+
+/**
+ * @swagger
+ * /courses/{id}/similar:
+ *   get:
+ *     summary: Get a course similar
+ *     description: all users can fetch all courses similar status active.
+ *     tags: [Courses]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Course id
+ *     responses:
+ *       "200":
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *                $ref: '#/components/schemas/Course'
+ *       "401":
+ *         $ref: '#/components/responses/Unauthorized'
+ *       "403":
+ *         $ref: '#/components/responses/Forbidden'
+ *       "404":
+ *         $ref: '#/components/responses/NotFound'
  */
 
 /**

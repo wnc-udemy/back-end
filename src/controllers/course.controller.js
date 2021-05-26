@@ -39,6 +39,30 @@ const getCourse = catchAsync(async (req, res) => {
   res.send(course);
 });
 
+const getCourseComment = catchAsync(async (req, res) => {
+  const course = await courseService.getCourseCommentById(req.params.courseId);
+  if (!course) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Course not found');
+  }
+  res.send(course);
+});
+
+const getCourseSection = catchAsync(async (req, res) => {
+  const course = await courseService.getCourseSectionById(req.params.courseId);
+  if (!course) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Course not found');
+  }
+  res.send(course);
+});
+
+const getCourseSimilar = catchAsync(async (req, res) => {
+  const course = await courseService.getCourseSimilarById(req.params.courseId);
+  if (!course) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Course not found');
+  }
+  res.send(course);
+});
+
 const updateCourse = catchAsync(async (req, res) => {
   const course = await courseService.updateCourseById(req.params.courseId, req.body);
   res.send(course);
@@ -56,6 +80,9 @@ module.exports = {
   getLatestCourses,
   getHighlightCourses,
   getCourse,
+  getCourseComment,
+  getCourseSection,
+  getCourseSimilar,
   updateCourse,
   deleteCourse,
 };

@@ -1,6 +1,7 @@
 const httpStatus = require('http-status');
 const moment = require('moment');
-const { Course } = require('../models');
+const mongoose = require('mongoose');
+const { Course, SubCategory } = require('../models');
 const ApiError = require('../utils/ApiError');
 
 /**
@@ -193,7 +194,261 @@ const queryHighlightCourses = async () => {
  * @returns {Promise<Category>}
  */
 const getCourseById = async (id) => {
-  return Course.findById(id);
+  const courseID = new mongoose.Types.ObjectId(id);
+  const list = await Course.aggregate([
+    {
+      $match: {
+        _id: courseID,
+      },
+    },
+    {
+      $lookup: {
+        from: 'lecture',
+        localField: 'introLectures',
+        foreignField: '_id',
+        as: 'introLectures',
+      },
+    },
+    {
+      $lookup: {
+        from: 'user',
+        localField: 'instructor',
+        foreignField: '_id',
+        as: 'instructor',
+      },
+    },
+    {
+      $project: {
+        name: 1,
+        introDescription: { $trim: { input: '$introDescription' } },
+        detailDescription: 1,
+        'instructor.name': 1,
+        'instructor.email': 1,
+        averageRating: 1,
+        totalTime: 1,
+        totalLecture: 1,
+        url: 1,
+        updatedAt: 1,
+        totalComment: {
+          $size: '$comments',
+        },
+        totalViewer: {
+          $size: '$viewers',
+        },
+        introLectures: 1,
+      },
+    },
+  ]);
+
+  return list[0];
+};
+
+/**
+ * Get course by id
+ * @param {ObjectId} id
+ * @returns {Promise<Category>}
+ */
+const getCourseCommentById = async (id) => {
+  const courseID = new mongoose.Types.ObjectId(id);
+  const list = await Course.aggregate([
+    {
+      $match: {
+        _id: courseID,
+      },
+    },
+    {
+      $lookup: {
+        from: 'comment',
+        localField: 'comments',
+        foreignField: '_id',
+        as: 'comments',
+      },
+    },
+    {
+      $unwind: {
+        path: '$comments',
+        preserveNullAndEmptyArrays: true,
+      },
+    },
+    {
+      $lookup: {
+        from: 'user',
+        localField: 'comments.user',
+        foreignField: '_id',
+        as: 'comments.user',
+      },
+    },
+    {
+      $project: {
+        'comments.rating': 1,
+        'comments.content': 1,
+        'comments.createdAt': 1,
+        'comments.userName': '$comments.user.name',
+        averageRating: 1,
+      },
+    },
+    {
+      $unwind: '$comments.userName',
+    },
+    {
+      $group: {
+        _id: '$_id',
+        comments: { $push: '$comments' },
+        averageRating: { $first: '$averageRating' },
+      },
+    },
+  ]);
+
+  const course = list[0];
+  const total = course.comments.length;
+  course.ratingRate = [0, 0, 0, 0, 0];
+
+  course.comments.forEach((element) => {
+    switch (element.rating) {
+      case 1:
+        course.ratingRate[0] += 1;
+        break;
+      case 2:
+        course.ratingRate[1] += 1;
+        break;
+      case 3:
+        course.ratingRate[2] += 1;
+        break;
+      case 4:
+        course.ratingRate[3] += 1;
+        break;
+      default:
+        course.ratingRate[4] += 1;
+        break;
+    }
+  });
+
+  course.ratingRate.forEach((element, index) => {
+    course.ratingRate[index] = Math.round((element / total) * 100);
+  });
+
+  return course;
+};
+
+/**
+ * Get course by id
+ * @param {ObjectId} id
+ * @returns {Promise<Category>}
+ */
+const getCourseSectionById = async (id) => {
+  const courseID = new mongoose.Types.ObjectId(id);
+  const list = await Course.aggregate([
+    {
+      $match: {
+        _id: courseID,
+      },
+    },
+    {
+      $lookup: {
+        from: 'section',
+        localField: 'sections',
+        foreignField: '_id',
+        as: 'sections',
+      },
+    },
+    {
+      $unwind: {
+        path: '$sections',
+        preserveNullAndEmptyArrays: true,
+      },
+    },
+    {
+      $lookup: {
+        from: 'lecture',
+        localField: 'sections.lectures',
+        foreignField: '_id',
+        as: 'sections.lectures',
+      },
+    },
+    {
+      $group: {
+        _id: '$_id',
+        sections: { $push: '$sections' },
+      },
+    },
+  ]);
+
+  return list[0];
+};
+
+/**
+ * Get course by id
+ * @param {ObjectId} id
+ * @returns {Promise<Category>}
+ */
+const getCourseSimilarById = async (id) => {
+  const courseID = new mongoose.Types.ObjectId(id);
+
+  const list = await SubCategory.aggregate([
+    {
+      $match: {
+        courses: { $elemMatch: { $eq: courseID } },
+      },
+    },
+    {
+      $lookup: {
+        from: 'course',
+        localField: 'courses',
+        foreignField: '_id',
+        as: 'courses',
+      },
+    },
+    {
+      $project: {
+        'courses._id': 1,
+        'courses.name': 1,
+        'courses.introDescription': 1,
+        'courses.instructor': 1,
+        'courses.averageRating': 1,
+        'courses.totalTime': 1,
+        'courses.totalLecture': 1,
+        'courses.urlThumb': 1,
+        'courses.createdAt': 1,
+        'courses.comments': 1,
+        'courses.viewers': 1,
+      },
+    },
+    {
+      $unwind: '$courses',
+    },
+    {
+      $lookup: {
+        from: 'user',
+        localField: 'courses.instructor',
+        foreignField: '_id',
+        as: 'courses.instructor',
+      },
+    },
+    {
+      $project: {
+        _id: '$courses._id',
+        name: '$courses.name',
+        introDescription: { $trim: { input: '$courses.introDescription' } },
+        instructorName: '$courses.instructor.name',
+        averageRating: '$courses.averageRating',
+        totalTime: '$courses.totalTime',
+        totalLecture: '$courses.totalLecture',
+        urlThumb: '$courses.urlThumb',
+        createdAt: '$courses.createdAt',
+        totalComment: { $size: '$courses.comments' },
+        totalViewer: { $size: '$courses.viewers' },
+      },
+    },
+    {
+      $unwind: '$instructorName',
+    },
+    { $sort: { createdAt: -1 } },
+    {
+      $limit: 5,
+    },
+  ]);
+
+  return list;
 };
 
 /**
@@ -233,6 +488,9 @@ module.exports = {
   queryLatestCourses,
   queryHighlightCourses,
   getCourseById,
+  getCourseCommentById,
+  getCourseSectionById,
+  getCourseSimilarById,
   updateCourseById,
   deleteCourseById,
 };
