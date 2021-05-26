@@ -49,7 +49,7 @@ const queryMostViewCourses = async () => {
         },
       },
     },
-    { $sort: { total: -1 } },
+    { $sort: { totalViewer: -1 } },
     { $limit: 10 },
     {
       $lookup: {
@@ -60,18 +60,17 @@ const queryMostViewCourses = async () => {
       },
     },
     {
-      $project: {
-        name: 1,
-        introDescription: 1,
-        instructor: 1,
-        averageRating: 1,
-        totalTime: 1,
-        totalLecture: 1,
-        urlThumb: 1,
-        totalComment: 1,
-        totalViewer: 1,
-        'instructor.name': 1,
+      $addFields: {
+        instructorName: '$instructor.name',
       },
+    },
+    {
+      $project: {
+        instructor: 0,
+      },
+    },
+    {
+      $unwind: '$instructorName',
     },
   ]);
   return courses;

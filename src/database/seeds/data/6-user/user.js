@@ -24,8 +24,8 @@ const users = [
     histories: [],
   },
   {
-    _id: getObjectId('Tran Van Phuoc'),
-    name: 'Tran Van Phuoc',
+    _id: getObjectId('Nguyen Van Phuoc'),
+    name: 'Nguyen Van Phuoc',
     email: 'vanphuoc1012@gmail.com',
     password: '$2y$08$ydJKeNw4VGs0b1FReTtXj.kImtvDYT5y/xTBcIlC4HGUcmL.3VzVC',
     role: 'instructor',
