@@ -1,4 +1,4 @@
-image: gcr.io/farmhub-313500/ubuntu-custom-image:v1.0.0
+image: gcr.io/farmhub-313500/ubuntu-custom-image:v1.1.0
 
 variables:
   IMAGE: back-end-service
