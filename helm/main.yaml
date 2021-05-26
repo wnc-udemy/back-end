@@ -8,6 +8,7 @@ image:
   containerPort: 3000
   repository: <FULLREPO>
   pullPolicy: IfNotPresent
+  command: ["yarn", "start"]
   healthCheck:
     livenessProbe:
       httpGet:
