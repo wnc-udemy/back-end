@@ -75,7 +75,7 @@ ingress:
         - wnc-backend.farmhub.asia
 
 configmap:
-  MONGODB_URL: mongodb://127.0.0.1:27017/udemy
+  MONGODB_URL: mongodb://wnc-backend-mongo.database/udemy
   JWT_SECRET: thisisasamplesecret
   JWT_ACCESS_EXPIRATION_MINUTES: 30
   JWT_REFRESH_EXPIRATION_DAYS: 30
