@@ -60,6 +60,10 @@ const devRoutes = [
   },
 ];
 
+router.use('/health-check', (req, res) => {
+  res.send('ok');
+});
+
 defaultRoutes.forEach((route) => {
   router.use(route.path, route.route);
 });
