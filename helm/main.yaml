@@ -13,14 +13,14 @@ image:
   healthCheck:
     livenessProbe:
       httpGet:
-        path: /v1
+        path: /v1/health-check
         port: http
       initialDelaySeconds: 30
       periodSeconds: 10
       failureThreshold: 10
     readinessProbe:
       httpGet:
-        path: /v1
+        path: /v1/health-check
         port: http
       initialDelaySeconds: 30
       periodSeconds: 10
