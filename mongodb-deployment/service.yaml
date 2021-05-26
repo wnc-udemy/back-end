@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: wnc-backend-mongodb
+spec:
+  type: ClusterIP
+  selector:
+    app: wnc-backend-mongodb
+  ports:
+    - protocol: TCP
+      port: 27017
+      targetPort: mongodb-port

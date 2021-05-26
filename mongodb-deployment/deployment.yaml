@@ -1,0 +1,59 @@
+apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
+kind: Deployment
+metadata:
+  name: wnc-backend-mongo
+  labels:
+    app: wnc-backend-mongo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wnc-backend-mongodb
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  template:
+    metadata:
+      labels:
+        app: wnc-backend-mongodb
+    spec:
+      containers:
+        - image: mongo:4.4.2-bionic
+          name: mongodb
+          env:
+            - name: MONGO_INITDB_DATABASE
+              value: udemy
+          ports:
+            - containerPort: 27017
+              name: mongodb-port
+          volumeMounts:
+            - name: mongodb-pv-wnc-backend
+              mountPath: /data/db
+          readinessProbe:
+            tcpSocket:
+              port: mongodb-port
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          livenessProbe:
+            tcpSocket:
+              port: mongodb-port
+            initialDelaySeconds: 5
+            periodSeconds: 5
+      volumes:
+        - name: mongodb-pv-wnc-backend
+          persistentVolumeClaim:
+            claimName: mongodb-pvc-wnc-backend
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mongodb-pvc-wnc-backend
+  labels:
+    app: wnc-backend-mongodb
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
