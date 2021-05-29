@@ -20,6 +20,8 @@ const createCourse = {
 const getCourses = {
   query: Joi.object().keys({
     name: Joi.string(),
+    category: Joi.string().custom(objectId),
+    subCategory: Joi.string().custom(objectId),
     role: Joi.string(),
     sortBy: Joi.string(),
     limit: Joi.number().integer(),

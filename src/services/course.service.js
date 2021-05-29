@@ -1,7 +1,7 @@
 const httpStatus = require('http-status');
 const moment = require('moment');
 const mongoose = require('mongoose');
-const { Course, SubCategory } = require('../models');
+const { Course, SubCategory, Category } = require('../models');
 const ApiError = require('../utils/ApiError');
 
 /**
@@ -24,6 +24,7 @@ const queryMostViewCourses = async () => {
       $project: {
         name: 1,
         introDescription: { $trim: { input: '$introDescription' } },
+        targets: 1,
         instructor: 1,
         averageRating: 1,
         totalTime: 1,
@@ -61,6 +62,7 @@ const queryMostViewCourses = async () => {
       $unwind: '$instructorName',
     },
   ]);
+
   return courses;
 };
 
@@ -74,6 +76,7 @@ const queryLatestCourses = async () => {
       $project: {
         name: 1,
         introDescription: { $trim: { input: '$introDescription' } },
+        targets: 1,
         instructor: 1,
         averageRating: 1,
         totalTime: 1,
@@ -131,6 +134,7 @@ const queryHighlightCourses = async () => {
       $project: {
         name: 1,
         introDescription: { $trim: { input: '$introDescription' } },
+        targets: 1,
         instructor: 1,
         averageRating: 1,
         totalTime: 1,
@@ -172,6 +176,270 @@ const queryHighlightCourses = async () => {
     { $limit: 4 },
   ]);
   return courses;
+};
+
+/**
+ * Query for courses follow sub category
+ * @param {Object} filter - Mongo filter
+ * @param {Object} options - Query options
+ * @param {string} [options.sortBy] - Sort option in the format: sortField:(desc|asc)
+ * @param {number} [options.limit] - Maximum number of results per page (default = 10)
+ * @param {number} [options.page] - Current page (default = 1)
+ * @returns {Promise<QueryResult>}
+ */
+const queryCoursesFilterFollowSubCategory = async (filter, options) => {
+  const {
+    // name,
+    id,
+  } = filter;
+  const { sort, limit, skip } = options;
+
+  return SubCategory.aggregate([
+    {
+      $match: {
+        _id: id,
+      },
+    },
+    {
+      $project: {
+        _id: 1,
+        courses: 1,
+        total: { $size: '$courses' },
+      },
+    },
+    {
+      $lookup: {
+        from: 'course',
+        localField: 'courses',
+        foreignField: '_id',
+        as: 'courses',
+      },
+    },
+    {
+      $unwind: {
+        path: '$courses',
+        preserveNullAndEmptyArrays: true,
+      },
+    },
+    {
+      $lookup: {
+        from: 'user',
+        localField: 'courses.instructor',
+        foreignField: '_id',
+        as: 'courses.instructor',
+      },
+    },
+    {
+      $project: {
+        'courses._id': '$courses._id',
+        'courses.name': '$courses.name',
+        'courses.targets': '$courses.targets',
+        'courses.introDescription': { $trim: { input: '$courses.introDescription' } },
+        'courses.instructorName': '$courses.instructor.name',
+        'courses.averageRating': '$courses.averageRating',
+        'courses.totalTime': '$courses.totalTime',
+        'courses.totalLecture': '$courses.totalLecture',
+        'courses.urlThumb': '$courses.urlThumb',
+        'courses.createdAt': '$courses.createdAt',
+        'courses.totalComment': { $size: '$courses.comments' },
+        'courses.totalViewer': { $size: '$courses.viewers' },
+        total: 1,
+      },
+    },
+    {
+      $unwind: '$courses.instructorName',
+    },
+    { $sort: sort },
+    { $limit: limit },
+    { $skip: skip },
+    {
+      $group: {
+        _id: '$_id',
+        courses: { $push: '$courses' },
+        total: { $first: '$total' },
+      },
+    },
+  ]);
+};
+
+/**
+ * Query for courses follow category
+ * @param {Object} filter - Mongo filter
+ * @param {Object} options - Query options
+ * @param {string} [options.sortBy] - Sort option in the format: sortField:(desc|asc)
+ * @param {number} [options.limit] - Maximum number of results per page (default = 10)
+ * @param {number} [options.page] - Current page (default = 1)
+ * @returns {Promise<QueryResult>}
+ */
+const queryCoursesFilterFollowCategory = async (filter, options) => {
+  const {
+    // name,
+    id,
+  } = filter;
+  const { sort, limit, skip } = options;
+
+  return Category.aggregate([
+    {
+      $match: {
+        _id: id,
+      },
+    },
+    {
+      $project: {
+        _id: 1,
+        courses: 1,
+        total: { $size: '$courses' },
+      },
+    },
+    {
+      $lookup: {
+        from: 'course',
+        localField: 'courses',
+        foreignField: '_id',
+        as: 'courses',
+      },
+    },
+    {
+      $unwind: {
+        path: '$courses',
+        preserveNullAndEmptyArrays: true,
+      },
+    },
+    {
+      $lookup: {
+        from: 'user',
+        localField: 'courses.instructor',
+        foreignField: '_id',
+        as: 'courses.instructor',
+      },
+    },
+    {
+      $project: {
+        'courses._id': '$courses._id',
+        'courses.name': '$courses.name',
+        'courses.targets': '$courses.targets',
+        'courses.introDescription': { $trim: { input: '$courses.introDescription' } },
+        'courses.instructorName': '$courses.instructor.name',
+        'courses.averageRating': '$courses.averageRating',
+        'courses.totalTime': '$courses.totalTime',
+        'courses.totalLecture': '$courses.totalLecture',
+        'courses.urlThumb': '$courses.urlThumb',
+        'courses.createdAt': '$courses.createdAt',
+        'courses.totalComment': { $size: '$courses.comments' },
+        'courses.totalViewer': { $size: '$courses.viewers' },
+        total: 1,
+      },
+    },
+    {
+      $unwind: '$courses.instructorName',
+    },
+    { $sort: sort },
+    { $limit: limit },
+    { $skip: skip },
+    {
+      $group: {
+        _id: '$_id',
+        courses: { $push: '$courses' },
+        total: { $first: '$total' },
+      },
+    },
+  ]);
+};
+
+/**
+ * Query for courses follow category
+ * @param {Object} filter - Mongo filter
+ * @param {Object} options - Query options
+ * @param {string} [options.sortBy] - Sort option in the format: sortField:(desc|asc)
+ * @param {number} [options.limit] - Maximum number of results per page (default = 10)
+ * @param {number} [options.page] - Current page (default = 1)
+ * @returns {Promise<QueryResult>}
+ */
+const queryCoursesFilter = async (filter, options) => {
+  const { name } = filter;
+  const { sort, limit, skip } = options;
+
+  const total = await Course.find({ $text: { $search: name } }).count();
+
+  const courses = await Course.aggregate([
+    {
+      $match: { $text: { $search: name } },
+    },
+    {
+      $lookup: {
+        from: 'user',
+        localField: 'instructor',
+        foreignField: '_id',
+        as: 'instructor',
+      },
+    },
+    {
+      $project: {
+        name: 1,
+        targets: 1,
+        introDescription: { $trim: { input: '$courses.introDescription' } },
+        instructorName: '$instructor.name',
+        averageRating: 1,
+        totalTime: 1,
+        totalLecture: 1,
+        urlThumb: 1,
+        createdAt: 1,
+        totalComment: { $size: '$comments' },
+        totalViewer: { $size: '$viewers' },
+        total: 1,
+      },
+    },
+    {
+      $unwind: '$instructorName',
+    },
+    { $sort: sort },
+    { $limit: limit },
+    { $skip: skip },
+  ]);
+
+  return [{ courses, total }];
+};
+
+/**
+ * Query for advance filter courses
+ * @param {Object} filter - Mongo filter
+ * @param {Object} options - Query options
+ * @param {string} [options.sortBy] - Sort option in the format: sortField:(desc|asc)
+ * @param {number} [options.limit] - Maximum number of results per page (default = 10)
+ * @param {number} [options.page] - Current page (default = 1)
+ * @returns {Promise<QueryResult>}
+ */
+const queryAdvanceFilterCourses = async (filter, options) => {
+  const categoryID = filter.category === undefined ? undefined : new mongoose.Types.ObjectId(filter.category);
+  const subCategoryID = filter.subCategory === undefined ? undefined : new mongoose.Types.ObjectId(filter.subCategory);
+  const limit = options.limit && parseInt(options.limit, 10) > 0 ? parseInt(options.limit, 10) : 10;
+  const page = options.page && parseInt(options.page, 10) > 0 ? parseInt(options.page, 10) : 1;
+  const skip = (page - 1) * limit;
+
+  const sort = {};
+  if (options.sortBy) {
+    options.sortBy.split(',').forEach((sortOption) => {
+      const [key, order] = sortOption.split(':');
+      sort[`courses.${key}`] = order === 'desc' ? -1 : 1;
+    });
+  } else {
+    sort.createdAt = 1;
+  }
+
+  let result;
+
+  if (subCategoryID !== undefined) {
+    result = await queryCoursesFilterFollowSubCategory({ id: subCategoryID, name: filter.name }, { limit, skip, sort });
+  } else if (categoryID !== undefined) {
+    result = await queryCoursesFilterFollowCategory({ id: categoryID, name: filter.name }, { limit, skip, sort });
+  } else {
+    result = await queryCoursesFilter({ name: filter.name }, { limit, skip, sort });
+  }
+
+  const { courses, total: totalResults } = result[0];
+  const totalPages = Math.ceil(totalResults / limit);
+
+  return { courses, page, limit, totalPages, totalResults };
 };
 
 /**
@@ -399,21 +667,6 @@ const getCourseSimilarById = async (id) => {
       },
     },
     {
-      $project: {
-        'courses._id': 1,
-        'courses.name': 1,
-        'courses.introDescription': 1,
-        'courses.instructor': 1,
-        'courses.averageRating': 1,
-        'courses.totalTime': 1,
-        'courses.totalLecture': 1,
-        'courses.urlThumb': 1,
-        'courses.createdAt': 1,
-        'courses.comments': 1,
-        'courses.viewers': 1,
-      },
-    },
-    {
       $unwind: '$courses',
     },
     {
@@ -429,6 +682,7 @@ const getCourseSimilarById = async (id) => {
         _id: '$courses._id',
         name: '$courses.name',
         introDescription: { $trim: { input: '$courses.introDescription' } },
+        targets: '$courses.targets',
         instructorName: '$courses.instructor.name',
         averageRating: '$courses.averageRating',
         totalTime: '$courses.totalTime',
@@ -487,6 +741,7 @@ module.exports = {
   queryMostViewCourses,
   queryLatestCourses,
   queryHighlightCourses,
+  queryAdvanceFilterCourses,
   getCourseById,
   getCourseCommentById,
   getCourseSectionById,

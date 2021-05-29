@@ -75,6 +75,7 @@ const querySubscribedCourses = async (id, pagination) => {
       $project: {
         'courses._id': '$courses._id',
         'courses.name': '$courses.name',
+        'courses.targets': '$courses.targets',
         'courses.introDescription': { $trim: { input: '$courses.introDescription' } },
         'courses.instructorName': '$courses.instructor.name',
         'courses.averageRating': '$courses.averageRating',
@@ -147,6 +148,7 @@ const queryFavoriteCourses = async (id, pagination) => {
       $project: {
         'courses._id': '$courses._id',
         'courses.name': '$courses.name',
+        'courses.targets': '$courses.targets',
         'courses.introDescription': { $trim: { input: '$courses.introDescription' } },
         'courses.instructorName': '$courses.instructor.name',
         'courses.averageRating': '$courses.averageRating',

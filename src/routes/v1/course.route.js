@@ -121,13 +121,24 @@ module.exports = router;
  *            - 1
  *            - 2
  *            - 3
+ *            - 4
  *           default: 0
- *         description: 'Type get courses 0: default list, 1: most view, 2: latest, 3: highlight'
+ *         description: 'Type get courses 0: default list, 1: most view, 2: latest, 3: highlight, 4: advance filter'
  *       - in: query
  *         name: name
  *         schema:
  *           type: string
  *         description: Course name
+ *       - in: query
+ *         name: category
+ *         schema:
+ *           type: string
+ *         description: Category id
+ *       - in: query
+ *         name: subCategory
+ *         schema:
+ *           type: string
+ *         description: Sub category id
  *       - in: query
  *         name: sortBy
  *         schema:

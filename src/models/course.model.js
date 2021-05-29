@@ -93,6 +93,9 @@ const courseSchema = mongoose.Schema(
 courseSchema.plugin(toJSON);
 courseSchema.plugin(paginate);
 
+// text search
+courseSchema.index({ name: 'text' });
+
 /**
  * @typedef Course
  */
