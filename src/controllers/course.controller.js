@@ -10,24 +10,9 @@ const createCourse = catchAsync(async (req, res) => {
 });
 
 const getCourses = catchAsync(async (req, res) => {
-  const filter = pick(req.query, ['name', 'role']);
+  const filter = pick(req.query, ['name', 'role', 'type']);
   const options = pick(req.query, ['sortBy', 'limit', 'page']);
   const result = await courseService.queryCourses(filter, options);
-  res.send(result);
-});
-
-const getMostViewCourses = catchAsync(async (req, res) => {
-  const result = await courseService.queryMostViewCourses();
-  res.send(result);
-});
-
-const getLatestCourses = catchAsync(async (req, res) => {
-  const result = await courseService.queryLatestCourses();
-  res.send(result);
-});
-
-const getHighlightCourses = catchAsync(async (req, res) => {
-  const result = await courseService.queryHighlightCourses();
   res.send(result);
 });
 
@@ -76,9 +61,6 @@ const deleteCourse = catchAsync(async (req, res) => {
 module.exports = {
   createCourse,
   getCourses,
-  getMostViewCourses,
-  getLatestCourses,
-  getHighlightCourses,
   getCourse,
   getCourseComment,
   getCourseSection,

@@ -31,6 +31,150 @@ const queryUsers = async (filter, options) => {
 };
 
 /**
+ * Query for subscribed courses of user
+ * @returns {Promise<QueryResult>}
+ */
+const querySubscribedCourses = async (id, pagination) => {
+  const { limit, skip } = pagination;
+  return User.aggregate([
+    {
+      $match: {
+        _id: id,
+      },
+    },
+    {
+      $project: {
+        _id: 1,
+        courses: 1,
+        total: { $size: '$courses' },
+      },
+    },
+    {
+      $lookup: {
+        from: 'course',
+        localField: 'courses',
+        foreignField: '_id',
+        as: 'courses',
+      },
+    },
+    {
+      $unwind: {
+        path: '$courses',
+        preserveNullAndEmptyArrays: true,
+      },
+    },
+    {
+      $lookup: {
+        from: 'user',
+        localField: 'courses.instructor',
+        foreignField: '_id',
+        as: 'courses.instructor',
+      },
+    },
+    {
+      $project: {
+        'courses._id': '$courses._id',
+        'courses.name': '$courses.name',
+        'courses.introDescription': { $trim: { input: '$courses.introDescription' } },
+        'courses.instructorName': '$courses.instructor.name',
+        'courses.averageRating': '$courses.averageRating',
+        'courses.totalTime': '$courses.totalTime',
+        'courses.totalLecture': '$courses.totalLecture',
+        'courses.urlThumb': '$courses.urlThumb',
+        'courses.createdAt': '$courses.createdAt',
+        'courses.totalComment': { $size: '$courses.comments' },
+        'courses.totalViewer': { $size: '$courses.viewers' },
+        total: 1,
+      },
+    },
+    {
+      $unwind: '$courses.instructorName',
+    },
+    { $limit: limit },
+    { $skip: skip },
+    {
+      $group: {
+        _id: '$_id',
+        courses: { $push: '$courses' },
+        total: { $first: '$total' },
+      },
+    },
+  ]);
+};
+
+/**
+ * Query for favorite courses of user
+ * @returns {Promise<QueryResult>}
+ */
+const queryFavoriteCourses = async (id, pagination) => {
+  const { limit, skip } = pagination;
+  return User.aggregate([
+    {
+      $match: {
+        _id: id,
+      },
+    },
+    {
+      $project: {
+        _id: 0,
+        courses: '$favoriteCourses',
+        total: { $size: '$favoriteCourses' },
+      },
+    },
+    {
+      $lookup: {
+        from: 'course',
+        localField: 'courses',
+        foreignField: '_id',
+        as: 'courses',
+      },
+    },
+    {
+      $unwind: {
+        path: '$courses',
+        preserveNullAndEmptyArrays: true,
+      },
+    },
+    {
+      $lookup: {
+        from: 'user',
+        localField: 'courses.instructor',
+        foreignField: '_id',
+        as: 'courses.instructor',
+      },
+    },
+    {
+      $project: {
+        'courses._id': '$courses._id',
+        'courses.name': '$courses.name',
+        'courses.introDescription': { $trim: { input: '$courses.introDescription' } },
+        'courses.instructorName': '$courses.instructor.name',
+        'courses.averageRating': '$courses.averageRating',
+        'courses.totalTime': '$courses.totalTime',
+        'courses.totalLecture': '$courses.totalLecture',
+        'courses.urlThumb': '$courses.urlThumb',
+        'courses.createdAt': '$courses.createdAt',
+        'courses.totalComment': { $size: '$courses.comments' },
+        'courses.totalViewer': { $size: '$courses.viewers' },
+        total: 1,
+      },
+    },
+    {
+      $unwind: '$courses.instructorName',
+    },
+    { $limit: limit },
+    { $skip: skip },
+    {
+      $group: {
+        _id: '$_id',
+        courses: { $push: '$courses' },
+        total: { $first: '$total' },
+      },
+    },
+  ]);
+};
+
+/**
  * Query for users
  * @param {Object} filter - Mongo filter
  * @param {Object} options - Query options
@@ -45,150 +189,18 @@ const queryCourses = async (id, filter, options) => {
   const page = options.page && parseInt(options.page, 10) > 0 ? parseInt(options.page, 10) : 1;
   const skip = (page - 1) * limit;
 
-  let totalResults;
-  let courses;
+  let result;
 
   // subscribed
   if (filter.type === 0) {
-    const result = await User.aggregate([
-      {
-        $match: {
-          _id: userID,
-        },
-      },
-      {
-        $project: {
-          _id: 1,
-          courses: 1,
-          total: { $size: '$courses' },
-        },
-      },
-      {
-        $lookup: {
-          from: 'course',
-          localField: 'courses',
-          foreignField: '_id',
-          as: 'courses',
-        },
-      },
-      {
-        $unwind: {
-          path: '$courses',
-          preserveNullAndEmptyArrays: true,
-        },
-      },
-      {
-        $lookup: {
-          from: 'user',
-          localField: 'courses.instructor',
-          foreignField: '_id',
-          as: 'courses.instructor',
-        },
-      },
-      {
-        $project: {
-          'courses._id': '$courses._id',
-          'courses.name': '$courses.name',
-          'courses.introDescription': { $trim: { input: '$courses.introDescription' } },
-          'courses.instructorName': '$courses.instructor.name',
-          'courses.averageRating': '$courses.averageRating',
-          'courses.totalTime': '$courses.totalTime',
-          'courses.totalLecture': '$courses.totalLecture',
-          'courses.urlThumb': '$courses.urlThumb',
-          'courses.createdAt': '$courses.createdAt',
-          'courses.totalComment': { $size: '$courses.comments' },
-          'courses.totalViewer': { $size: '$courses.viewers' },
-          total: 1,
-        },
-      },
-      {
-        $unwind: '$courses.instructorName',
-      },
-      { $limit: limit },
-      { $skip: skip },
-      {
-        $group: {
-          _id: '$_id',
-          courses: { $push: '$courses' },
-          total: { $first: '$total' },
-        },
-      },
-    ]);
-
-    courses = result[0].courses;
-    totalResults = result[0].total;
+    result = await querySubscribedCourses(userID, { limit, skip });
   }
   // favorite
-  else if (filter.type === 1) {
-    const result = await User.aggregate([
-      {
-        $match: {
-          _id: userID,
-        },
-      },
-      {
-        $project: {
-          _id: 0,
-          courses: '$favoriteCourses',
-          total: { $size: '$favoriteCourses' },
-        },
-      },
-      {
-        $lookup: {
-          from: 'course',
-          localField: 'courses',
-          foreignField: '_id',
-          as: 'courses',
-        },
-      },
-      {
-        $unwind: {
-          path: '$courses',
-          preserveNullAndEmptyArrays: true,
-        },
-      },
-      {
-        $lookup: {
-          from: 'user',
-          localField: 'courses.instructor',
-          foreignField: '_id',
-          as: 'courses.instructor',
-        },
-      },
-      {
-        $project: {
-          'courses._id': '$courses._id',
-          'courses.name': '$courses.name',
-          'courses.introDescription': { $trim: { input: '$courses.introDescription' } },
-          'courses.instructorName': '$courses.instructor.name',
-          'courses.averageRating': '$courses.averageRating',
-          'courses.totalTime': '$courses.totalTime',
-          'courses.totalLecture': '$courses.totalLecture',
-          'courses.urlThumb': '$courses.urlThumb',
-          'courses.createdAt': '$courses.createdAt',
-          'courses.totalComment': { $size: '$courses.comments' },
-          'courses.totalViewer': { $size: '$courses.viewers' },
-          total: 1,
-        },
-      },
-      {
-        $unwind: '$courses.instructorName',
-      },
-      { $limit: limit },
-      { $skip: skip },
-      {
-        $group: {
-          _id: '$_id',
-          courses: { $push: '$courses' },
-          total: { $first: '$total' },
-        },
-      },
-    ]);
-
-    courses = result[0].courses;
-    totalResults = result[0].total;
+  else {
+    result = await queryFavoriteCourses(userID, { limit, skip });
   }
 
+  const { courses, total: totalResults } = result[0];
   const totalPages = Math.ceil(totalResults / limit);
 
   return { courses, page, limit, totalPages, totalResults };

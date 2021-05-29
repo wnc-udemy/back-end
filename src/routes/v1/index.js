@@ -69,14 +69,10 @@ defaultRoutes.forEach((route) => {
 });
 
 /* istanbul ignore next */
-// if (config.env === 'development') {
-//   devRoutes.forEach((route) => {
-//     router.use(route.path, route.route);
-//   });
-// }
-
-devRoutes.forEach((route) => {
-  router.use(route.path, route.route);
-});
+if (config.env === 'development' || config.env === 'production') {
+  devRoutes.forEach((route) => {
+    router.use(route.path, route.route);
+  });
+}
 
 module.exports = router;

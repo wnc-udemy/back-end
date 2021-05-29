@@ -6,14 +6,10 @@ const courseController = require('../../controllers/course.controller');
 
 const router = express.Router();
 
-router.route('/most-view').get(validate(courseValidation.getCourses), courseController.getMostViewCourses);
-router.route('/latest').get(validate(courseValidation.getCourses), courseController.getLatestCourses);
-router.route('/highlight').get(validate(courseValidation.getCourses), courseController.getHighlightCourses);
-
 router
   .route('/')
   .post(auth('manageCourses'), validate(courseValidation.createCourse), courseController.createCourse)
-  .get(auth('getCourses'), validate(courseValidation.getCourses), courseController.getCourses);
+  .get(validate(courseValidation.getCourses), courseController.getCourses);
 
 router.route('/:courseId/comment').get(validate(courseValidation.getCourse), courseController.getCourseComment);
 router.route('/:courseId/section').get(validate(courseValidation.getCourse), courseController.getCourseSection);
@@ -32,123 +28,6 @@ module.exports = router;
  * tags:
  *   name: Courses
  *   description: Course management and retrieval
- */
-
-/**
- * @swagger
- * /courses/most-view:
- *   get:
- *     summary: Get most view courses
- *     description: All user can retrieve all most view courses
- *     tags: [Courses]
- *     security:
- *       - bearerAuth: []
- *     responses:
- *       "200":
- *         description: OK
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 results:
- *                   type: array
- *                   items:
- *                     $ref: '#/components/schemas/Course'
- *                 page:
- *                   type: integer
- *                   example: 1
- *                 limit:
- *                   type: integer
- *                   example: 10
- *                 totalPages:
- *                   type: integer
- *                   example: 1
- *                 totalResults:
- *                   type: integer
- *                   example: 1
- *       "401":
- *         $ref: '#/components/responses/Unauthorized'
- *       "403":
- *         $ref: '#/components/responses/Forbidden'
- */
-
-/**
- * @swagger
- * /courses/latest:
- *   get:
- *     summary: Get latest courses
- *     description: All user can retrieve all latest courses
- *     tags: [Courses]
- *     security:
- *       - bearerAuth: []
- *     responses:
- *       "200":
- *         description: OK
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 results:
- *                   type: array
- *                   items:
- *                     $ref: '#/components/schemas/Course'
- *                 page:
- *                   type: integer
- *                   example: 1
- *                 limit:
- *                   type: integer
- *                   example: 10
- *                 totalPages:
- *                   type: integer
- *                   example: 1
- *                 totalResults:
- *                   type: integer
- *                   example: 1
- *       "401":
- *         $ref: '#/components/responses/Unauthorized'
- *       "403":
- *         $ref: '#/components/responses/Forbidden'
- */
-
-/**
- * @swagger
- * /courses/highlight:
- *   get:
- *     summary: Get highlight courses
- *     description: All user can retrieve all highlight courses
- *     tags: [Courses]
- *     security:
- *       - bearerAuth: []
- *     responses:
- *       "200":
- *         description: OK
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 results:
- *                   type: array
- *                   items:
- *                     $ref: '#/components/schemas/Course'
- *                 page:
- *                   type: integer
- *                   example: 1
- *                 limit:
- *                   type: integer
- *                   example: 10
- *                 totalPages:
- *                   type: integer
- *                   example: 1
- *                 totalResults:
- *                   type: integer
- *                   example: 1
- *       "401":
- *         $ref: '#/components/responses/Unauthorized'
- *       "403":
- *         $ref: '#/components/responses/Forbidden'
  */
 
 /**
@@ -234,6 +113,16 @@ module.exports = router;
  *     security:
  *       - bearerAuth: []
  *     parameters:
+ *       - in: query
+ *         name: type
+ *         schema:
+ *           enum:
+ *            - 0
+ *            - 1
+ *            - 2
+ *            - 3
+ *           default: 0
+ *         description: 'Type course 0: default list, 1: most view, 2: latest, 3: highlight'
  *       - in: query
  *         name: name
  *         schema:

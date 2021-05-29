@@ -15,20 +15,6 @@ const createCourse = async (courseBody) => {
 };
 
 /**
- * Query for courses
- * @param {Object} filter - Mongo filter
- * @param {Object} options - Query options
- * @param {string} [options.sortBy] - Sort option in the format: sortField:(desc|asc)
- * @param {number} [options.limit] - Maximum number of results per page (default = 10)
- * @param {number} [options.page] - Current page (default = 1)
- * @returns {Promise<QueryResult>}
- */
-const queryCourses = async (filter, options) => {
-  const courses = await Course.paginate(filter, options);
-  return courses;
-};
-
-/**
  * Query for most view courses
  * @returns {Promise<QueryResult>}
  */
@@ -186,6 +172,31 @@ const queryHighlightCourses = async () => {
     { $limit: 4 },
   ]);
   return courses;
+};
+
+/**
+ * Query for courses
+ * @param {Object} filter - Mongo filter
+ * @param {Object} options - Query options
+ * @param {string} [options.sortBy] - Sort option in the format: sortField:(desc|asc)
+ * @param {number} [options.limit] - Maximum number of results per page (default = 10)
+ * @param {number} [options.page] - Current page (default = 1)
+ * @returns {Promise<QueryResult>}
+ */
+const queryCourses = async (filter, options) => {
+  switch (filter.type) {
+    case 1:
+      return queryMostViewCourses();
+    case 2:
+      return queryLatestCourses();
+    case 3:
+      return queryHighlightCourses();
+
+    default:
+      /* eslint no-param-reassign: "error" */
+      delete filter.type;
+      return Course.paginate(filter, options);
+  }
 };
 
 /**
