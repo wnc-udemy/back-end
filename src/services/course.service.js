@@ -184,19 +184,8 @@ const queryHighlightCourses = async () => {
  * @returns {Promise<QueryResult>}
  */
 const queryCourses = async (filter, options) => {
-  switch (filter.type) {
-    case 1:
-      return queryMostViewCourses();
-    case 2:
-      return queryLatestCourses();
-    case 3:
-      return queryHighlightCourses();
-
-    default:
-      /* eslint no-param-reassign: "error" */
-      delete filter.type;
-      return Course.paginate(filter, options);
-  }
+  const courses = await Course.paginate(filter, options);
+  return courses;
 };
 
 /**

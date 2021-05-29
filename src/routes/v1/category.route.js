@@ -11,8 +11,6 @@ router
   .post(auth('manageCategories'), validate(categoryValidation.createCategory), categoryController.createCategory)
   .get(validate(categoryValidation.getCategories), categoryController.getCategories);
 
-router.route('/all').get(validate(categoryValidation.getCategories), categoryController.getAllCategories);
-
 router
   .route('/:categoryId')
   .get(auth('getCategories'), validate(categoryValidation.getCategory), categoryController.getCategory)
@@ -26,45 +24,6 @@ module.exports = router;
  * tags:
  *   name: Categories
  *   description: Category management and retrieval
- */
-
-/**
- * @swagger
- * /categories/all:
- *   get:
- *     summary: Get all categories and sub categories
- *     description: All user can retrieve all categories and sub categories
- *     tags: [Categories]
- *     security:
- *       - bearerAuth: []
- *     responses:
- *       "200":
- *         description: OK
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 results:
- *                   type: array
- *                   items:
- *                     $ref: '#/components/schemas/Category'
- *                 page:
- *                   type: integer
- *                   example: 1
- *                 limit:
- *                   type: integer
- *                   example: 10
- *                 totalPages:
- *                   type: integer
- *                   example: 1
- *                 totalResults:
- *                   type: integer
- *                   example: 1
- *       "401":
- *         $ref: '#/components/responses/Unauthorized'
- *       "403":
- *         $ref: '#/components/responses/Forbidden'
  */
 
 /**
@@ -110,6 +69,14 @@ module.exports = router;
  *     security:
  *       - bearerAuth: []
  *     parameters:
+ *       - in: query
+ *         name: type
+ *         schema:
+ *           enum:
+ *            - 0
+ *            - 1
+ *           default: 0
+ *         description: 'Type get categories 0: default list, 1: detail'
  *       - in: query
  *         name: name
  *         schema:

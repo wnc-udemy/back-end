@@ -122,7 +122,7 @@ module.exports = router;
  *            - 2
  *            - 3
  *           default: 0
- *         description: 'Type course 0: default list, 1: most view, 2: latest, 3: highlight'
+ *         description: 'Type get courses 0: default list, 1: most view, 2: latest, 3: highlight'
  *       - in: query
  *         name: name
  *         schema:

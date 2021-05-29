@@ -172,7 +172,7 @@ module.exports = router;
  *              - 0
  *              - 1
  *           default: 0
- *         description: 'Type course 0: subscribed, 1: favorite'
+ *         description: 'Type get courses 0: subscribed, 1: favorite'
  *       - in: query
  *         name: name
  *         schema:

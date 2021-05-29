@@ -10,9 +10,27 @@ const createCourse = catchAsync(async (req, res) => {
 });
 
 const getCourses = catchAsync(async (req, res) => {
-  const filter = pick(req.query, ['name', 'role', 'type']);
+  const { type } = req.query;
+  const filter = pick(req.query, ['name', 'role']);
   const options = pick(req.query, ['sortBy', 'limit', 'page']);
-  const result = await courseService.queryCourses(filter, options);
+  let result;
+
+  switch (type) {
+    case 1:
+      result = courseService.queryMostViewCourses();
+      break;
+    case 2:
+      result = courseService.queryLatestCourses();
+      break;
+    case 3:
+      result = courseService.queryHighlightCourses();
+      break;
+
+    default:
+      result = courseService.queryCourses(filter, options);
+      break;
+  }
+
   res.send(result);
 });
 

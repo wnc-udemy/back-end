@@ -44,6 +44,7 @@ const queryAllCategories = async () => {
       $project: {
         'subCategories.courses': 0,
         'subCategories.bestSellerCourses': 0,
+        'subCategories.totalRegister': 0,
       },
     },
   ]);
