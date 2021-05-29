@@ -16,6 +16,14 @@ const getUsers = catchAsync(async (req, res) => {
   res.send(result);
 });
 
+const getCourses = catchAsync(async (req, res) => {
+  const filter = pick(req.query, ['name', 'type']);
+  const options = pick(req.query, ['sortBy', 'limit', 'page']);
+
+  const result = await userService.queryCourses(req.params.userId, filter, options);
+  res.send(result);
+});
+
 const getUser = catchAsync(async (req, res) => {
   const user = await userService.getUserById(req.params.userId);
   if (!user) {
@@ -37,6 +45,7 @@ const deleteUser = catchAsync(async (req, res) => {
 module.exports = {
   createUser,
   getUsers,
+  getCourses,
   getUser,
   updateUser,
   deleteUser,

@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const httpStatus = require('http-status');
 const { User } = require('../models');
 const ApiError = require('../utils/ApiError');
@@ -27,6 +28,170 @@ const createUser = async (userBody) => {
 const queryUsers = async (filter, options) => {
   const users = await User.paginate(filter, options);
   return users;
+};
+
+/**
+ * Query for users
+ * @param {Object} filter - Mongo filter
+ * @param {Object} options - Query options
+ * @param {string} [options.sortBy] - Sort option in the format: sortField:(desc|asc)
+ * @param {number} [options.limit] - Maximum number of results per page (default = 10)
+ * @param {number} [options.page] - Current page (default = 1)
+ * @returns {Promise<QueryResult>}
+ */
+const queryCourses = async (id, filter, options) => {
+  const userID = new mongoose.Types.ObjectId(id);
+  const limit = options.limit && parseInt(options.limit, 10) > 0 ? parseInt(options.limit, 10) : 10;
+  const page = options.page && parseInt(options.page, 10) > 0 ? parseInt(options.page, 10) : 1;
+  const skip = (page - 1) * limit;
+
+  let totalResults;
+  let courses;
+
+  // subscribed
+  if (filter.type === 0) {
+    const result = await User.aggregate([
+      {
+        $match: {
+          _id: userID,
+        },
+      },
+      {
+        $project: {
+          _id: 1,
+          courses: 1,
+          total: { $size: '$courses' },
+        },
+      },
+      {
+        $lookup: {
+          from: 'course',
+          localField: 'courses',
+          foreignField: '_id',
+          as: 'courses',
+        },
+      },
+      {
+        $unwind: {
+          path: '$courses',
+          preserveNullAndEmptyArrays: true,
+        },
+      },
+      {
+        $lookup: {
+          from: 'user',
+          localField: 'courses.instructor',
+          foreignField: '_id',
+          as: 'courses.instructor',
+        },
+      },
+      {
+        $project: {
+          'courses._id': '$courses._id',
+          'courses.name': '$courses.name',
+          'courses.introDescription': { $trim: { input: '$courses.introDescription' } },
+          'courses.instructorName': '$courses.instructor.name',
+          'courses.averageRating': '$courses.averageRating',
+          'courses.totalTime': '$courses.totalTime',
+          'courses.totalLecture': '$courses.totalLecture',
+          'courses.urlThumb': '$courses.urlThumb',
+          'courses.createdAt': '$courses.createdAt',
+          'courses.totalComment': { $size: '$courses.comments' },
+          'courses.totalViewer': { $size: '$courses.viewers' },
+          total: 1,
+        },
+      },
+      {
+        $unwind: '$courses.instructorName',
+      },
+      { $limit: limit },
+      { $skip: skip },
+      {
+        $group: {
+          _id: '$_id',
+          courses: { $push: '$courses' },
+          total: { $first: '$total' },
+        },
+      },
+    ]);
+
+    courses = result[0].courses;
+    totalResults = result[0].total;
+  }
+  // favorite
+  else if (filter.type === 1) {
+    const result = await User.aggregate([
+      {
+        $match: {
+          _id: userID,
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          courses: '$favoriteCourses',
+          total: { $size: '$favoriteCourses' },
+        },
+      },
+      {
+        $lookup: {
+          from: 'course',
+          localField: 'courses',
+          foreignField: '_id',
+          as: 'courses',
+        },
+      },
+      {
+        $unwind: {
+          path: '$courses',
+          preserveNullAndEmptyArrays: true,
+        },
+      },
+      {
+        $lookup: {
+          from: 'user',
+          localField: 'courses.instructor',
+          foreignField: '_id',
+          as: 'courses.instructor',
+        },
+      },
+      {
+        $project: {
+          'courses._id': '$courses._id',
+          'courses.name': '$courses.name',
+          'courses.introDescription': { $trim: { input: '$courses.introDescription' } },
+          'courses.instructorName': '$courses.instructor.name',
+          'courses.averageRating': '$courses.averageRating',
+          'courses.totalTime': '$courses.totalTime',
+          'courses.totalLecture': '$courses.totalLecture',
+          'courses.urlThumb': '$courses.urlThumb',
+          'courses.createdAt': '$courses.createdAt',
+          'courses.totalComment': { $size: '$courses.comments' },
+          'courses.totalViewer': { $size: '$courses.viewers' },
+          total: 1,
+        },
+      },
+      {
+        $unwind: '$courses.instructorName',
+      },
+      { $limit: limit },
+      { $skip: skip },
+      {
+        $group: {
+          _id: '$_id',
+          courses: { $push: '$courses' },
+          total: { $first: '$total' },
+        },
+      },
+    ]);
+
+    courses = result[0].courses;
+    totalResults = result[0].total;
+  }
+
+  const totalPages = Math.ceil(totalResults / limit);
+
+  return { courses, page, limit, totalPages, totalResults };
 };
 
 /**
@@ -83,6 +248,7 @@ const deleteUserById = async (userId) => {
 module.exports = {
   createUser,
   queryUsers,
+  queryCourses,
   getUserById,
   getUserByEmail,
   updateUserById,
