@@ -5,8 +5,13 @@ const createHistory = {
   body: Joi.object().keys({
     lecture: Joi.string().custom(objectId).required(),
     course: Joi.string().custom(objectId).required(),
+    section: Joi.string().custom(objectId).required(),
+    name: Joi.string(),
+    url: Joi.string(),
     atTime: Joi.number(),
+    lengthTime: Joi.number(),
     status: Joi.number(),
+    type: Joi.number(),
   }),
 };
 
@@ -32,8 +37,6 @@ const updateHistory = {
   }),
   body: Joi.object()
     .keys({
-      lecture: Joi.string().custom(objectId).required(),
-      course: Joi.string().custom(objectId).required(),
       atTime: Joi.number(),
       status: Joi.number(),
     })

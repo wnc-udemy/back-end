@@ -91,9 +91,9 @@ module.exports = {
   createUser,
   getUsers,
   getCourses,
+  getHistories,
   getUser,
   addCourse,
-  getHistories,
   updateUser,
   deleteUser,
 };

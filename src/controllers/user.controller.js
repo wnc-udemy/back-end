@@ -63,9 +63,9 @@ module.exports = {
   createUser,
   getUsers,
   getCourses,
-  updateCourses,
   getHistories,
   getUser,
   updateUser,
+  updateCourses,
   deleteUser,
 };

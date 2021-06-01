@@ -15,6 +15,13 @@ const password = (value, helpers) => {
   return value;
 };
 
+// const status = (value, status, helpers) => {
+//   if (!status.includes(value)) {
+//     return helpers.message('invalid status');
+//   }
+//   return value;
+// };
+
 module.exports = {
   objectId,
   password,

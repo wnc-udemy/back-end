@@ -4,7 +4,7 @@ const { User } = require('../models');
 const ApiError = require('../utils/ApiError');
 const { getCourseById, getCourseSectionById } = require('./course.service');
 const { getSubCategoryByCourseId } = require('./sub-category.service');
-const { createMultiHistory } = require('./history.service');
+const { createHistories } = require('./history.service');
 const { getHistoriesByCourseId } = require('./history.service');
 
 /**
@@ -232,6 +232,11 @@ const getHistories = async (userId, courseId) => {
     throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
   }
 
+  const course = await getCourseById(courseId);
+  if (!course) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Course not found');
+  }
+
   const idx = user.courses.findIndex((e) => e.toString() === courseId);
 
   if (idx === -1) {
@@ -331,23 +336,24 @@ const updateSubscribedCourses = async (userId, courseId) => {
     const { _id: sectionId, lectures } = section;
 
     lectures.forEach((lecture) => {
-      const { name, url, lengthTime, type } = lecture;
+      const { _id: lectureId, name, url, lengthTime, type } = lecture;
       const history = {
         name,
         url,
         lengthTime,
+        atTime: 0,
         type,
+        status: 0,
         course: courseId,
         section: sectionId,
-        atTime: 0,
-        status: 0,
+        lecture: lectureId,
       };
 
       histories.push(history);
     });
   });
 
-  const historyIds = await createMultiHistory(histories);
+  const historyIds = await createHistories(histories);
   // update new lectures into user history
   user.histories = [...user.histories, ...historyIds];
 
@@ -383,9 +389,9 @@ module.exports = {
   getUserById,
   getCourseById,
   getHistories,
-  updateFavoriteCourses,
-  updateSubscribedCourses,
   getUserByEmail,
   updateUserById,
+  updateFavoriteCourses,
+  updateSubscribedCourses,
   deleteUserById,
 };

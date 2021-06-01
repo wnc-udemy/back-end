@@ -14,11 +14,11 @@ const createHistory = async (historyBody) => {
 };
 
 /**
- * Create a multi history
+ * Create a multi histories
  * @param {Object} historyBodies
  * @returns {Promise<Ids>}
  */
-const createMultiHistory = async (historyBodies) => {
+const createHistories = async (historyBodies) => {
   const histories = await History.insertMany(historyBodies);
   const Ids = histories.map((e) => e._id);
   return Ids;
@@ -100,13 +100,35 @@ const getHistoryById = async (id) => {
  * @returns {Promise<History>}
  */
 const updateHistoryById = async (historyId, updateBody) => {
+  const { atTime, status: statusBody } = updateBody;
   const history = await getHistoryById(historyId);
+  const { lengthTime, status } = history;
+  const statusDefine = [0, 1, 2];
+
   if (!history) {
     throw new ApiError(httpStatus.NOT_FOUND, 'History not found');
   }
+  if (atTime > lengthTime) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'At time great than length time');
+  }
+  if (!statusDefine.includes(status) || status + 1 !== statusBody) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Invalid status');
+  }
+
   Object.assign(history, updateBody);
   await history.save();
   return history;
+};
+
+/**
+ * Update a multi histories
+ * @param {Object} historyBodies
+ * @returns {Promise<Ids>}
+ */
+const updateHistories = async (historyBodies) => {
+  const histories = await History.insertMany(historyBodies);
+  const Ids = histories.map((e) => e._id);
+  return Ids;
 };
 
 /**
@@ -125,10 +147,11 @@ const deleteHistoryById = async (historyId) => {
 
 module.exports = {
   createHistory,
-  createMultiHistory,
+  createHistories,
   queryHistories,
   getHistoryById,
   getHistoriesByCourseId,
   updateHistoryById,
+  updateHistories,
   deleteHistoryById,
 };

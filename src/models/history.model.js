@@ -12,6 +12,10 @@ const historySchema = mongoose.Schema(
       type: Number,
       default: 0,
     },
+    lengthTime: {
+      type: Number,
+      default: 0,
+    },
     status: {
       // 0: not watch, 1: watching, 2: watched
       type: Number,
@@ -23,6 +27,11 @@ const historySchema = mongoose.Schema(
     },
     type: {
       type: Number,
+      required: true,
+    },
+    lecture: {
+      type: mongoose.SchemaTypes.ObjectId,
+      ref: 'Lecture',
       required: true,
     },
     course: {
