@@ -60,6 +60,15 @@ const getSubCategoryById = async (id) => {
 };
 
 /**
+ * Get sub category by course id
+ * @param {ObjectId} id
+ * @returns {Promise<SubCategory>}
+ */
+const getSubCategoryByCourseId = async (id) => {
+  return SubCategory.findOne({ courses: { $elemMatch: { $eq: id } } });
+};
+
+/**
  * Update sub category by id
  * @param {ObjectId} subCategoryId
  * @param {Object} updateBody
@@ -93,6 +102,7 @@ module.exports = {
   createSubCategory,
   querySubCategories,
   queryMostSubscribedSubCategories,
+  getSubCategoryByCourseId,
   getSubCategoryById,
   updateSubCategoryById,
   deleteSubCategoryById,

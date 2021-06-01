@@ -32,6 +32,18 @@ const getUser = catchAsync(async (req, res) => {
   res.send(user);
 });
 
+const updateCourses = catchAsync(async (req, res) => {
+  const { type } = req.query;
+  let result;
+
+  if (type === 1) {
+    result = await userService.updateFavoriteCourses(req.params.userId, req.params.courseId);
+  } else {
+    result = await userService.updateSubscribedCourses(req.params.userId, req.params.courseId);
+  }
+  res.send(result);
+});
+
 const updateUser = catchAsync(async (req, res) => {
   const user = await userService.updateUserById(req.params.userId, req.body);
   res.send(user);
@@ -46,6 +58,7 @@ module.exports = {
   createUser,
   getUsers,
   getCourses,
+  updateCourses,
   getUser,
   updateUser,
   deleteUser,

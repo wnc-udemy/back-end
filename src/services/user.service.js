@@ -2,6 +2,8 @@ const mongoose = require('mongoose');
 const httpStatus = require('http-status');
 const { User } = require('../models');
 const ApiError = require('../utils/ApiError');
+const { getCourseById } = require('./course.service');
+const { getSubCategoryByCourseId } = require('./sub-category.service');
 
 /**
  * Create a user
@@ -218,6 +220,68 @@ const getUserById = async (id) => {
 };
 
 /**
+ * Add favorite course by id
+ * @param {ObjectId} id
+ * @returns {Promise<User>}
+ */
+const updateFavoriteCourses = async (userId, courseId) => {
+  const user = await getUserById(userId);
+  if (!user) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
+  }
+
+  const course = await getCourseById(courseId);
+  if (!course) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Course not found');
+  }
+
+  const idx = user.favoriteCourses.findIndex((e) => e.toString() === courseId);
+
+  if (idx !== -1) {
+    user.favoriteCourses.splice(idx, 1);
+  } else {
+    user.favoriteCourses.push(courseId);
+  }
+
+  await user.save();
+  return true;
+};
+
+/**
+ * Add subscribed course by id
+ * @param {ObjectId} id
+ * @returns {Promise<User>}
+ */
+const updateSubscribedCourses = async (userId, courseId) => {
+  const user = await getUserById(userId);
+  if (!user) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
+  }
+
+  const course = await getCourseById(courseId);
+  if (!course) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Course not found');
+  }
+
+  const subCategory = await getSubCategoryByCourseId(courseId);
+  if (!subCategory) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Sub category not found');
+  }
+
+  const idx = user.courses.findIndex((e) => e.toString() === courseId);
+
+  if (idx !== -1) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Course already exist in subscribed courses');
+  }
+
+  user.courses.push(courseId);
+  subCategory.totalRegister[0] += 1;
+  await user.save();
+  await subCategory.save();
+  return true;
+};
+
+/**
  * Get user by email
  * @param {string} email
  * @returns {Promise<User>}
@@ -264,6 +328,8 @@ module.exports = {
   queryUsers,
   queryCourses,
   getUserById,
+  updateFavoriteCourses,
+  updateSubscribedCourses,
   getUserByEmail,
   updateUserById,
   deleteUserById,
