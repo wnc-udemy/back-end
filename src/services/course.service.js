@@ -188,183 +188,13 @@ const queryHighlightCourses = async () => {
  * @returns {Promise<QueryResult>}
  */
 const queryCoursesFilterFollowSubCategory = async (filter, options) => {
-  const {
-    // name,
-    id,
-  } = filter;
+  const { name, id } = filter;
   const { sort, limit, skip } = options;
 
-  return SubCategory.aggregate([
-    {
-      $match: {
-        _id: id,
-      },
-    },
-    {
-      $project: {
-        _id: 1,
-        courses: 1,
-        total: { $size: '$courses' },
-      },
-    },
-    {
-      $lookup: {
-        from: 'course',
-        localField: 'courses',
-        foreignField: '_id',
-        as: 'courses',
-      },
-    },
-    {
-      $unwind: {
-        path: '$courses',
-        preserveNullAndEmptyArrays: true,
-      },
-    },
-    {
-      $lookup: {
-        from: 'user',
-        localField: 'courses.instructor',
-        foreignField: '_id',
-        as: 'courses.instructor',
-      },
-    },
-    {
-      $project: {
-        'courses._id': '$courses._id',
-        'courses.name': '$courses.name',
-        'courses.targets': '$courses.targets',
-        'courses.introDescription': { $trim: { input: '$courses.introDescription' } },
-        'courses.instructorName': '$courses.instructor.name',
-        'courses.averageRating': '$courses.averageRating',
-        'courses.totalTime': '$courses.totalTime',
-        'courses.totalLecture': '$courses.totalLecture',
-        'courses.urlThumb': '$courses.urlThumb',
-        'courses.createdAt': '$courses.createdAt',
-        'courses.totalComment': { $size: '$courses.comments' },
-        'courses.totalViewer': { $size: '$courses.viewers' },
-        total: 1,
-      },
-    },
-    {
-      $unwind: '$courses.instructorName',
-    },
-    { $sort: sort },
-    { $limit: limit },
-    { $skip: skip },
-    {
-      $group: {
-        _id: '$_id',
-        courses: { $push: '$courses' },
-        total: { $first: '$total' },
-      },
-    },
-  ]);
-};
+  const { courses: courseIDs } = await SubCategory.findById(id);
 
-/**
- * Query for courses follow category
- * @param {Object} filter - Mongo filter
- * @param {Object} options - Query options
- * @param {string} [options.sortBy] - Sort option in the format: sortField:(desc|asc)
- * @param {number} [options.limit] - Maximum number of results per page (default = 10)
- * @param {number} [options.page] - Current page (default = 1)
- * @returns {Promise<QueryResult>}
- */
-const queryCoursesFilterFollowCategory = async (filter, options) => {
-  const {
-    // name,
-    id,
-  } = filter;
-  const { sort, limit, skip } = options;
-
-  return Category.aggregate([
-    {
-      $match: {
-        _id: id,
-      },
-    },
-    {
-      $project: {
-        _id: 1,
-        courses: 1,
-        total: { $size: '$courses' },
-      },
-    },
-    {
-      $lookup: {
-        from: 'course',
-        localField: 'courses',
-        foreignField: '_id',
-        as: 'courses',
-      },
-    },
-    {
-      $unwind: {
-        path: '$courses',
-        preserveNullAndEmptyArrays: true,
-      },
-    },
-    {
-      $lookup: {
-        from: 'user',
-        localField: 'courses.instructor',
-        foreignField: '_id',
-        as: 'courses.instructor',
-      },
-    },
-    {
-      $project: {
-        'courses._id': '$courses._id',
-        'courses.name': '$courses.name',
-        'courses.targets': '$courses.targets',
-        'courses.introDescription': { $trim: { input: '$courses.introDescription' } },
-        'courses.instructorName': '$courses.instructor.name',
-        'courses.averageRating': '$courses.averageRating',
-        'courses.totalTime': '$courses.totalTime',
-        'courses.totalLecture': '$courses.totalLecture',
-        'courses.urlThumb': '$courses.urlThumb',
-        'courses.createdAt': '$courses.createdAt',
-        'courses.totalComment': { $size: '$courses.comments' },
-        'courses.totalViewer': { $size: '$courses.viewers' },
-        total: 1,
-      },
-    },
-    {
-      $unwind: '$courses.instructorName',
-    },
-    { $sort: sort },
-    { $limit: limit },
-    { $skip: skip },
-    {
-      $group: {
-        _id: '$_id',
-        courses: { $push: '$courses' },
-        total: { $first: '$total' },
-      },
-    },
-  ]);
-};
-
-/**
- * Query for courses follow category
- * @param {Object} filter - Mongo filter
- * @param {Object} options - Query options
- * @param {string} [options.sortBy] - Sort option in the format: sortField:(desc|asc)
- * @param {number} [options.limit] - Maximum number of results per page (default = 10)
- * @param {number} [options.page] - Current page (default = 1)
- * @returns {Promise<QueryResult>}
- */
-const queryCoursesFilter = async (filter, options) => {
-  const { name } = filter;
-  const { sort, limit, skip } = options;
-
-  const total = await Course.find({ $text: { $search: name } }).count();
-
-  const courses = await Course.aggregate([
-    {
-      $match: { $text: { $search: name } },
-    },
+  const queryFilter = [
+    { $match: { _id: { $in: courseIDs } } },
     {
       $lookup: {
         from: 'user',
@@ -395,7 +225,171 @@ const queryCoursesFilter = async (filter, options) => {
     { $sort: sort },
     { $limit: limit },
     { $skip: skip },
+  ];
+
+  const queryTotal = {
+    _id: { $in: courseIDs },
+  };
+
+  if (name.length > 0) {
+    queryFilter.unshift({
+      $match: { $text: { $search: name } },
+    });
+
+    queryTotal.$text = { $search: name };
+  }
+
+  const total = await Course.find(queryTotal).count();
+  const courses = await Course.aggregate(queryFilter);
+
+  return [{ courses, total }];
+};
+
+/**
+ * Query for courses follow category
+ * @param {Object} filter - Mongo filter
+ * @param {Object} options - Query options
+ * @param {string} [options.sortBy] - Sort option in the format: sortField:(desc|asc)
+ * @param {number} [options.limit] - Maximum number of results per page (default = 10)
+ * @param {number} [options.page] - Current page (default = 1)
+ * @returns {Promise<QueryResult>}
+ */
+const queryCoursesFilterFollowCategory = async (filter, options) => {
+  const { name, id } = filter;
+  const { sort, limit, skip } = options;
+
+  const result = await Category.aggregate([
+    { $match: { _id: id } },
+    {
+      $lookup: {
+        from: 'sub-category',
+        localField: 'subCategories',
+        foreignField: '_id',
+        as: 'subCategories',
+      },
+    },
+    { $unwind: '$subCategories' },
+    { $group: { _id: '$_id', IDs: { $push: '$subCategories.courses' } } },
   ]);
+
+  const { IDs } = result[0];
+  let courseIDs = [];
+
+  IDs.forEach((e) => {
+    courseIDs = [...courseIDs, ...e];
+  });
+
+  const queryFilter = [
+    { $match: { _id: { $in: courseIDs } } },
+    {
+      $lookup: {
+        from: 'user',
+        localField: 'instructor',
+        foreignField: '_id',
+        as: 'instructor',
+      },
+    },
+    {
+      $project: {
+        name: 1,
+        targets: 1,
+        introDescription: { $trim: { input: '$courses.introDescription' } },
+        instructorName: '$instructor.name',
+        averageRating: 1,
+        totalTime: 1,
+        totalLecture: 1,
+        urlThumb: 1,
+        createdAt: 1,
+        totalComment: { $size: '$comments' },
+        totalViewer: { $size: '$viewers' },
+        total: 1,
+      },
+    },
+    {
+      $unwind: '$instructorName',
+    },
+    { $sort: sort },
+    { $limit: limit },
+    { $skip: skip },
+  ];
+
+  const queryTotal = {
+    _id: { $in: courseIDs },
+  };
+
+  if (name.length > 0) {
+    queryFilter.unshift({
+      $match: { $text: { $search: name } },
+    });
+
+    queryTotal.$text = { $search: name };
+  }
+
+  const total = await Course.find(queryTotal).count();
+  const courses = await Course.aggregate(queryFilter);
+
+  return [{ courses, total }];
+};
+
+/**
+ * Query for courses follow category
+ * @param {Object} filter - Mongo filter
+ * @param {Object} options - Query options
+ * @param {string} [options.sortBy] - Sort option in the format: sortField:(desc|asc)
+ * @param {number} [options.limit] - Maximum number of results per page (default = 10)
+ * @param {number} [options.page] - Current page (default = 1)
+ * @returns {Promise<QueryResult>}
+ */
+const queryCoursesFilter = async (filter, options) => {
+  const { name } = filter;
+  const { sort, limit, skip } = options;
+
+  const queryFilter = [
+    {
+      $lookup: {
+        from: 'user',
+        localField: 'instructor',
+        foreignField: '_id',
+        as: 'instructor',
+      },
+    },
+    {
+      $project: {
+        name: 1,
+        targets: 1,
+        introDescription: { $trim: { input: '$courses.introDescription' } },
+        instructorName: '$instructor.name',
+        averageRating: 1,
+        totalTime: 1,
+        totalLecture: 1,
+        urlThumb: 1,
+        createdAt: 1,
+        totalComment: { $size: '$comments' },
+        totalViewer: { $size: '$viewers' },
+        total: 1,
+      },
+    },
+    {
+      $unwind: '$instructorName',
+    },
+    { $sort: sort },
+    { $limit: limit },
+    { $skip: skip },
+  ];
+
+  const queryTotal = {};
+
+  if (name.length > 0) {
+    queryFilter.unshift({
+      $match: { $text: { $search: name } },
+    });
+
+    queryTotal.$text = { $search: name };
+  }
+
+  const total = await Course.find(queryTotal).count();
+
+  const courses = await Course.aggregate(queryFilter);
 
   return [{ courses, total }];
 };
@@ -428,12 +422,15 @@ const queryAdvanceFilterCourses = async (filter, options) => {
 
   let result;
 
-  if (subCategoryID !== undefined) {
-    result = await queryCoursesFilterFollowSubCategory({ id: subCategoryID, name: filter.name }, { limit, skip, sort });
-  } else if (categoryID !== undefined) {
-    result = await queryCoursesFilterFollowCategory({ id: categoryID, name: filter.name }, { limit, skip, sort });
+  if (categoryID !== undefined && subCategoryID !== undefined) {
+    result = await queryCoursesFilterFollowSubCategory(
+      { id: subCategoryID, name: filter.name || '' },
+      { limit, skip, sort }
+    );
+  } else if (categoryID !== undefined && subCategoryID === undefined) {
+    result = await queryCoursesFilterFollowCategory({ id: categoryID, name: filter.name || '' }, { limit, skip, sort });
   } else {
-    result = await queryCoursesFilter({ name: filter.name }, { limit, skip, sort });
+    result = await queryCoursesFilter({ name: filter.name || '' }, { limit, skip, sort });
   }
 
   const { courses, total: totalResults } = result[0];
