@@ -456,6 +456,59 @@ const queryCourses = async (filter, options) => {
 /**
  * Get course by id
  * @param {ObjectId} id
+ * @returns {Promise<SubCategory>}
+ */
+const getCourseLectureById = async (id) => {
+  const courseID = new mongoose.Types.ObjectId(id);
+  const result = await Course.aggregate([
+    {
+      $match: {
+        _id: courseID,
+      },
+    },
+    {
+      $lookup: {
+        from: 'section',
+        localField: 'sections',
+        foreignField: '_id',
+        as: 'sections',
+      },
+    },
+    {
+      $unwind: {
+        path: '$sections',
+        preserveNullAndEmptyArrays: true,
+      },
+    },
+    {
+      $lookup: {
+        from: 'lecture',
+        localField: 'sections.lectures',
+        foreignField: '_id',
+        as: 'sections.lectures',
+      },
+    },
+    {
+      $group: {
+        _id: '$_id',
+        array: { $push: '$sections.lectures' },
+      },
+    },
+  ]);
+
+  const { array } = result[0];
+  let lectures = [];
+
+  array.forEach((e) => {
+    lectures = [...lectures, ...e];
+  });
+
+  return lectures;
+};
+
+/**
+ * Get course by id
+ * @param {ObjectId} id
  * @returns {Promise<Category>}
  */
 const getCourseById = async (id) => {
@@ -742,6 +795,7 @@ module.exports = {
   getCourseById,
   getCourseCommentById,
   getCourseSectionById,
+  getCourseLectureById,
   getCourseSimilarById,
   updateCourseById,
   deleteCourseById,

@@ -17,14 +17,22 @@ const historySchema = mongoose.Schema(
       type: Number,
       default: 0,
     },
-    lecture: {
-      type: mongoose.SchemaTypes.ObjectId,
-      ref: 'Lecture',
+    url: {
+      type: String,
+      required: true,
+    },
+    type: {
+      type: Number,
       required: true,
     },
     course: {
       type: mongoose.SchemaTypes.ObjectId,
       ref: 'Course',
+      required: true,
+    },
+    section: {
+      type: mongoose.SchemaTypes.ObjectId,
+      ref: 'Section',
       required: true,
     },
   },

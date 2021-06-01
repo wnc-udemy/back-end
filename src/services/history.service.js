@@ -1,4 +1,5 @@
 const httpStatus = require('http-status');
+const mongoose = require('mongoose');
 const { History } = require('../models');
 const ApiError = require('../utils/ApiError');
 
@@ -13,6 +14,17 @@ const createHistory = async (historyBody) => {
 };
 
 /**
+ * Create a multi history
+ * @param {Object} historyBodies
+ * @returns {Promise<Ids>}
+ */
+const createMultiHistory = async (historyBodies) => {
+  const histories = await History.insertMany(historyBodies);
+  const Ids = histories.map((e) => e._id);
+  return Ids;
+};
+
+/**
  * Query for histories
  * @param {Object} filter - Mongo filter
  * @param {Object} options - Query options
@@ -23,6 +35,52 @@ const createHistory = async (historyBody) => {
  */
 const queryHistories = async (filter, options) => {
   const histories = await History.paginate(filter, options);
+  return histories;
+};
+
+/**
+ * Get histories by course id
+ * @param {ObjectId} id
+ * @returns {Promise<History>}
+ */
+const getHistoriesByCourseId = async (id) => {
+  const courseID = new mongoose.Types.ObjectId(id);
+  const histories = await History.aggregate([
+    {
+      $match: {
+        course: courseID,
+      },
+    },
+    {
+      $group: {
+        _id: '$section',
+        lectures: { $push: '$$ROOT' },
+      },
+    },
+    {
+      $lookup: {
+        from: 'section',
+        localField: '_id',
+        foreignField: '_id',
+        as: 'section',
+      },
+    },
+    {
+      $project: {
+        lectures: 1,
+        _id: 1,
+        name: '$section.name',
+        totalTime: '$section.totalTime',
+      },
+    },
+    {
+      $unwind: '$name',
+    },
+    {
+      $unwind: '$totalTime',
+    },
+  ]);
+
   return histories;
 };
 
@@ -67,8 +125,10 @@ const deleteHistoryById = async (historyId) => {
 
 module.exports = {
   createHistory,
+  createMultiHistory,
   queryHistories,
   getHistoryById,
+  getHistoriesByCourseId,
   updateHistoryById,
   deleteHistoryById,
 };

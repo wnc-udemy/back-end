@@ -24,6 +24,11 @@ const getCourses = catchAsync(async (req, res) => {
   res.send(result);
 });
 
+const getHistories = catchAsync(async (req, res) => {
+  const result = await userService.getHistories(req.params.userId, req.params.courseId);
+  res.send(result);
+});
+
 const getUser = catchAsync(async (req, res) => {
   const user = await userService.getUserById(req.params.userId);
   if (!user) {
@@ -59,6 +64,7 @@ module.exports = {
   getUsers,
   getCourses,
   updateCourses,
+  getHistories,
   getUser,
   updateUser,
   deleteUser,

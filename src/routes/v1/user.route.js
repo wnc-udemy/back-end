@@ -15,6 +15,8 @@ router.route('/:userId/courses').get(validate(userValidation.getCourses), userCo
 
 router.route('/:userId/:courseId').get(validate(userValidation.addCourse), userController.updateCourses);
 
+router.route('/:userId/courses/:courseId').get(validate(userValidation.getHistories), userController.getHistories);
+
 router
   .route('/:userId')
   .get(auth('getUsers'), validate(userValidation.getUser), userController.getUser)
@@ -237,6 +239,52 @@ module.exports = router;
  *   get:
  *     summary: Add course for a user
  *     description: Only owner user can be add their course.
+ *     tags: [Users]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: userId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: User id
+ *       - in: path
+ *         name: courseId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Course id
+ *       - in: query
+ *         name: type
+ *         schema:
+ *           type: number
+ *           enum:
+ *              - 0
+ *              - 1
+ *           default: 0
+ *         description: 'Type add course 0: subscribed, 1: favorite'
+ *     responses:
+ *       "200":
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *                $ref: '#/components/schemas/User'
+ *       "401":
+ *         $ref: '#/components/responses/Unauthorized'
+ *       "403":
+ *         $ref: '#/components/responses/Forbidden'
+ *       "404":
+ *         $ref: '#/components/responses/NotFound'
+ */
+
+/**
+ * @swagger
+ * /users/{userId}/courses/{courseId}:
+ *   get:
+ *     summary: Get histories of course for a user
+ *     description: Only owner user can be get their histories course.
  *     tags: [Users]
  *     security:
  *       - bearerAuth: []
