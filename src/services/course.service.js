@@ -1,7 +1,7 @@
 const httpStatus = require('http-status');
 const moment = require('moment');
 const mongoose = require('mongoose');
-const { Course, SubCategory, Category } = require('../models');
+const { Course, SubCategory, Category, User } = require('../models');
 const ApiError = require('../utils/ApiError');
 
 /**
@@ -454,6 +454,258 @@ const queryCourses = async (filter, options) => {
 };
 
 /**
+ * Query for subscribed courses of user
+ * @returns {Promise<QueryResult>}
+ */
+const querySubscribedCourses = async (id, pagination) => {
+  const { limit, skip } = pagination;
+  const result = await User.aggregate([
+    {
+      $match: {
+        _id: id,
+      },
+    },
+    {
+      $project: {
+        _id: 1,
+        courses: 1,
+        total: { $size: '$courses' },
+      },
+    },
+    {
+      $lookup: {
+        from: 'course',
+        localField: 'courses',
+        foreignField: '_id',
+        as: 'courses',
+      },
+    },
+    {
+      $unwind: {
+        path: '$courses',
+        preserveNullAndEmptyArrays: true,
+      },
+    },
+    {
+      $lookup: {
+        from: 'user',
+        localField: 'courses.instructor',
+        foreignField: '_id',
+        as: 'courses.instructor',
+      },
+    },
+    {
+      $project: {
+        'courses._id': '$courses._id',
+        'courses.name': '$courses.name',
+        'courses.targets': '$courses.targets',
+        'courses.introDescription': { $trim: { input: '$courses.introDescription' } },
+        'courses.instructorName': '$courses.instructor.name',
+        'courses.averageRating': '$courses.averageRating',
+        'courses.totalTime': '$courses.totalTime',
+        'courses.totalLecture': '$courses.totalLecture',
+        'courses.urlThumb': '$courses.urlThumb',
+        'courses.createdAt': '$courses.createdAt',
+        'courses.totalComment': {
+          $cond: { if: { $ne: ['$courses.comments', undefined] }, then: 1, else: { $size: '$courses.comments' } },
+        },
+        'courses.totalViewer': {
+          $cond: { if: { $ne: ['$courses.viewers', undefined] }, then: 1, else: { $size: '$courses.viewers' } },
+        },
+        total: 1,
+      },
+    },
+    {
+      $unwind: '$courses.instructorName',
+    },
+    { $limit: limit },
+    { $skip: skip },
+    {
+      $group: {
+        _id: '$_id',
+        courses: { $push: '$courses' },
+        total: { $first: '$total' },
+      },
+    },
+  ]);
+
+  if (result.length === 0) {
+    return { courses: [], total: 0 };
+  }
+
+  return result[0];
+};
+
+/**
+ * Query for favorite courses of user
+ * @returns {Promise<QueryResult>}
+ */
+const queryFavoriteCourses = async (id, pagination) => {
+  const { limit, skip } = pagination;
+  const result = await User.aggregate([
+    {
+      $match: {
+        _id: id,
+      },
+    },
+    {
+      $project: {
+        _id: 0,
+        courses: '$favoriteCourses',
+        total: { $size: '$favoriteCourses' },
+      },
+    },
+    {
+      $lookup: {
+        from: 'course',
+        localField: 'courses',
+        foreignField: '_id',
+        as: 'courses',
+      },
+    },
+    {
+      $unwind: {
+        path: '$courses',
+        preserveNullAndEmptyArrays: true,
+      },
+    },
+    {
+      $lookup: {
+        from: 'user',
+        localField: 'courses.instructor',
+        foreignField: '_id',
+        as: 'courses.instructor',
+      },
+    },
+    {
+      $project: {
+        'courses._id': '$courses._id',
+        'courses.name': '$courses.name',
+        'courses.targets': '$courses.targets',
+        'courses.introDescription': { $trim: { input: '$courses.introDescription' } },
+        'courses.instructorName': '$courses.instructor.name',
+        'courses.averageRating': '$courses.averageRating',
+        'courses.totalTime': '$courses.totalTime',
+        'courses.totalLecture': '$courses.totalLecture',
+        'courses.urlThumb': '$courses.urlThumb',
+        'courses.createdAt': '$courses.createdAt',
+        'courses.totalComment': {
+          $cond: { if: { $ne: ['$courses.comments', undefined] }, then: 1, else: { $size: '$courses.comments' } },
+        },
+        'courses.totalViewer': {
+          $cond: { if: { $ne: ['$courses.viewers', undefined] }, then: 1, else: { $size: '$courses.viewers' } },
+        },
+        total: 1,
+      },
+    },
+    {
+      $unwind: '$courses.instructorName',
+    },
+    { $limit: limit },
+    { $skip: skip },
+    {
+      $group: {
+        _id: '$_id',
+        courses: { $push: '$courses' },
+        total: { $first: '$total' },
+      },
+    },
+  ]);
+
+  if (result.length === 0) {
+    return { courses: [], total: 0 };
+  }
+
+  return result[0];
+};
+
+/**
+ * Query for your created courses of user
+ * @returns {Promise<QueryResult>}
+ */
+const queryYourCreatedCourses = async (id, pagination) => {
+  const { limit, skip } = pagination;
+
+  const total = await Course.find({ instructor: id }).count();
+
+  const courses = await Course.aggregate([
+    {
+      $match: {
+        instructor: id,
+      },
+    },
+    {
+      $lookup: {
+        from: 'user',
+        localField: 'instructor',
+        foreignField: '_id',
+        as: 'instructor',
+      },
+    },
+    {
+      $project: {
+        _id: 1,
+        name: 1,
+        targets: 1,
+        introDescription: { $trim: { input: '$introDescription' } },
+        instructorName: '$instructor.name',
+        averageRating: 1,
+        totalTime: 1,
+        totalLecture: 1,
+        urlThumb: 1,
+        createdAt: 1,
+        totalComment: { $size: '$comments' },
+        totalViewer: { $size: '$viewers' },
+      },
+    },
+    {
+      $unwind: '$instructorName',
+    },
+    { $limit: limit },
+    { $skip: skip },
+  ]);
+
+  return { courses, total };
+};
+
+/**
+ * Query for users
+ * @param {Object} filter - Mongo filter
+ * @param {Object} options - Query options
+ * @param {string} [options.sortBy] - Sort option in the format: sortField:(desc|asc)
+ * @param {number} [options.limit] - Maximum number of results per page (default = 10)
+ * @param {number} [options.page] - Current page (default = 1)
+ * @returns {Promise<QueryResult>}
+ */
+const queryCoursesByUserId = async (id, filter, options) => {
+  const userID = new mongoose.Types.ObjectId(id);
+  const limit = options.limit && parseInt(options.limit, 10) > 0 ? parseInt(options.limit, 10) : 10;
+  const page = options.page && parseInt(options.page, 10) > 0 ? parseInt(options.page, 10) : 1;
+  const skip = (page - 1) * limit;
+  const { type } = filter;
+
+  let result;
+
+  // subscribed
+  if (type === 0) {
+    result = await querySubscribedCourses(userID, { limit, skip });
+  }
+  // favorite
+  else if (type === 1) {
+    result = await queryFavoriteCourses(userID, { limit, skip });
+  }
+  // your created
+  else {
+    result = await queryYourCreatedCourses(userID, { limit, skip });
+  }
+
+  const { courses, total: totalResults } = result;
+  const totalPages = Math.ceil(totalResults / limit);
+
+  return { courses, page, limit, totalPages, totalResults };
+};
+
+/**
  * Get course by id
  * @param {ObjectId} id
  * @returns {Promise<SubCategory>}
@@ -511,12 +763,12 @@ const getCourseLectureById = async (id) => {
  * @param {ObjectId} id
  * @returns {Promise<Category>}
  */
-const getCourseById = async (id) => {
-  const courseID = new mongoose.Types.ObjectId(id);
+const getCourseDetailById = async (id) => {
+  const courseId = new mongoose.Types.ObjectId(id);
   const list = await Course.aggregate([
     {
       $match: {
-        _id: courseID,
+        _id: courseId,
       },
     },
     {
@@ -562,12 +814,22 @@ const getCourseById = async (id) => {
 };
 
 /**
+ * get course by id
+ * @param {ObjectId} id
+ * @returns {Promise<Category>}
+ */
+const getCourseById = async (id) => {
+  return Course.findById(id);
+};
+
+/**
  * Get course by id
  * @param {ObjectId} id
  * @returns {Promise<Category>}
  */
 const getCourseCommentById = async (id) => {
   const courseID = new mongoose.Types.ObjectId(id);
+
   const list = await Course.aggregate([
     {
       $match: {
@@ -617,35 +879,35 @@ const getCourseCommentById = async (id) => {
     },
   ]);
 
-  const course = list[0];
-  const total = course.comments.length;
-  course.ratingRate = [0, 0, 0, 0, 0];
+  const item = list[0];
+  const total = item.comments.length;
+  item.ratingRate = [0, 0, 0, 0, 0];
 
-  course.comments.forEach((element) => {
+  item.comments.forEach((element) => {
     switch (element.rating) {
       case 1:
-        course.ratingRate[0] += 1;
+        item.ratingRate[0] += 1;
         break;
       case 2:
-        course.ratingRate[1] += 1;
+        item.ratingRate[1] += 1;
         break;
       case 3:
-        course.ratingRate[2] += 1;
+        item.ratingRate[2] += 1;
         break;
       case 4:
-        course.ratingRate[3] += 1;
+        item.ratingRate[3] += 1;
         break;
       default:
-        course.ratingRate[4] += 1;
+        item.ratingRate[4] += 1;
         break;
     }
   });
 
-  course.ratingRate.forEach((element, index) => {
-    course.ratingRate[index] = Math.round((element / total) * 100);
+  item.ratingRate.forEach((element, index) => {
+    item.ratingRate[index] = Math.round((element / total) * 100);
   });
 
-  return course;
+  return item;
 };
 
 /**
@@ -655,6 +917,7 @@ const getCourseCommentById = async (id) => {
  */
 const getCourseSectionById = async (id) => {
   const courseID = new mongoose.Types.ObjectId(id);
+
   const list = await Course.aggregate([
     {
       $match: {
@@ -792,7 +1055,9 @@ module.exports = {
   queryLatestCourses,
   queryHighlightCourses,
   queryAdvanceFilterCourses,
+  queryCoursesByUserId,
   getCourseById,
+  getCourseDetailById,
   getCourseCommentById,
   getCourseSectionById,
   getCourseLectureById,

@@ -175,8 +175,9 @@ module.exports = router;
  *           enum:
  *              - 0
  *              - 1
+ *              - 2
  *           default: 0
- *         description: 'Type get courses 0: subscribed, 1: favorite'
+ *         description: 'Type get courses 0: subscribed, 1: favorite, 2: your created'
  *       - in: query
  *         name: name
  *         schema:

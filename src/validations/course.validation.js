@@ -8,12 +8,9 @@ const createCourse = {
     urlThumb: Joi.string().required(),
     fee: Joi.number().precision(2).required(),
     discount: Joi.number().min(0).max(100),
-    averageRating: Joi.number().precision(2).min(0).max(5),
     introDescription: Joi.string().required(),
     detailDescription: Joi.string().required(),
-    updatedAt: Joi.date(),
     instructor: Joi.string().custom(objectId).required(),
-    status: Joi.number(),
   }),
 };
 

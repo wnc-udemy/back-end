@@ -2,7 +2,7 @@ const httpStatus = require('http-status');
 const pick = require('../utils/pick');
 const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
-const { userService } = require('../services');
+const { userService, courseService } = require('../services');
 
 const createUser = catchAsync(async (req, res) => {
   const user = await userService.createUser(req.body);
@@ -20,7 +20,7 @@ const getCourses = catchAsync(async (req, res) => {
   const filter = pick(req.query, ['name', 'type']);
   const options = pick(req.query, ['sortBy', 'limit', 'page']);
 
-  const result = await userService.queryCourses(req.params.userId, filter, options);
+  const result = await courseService.queryCoursesByUserId(req.params.userId, filter, options);
   res.send(result);
 });
 

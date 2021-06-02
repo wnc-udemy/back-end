@@ -42,35 +42,52 @@ const getCourses = catchAsync(async (req, res) => {
 });
 
 const getCourse = catchAsync(async (req, res) => {
-  const course = await courseService.getCourseById(req.params.courseId);
-  if (!course) {
+  const item = await courseService.getCourseById(req.params.courseId);
+  if (!item) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Course not found');
   }
-  res.send(course);
+
+  // const { _id } = req.user;
+
+  // const idx = item.viewers.findIndex((e) => e.toString() === _id.toString());
+
+  // if (idx === -1) {
+  //   item.viewers.push(_id);
+  //   await item.save();
+  // }
+
+  const result = await courseService.getCourseDetailById(req.params.courseId);
+  res.send(result);
 });
 
 const getCourseComment = catchAsync(async (req, res) => {
-  const course = await courseService.getCourseCommentById(req.params.courseId);
-  if (!course) {
+  const item = await courseService.getCourseById(req.params.courseId);
+  if (!item) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Course not found');
   }
-  res.send(course);
+
+  const result = await courseService.getCourseCommentById(req.params.courseId);
+  res.send(result);
 });
 
 const getCourseSection = catchAsync(async (req, res) => {
-  const course = await courseService.getCourseSectionById(req.params.courseId);
-  if (!course) {
+  const item = await courseService.getCourseById(req.params.courseId);
+  if (!item) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Course not found');
   }
-  res.send(course);
+
+  const result = await courseService.getCourseSectionById(req.params.courseId);
+  res.send(result);
 });
 
 const getCourseSimilar = catchAsync(async (req, res) => {
-  const course = await courseService.getCourseSimilarById(req.params.courseId);
-  if (!course) {
+  const item = await courseService.getCourseById(req.params.courseId);
+  if (!item) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Course not found');
   }
-  res.send(course);
+
+  const result = await courseService.getCourseSimilarById(req.params.courseId);
+  res.send(result);
 });
 
 const updateCourse = catchAsync(async (req, res) => {

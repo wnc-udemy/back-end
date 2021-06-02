@@ -2,7 +2,7 @@ const roles = ['user', 'student', 'instructor', 'admin'];
 
 const roleRights = new Map();
 roleRights.set(roles[0], ['manageUsers', 'getCategories']);
-roleRights.set(roles[2], ['getUsers', 'manageUsers', 'getCategories', 'getCourses']);
+roleRights.set(roles[2], ['getUsers', 'manageUsers', 'getCategories', 'getCourses', 'manageCourses']);
 roleRights.set(roles[3], [
   'getUsers',
   'manageUsers',

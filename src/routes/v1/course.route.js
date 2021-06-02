@@ -88,7 +88,6 @@ module.exports = router;
  *               urlThumb: https://www.facebook.com/
  *               fee: 100
  *               discount: 0.3
- *               averageRating: 4.5
  *               introDescription: fake intro description
  *               detailDescription: fake detail description
  *               instructor: 609b9838b28d283ef805f15d
