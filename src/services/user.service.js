@@ -157,7 +157,7 @@ const updateSubscribedCourses = async (userId, courseId) => {
     const { _id: sectionId, lectures } = section;
 
     lectures.forEach((lecture) => {
-      const { _id: lectureId, name, url, lengthTime, type } = lecture;
+      const { _id: lectureId, name, url, lengthTime, type, order } = lecture;
       const history = {
         name,
         url,
@@ -168,6 +168,7 @@ const updateSubscribedCourses = async (userId, courseId) => {
         course: courseId,
         section: sectionId,
         lecture: lectureId,
+        order,
       };
 
       histories.push(history);

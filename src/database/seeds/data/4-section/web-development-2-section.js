@@ -12,6 +12,7 @@ const webDevelopment2Sections = [
       'Web development 2 - Section 1 - Lecture 4',
       'Web development 2 - Section 1 - Lecture 5',
     ]),
+    order: 0,
   },
   {
     _id: getObjectId('Web development 2 - Section 2'),
@@ -25,6 +26,7 @@ const webDevelopment2Sections = [
       'Web development 2 - Section 2 - Lecture 5',
       'Web development 2 - Section 2 - Lecture 6',
     ]),
+    order: 1,
   },
   {
     _id: getObjectId('Web development 2 - Section 3'),
@@ -37,6 +39,7 @@ const webDevelopment2Sections = [
       'Web development 2 - Section 3 - Lecture 4',
       'Web development 2 - Section 3 - Lecture 5',
     ]),
+    order: 2,
   },
   {
     _id: getObjectId('Web development 2 - Section 4'),
@@ -49,6 +52,7 @@ const webDevelopment2Sections = [
       'Web development 2 - Section 3 - Lecture 4',
       'Web development 2 - Section 3 - Lecture 5',
     ]),
+    order: 3,
   },
   {
     _id: getObjectId('Web development 2 - Section 5'),
@@ -61,6 +65,7 @@ const webDevelopment2Sections = [
       'Web development 2 - Section 3 - Lecture 4',
       'Web development 2 - Section 3 - Lecture 5',
     ]),
+    order: 4,
   },
   {
     _id: getObjectId('Web development 2 - Section 6'),
@@ -73,6 +78,7 @@ const webDevelopment2Sections = [
       'Web development 2 - Section 3 - Lecture 4',
       'Web development 2 - Section 3 - Lecture 5',
     ]),
+    order: 5,
   },
   {
     _id: getObjectId('Web development 2 - Section 7'),
@@ -85,6 +91,7 @@ const webDevelopment2Sections = [
       'Web development 2 - Section 3 - Lecture 4',
       'Web development 2 - Section 3 - Lecture 5',
     ]),
+    order: 6,
   },
   {
     _id: getObjectId('Web development 2 - Section 8'),
@@ -96,6 +103,7 @@ const webDevelopment2Sections = [
       'Web development 2 - Section 3 - Lecture 4',
       'Web development 2 - Section 3 - Lecture 5',
     ]),
+    order: 7,
   },
   {
     _id: getObjectId('Web development 2 - Section 9'),
@@ -107,6 +115,7 @@ const webDevelopment2Sections = [
       'Web development 2 - Section 3 - Lecture 4',
       'Web development 2 - Section 3 - Lecture 5',
     ]),
+    order: 8,
   },
   {
     _id: getObjectId('Web development 2 - Section 10'),
@@ -118,6 +127,7 @@ const webDevelopment2Sections = [
       'Web development 2 - Section 3 - Lecture 4',
       'Web development 2 - Section 3 - Lecture 5',
     ]),
+    order: 9,
   },
 ];
 

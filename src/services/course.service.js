@@ -899,11 +899,20 @@ const getCourseSectionById = async (id) => {
       },
     },
     {
+      $sort: { 'sections.order': 1 },
+    },
+    {
       $lookup: {
         from: 'lecture',
         localField: 'sections.lectures',
         foreignField: '_id',
         as: 'sections.lectures',
+      },
+    },
+    {
+      $unwind: {
+        path: '$sections',
+        preserveNullAndEmptyArrays: true,
       },
     },
     {
@@ -916,6 +925,12 @@ const getCourseSectionById = async (id) => {
       },
     },
   ]);
+
+  const { sections } = list[0];
+
+  sections.forEach((e) => {
+    e.lectures.sort((a, b) => a.order - b.order);
+  });
 
   return list[0];
 };

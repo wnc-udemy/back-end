@@ -54,7 +54,18 @@ const getHistoriesByCourseId = async (id) => {
     {
       $group: {
         _id: '$section',
-        lectures: { $push: '$$ROOT' },
+        lectures: {
+          $push: {
+            _id: '$_id',
+            status: '$status',
+            type: '$type',
+            order: '$order',
+            url: '$url',
+            atTime: '$atTime',
+            lengthTime: '$lengthTime',
+            name: '$name',
+          },
+        },
       },
     },
     {
@@ -67,18 +78,23 @@ const getHistoriesByCourseId = async (id) => {
     },
     {
       $project: {
-        lectures: 1,
         _id: 1,
         name: '$section.name',
+        order: '$section.order',
         totalTime: '$section.totalTime',
+        lectures: 1,
       },
     },
     {
       $unwind: '$name',
     },
     {
+      $unwind: '$order',
+    },
+    {
       $unwind: '$totalTime',
     },
+    { $sort: { order: 1 } },
   ]);
 
   return histories;

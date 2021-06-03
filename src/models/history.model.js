@@ -29,6 +29,10 @@ const historySchema = mongoose.Schema(
       type: Number,
       required: true,
     },
+    order: {
+      type: Number,
+      required: true,
+    },
     lecture: {
       type: mongoose.SchemaTypes.ObjectId,
       ref: 'Lecture',

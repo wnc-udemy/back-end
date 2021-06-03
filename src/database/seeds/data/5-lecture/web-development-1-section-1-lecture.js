@@ -8,6 +8,7 @@ const webDevelopment1Section1Lectures = [
     lengthTime: 334,
     type: 0,
     isPreview: true,
+    order: 0,
   },
   {
     _id: getObjectId('Web development 1 - Section 1 - Lecture 2'),
@@ -16,6 +17,7 @@ const webDevelopment1Section1Lectures = [
     lengthTime: 67,
     type: 0,
     isPreview: true,
+    order: 1,
   },
   {
     _id: getObjectId('Web development 1 - Section 1 - Lecture 3'),
@@ -24,6 +26,7 @@ const webDevelopment1Section1Lectures = [
     lengthTime: 145,
     type: 0,
     isPreview: true,
+    order: 2,
   },
   {
     _id: getObjectId('Web development 1 - Section 1 - Lecture 4'),
@@ -32,6 +35,7 @@ const webDevelopment1Section1Lectures = [
     lengthTime: 20,
     type: 1,
     isPreview: true,
+    order: 3,
   },
   {
     _id: getObjectId('Web development 1 - Section 1 - Lecture 5'),
@@ -40,6 +44,7 @@ const webDevelopment1Section1Lectures = [
     lengthTime: 376,
     type: 0,
     isPreview: false,
+    order: 4,
   },
 ];
 
