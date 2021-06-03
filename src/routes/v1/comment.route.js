@@ -53,9 +53,10 @@ module.exports = router;
  *               user:
  *                 type: string
  *             example:
- *               name: fake name
  *               rating: 5
+ *               content: fake content
  *               user: 609b9838b28d283ef805f15d
+ *               course: 600b9838b28d283ef805f15d
  *     responses:
  *       "201":
  *         description: Created
