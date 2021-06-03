@@ -17,7 +17,7 @@ router.route('/:courseId/similar').get(validate(courseValidation.getCourse), cou
 
 router
   .route('/:courseId')
-  .get(validate(courseValidation.getCourse), courseController.getCourse)
+  .get(auth('optionalInfo'), validate(courseValidation.getCourse), courseController.getCourse)
   .patch(auth('manageCourses'), validate(courseValidation.updateCourse), courseController.updateCourse)
   .delete(auth('manageCourses'), validate(courseValidation.deleteCourse), courseController.deleteCourse);
 
@@ -88,8 +88,6 @@ module.exports = router;
  *               urlThumb: https://www.facebook.com/
  *               fee: 100
  *               discount: 0.3
- *               introDescription: fake intro description
- *               detailDescription: fake detail description
  *               instructor: 609b9838b28d283ef805f15d
  *     responses:
  *       "201":

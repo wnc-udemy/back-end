@@ -719,6 +719,7 @@ const getCourseLectureById = async (id) => {
  */
 const getCourseDetailById = async (id) => {
   const courseId = new mongoose.Types.ObjectId(id);
+
   const list = await Course.aggregate([
     {
       $match: {

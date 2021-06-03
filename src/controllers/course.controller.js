@@ -42,21 +42,46 @@ const getCourses = catchAsync(async (req, res) => {
 });
 
 const getCourse = catchAsync(async (req, res) => {
-  const item = await courseService.getCourseById(req.params.courseId);
+  const { courseId } = req.params;
+  const item = await courseService.getCourseById(courseId);
   if (!item) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Course not found');
   }
 
-  // const { _id } = req.user;
+  const result = await courseService.getCourseDetailById(courseId);
 
-  // const idx = item.viewers.findIndex((e) => e.toString() === _id.toString());
+  const { isLogin } = req;
+  const { user } = req;
 
-  // if (idx === -1) {
-  //   item.viewers.push(_id);
-  //   await item.save();
-  // }
+  if (isLogin) {
+    const { _id } = user;
 
-  const result = await courseService.getCourseDetailById(req.params.courseId);
+    const idxViewer = item.viewers.findIndex((e) => e.toString() === _id.toString());
+
+    if (idxViewer === -1) {
+      item.viewers.push(_id);
+      await item.save();
+    }
+
+    const { favoriteCourses, courses } = user;
+
+    const idxFavorite = favoriteCourses.findIndex((e) => e.toString() === courseId.toString());
+
+    if (idxFavorite !== -1) {
+      result.isFavorite = true;
+    } else {
+      result.isFavorite = false;
+    }
+
+    const idxSubscribed = courses.findIndex((e) => e.toString() === courseId.toString());
+
+    if (idxSubscribed !== -1) {
+      result.isAllowComment = true;
+    } else {
+      result.isAllowComment = false;
+    }
+  }
+
   res.send(result);
 });
 
