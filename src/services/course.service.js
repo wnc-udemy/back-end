@@ -925,6 +925,12 @@ const getCourseSectionById = async (id) => {
       },
     },
     {
+      $project: {
+        totalSection: { $size: '$sections' },
+        sections: 1,
+      },
+    },
+    {
       $lookup: {
         from: 'section',
         localField: 'sections',
@@ -950,11 +956,14 @@ const getCourseSectionById = async (id) => {
       $group: {
         _id: '$_id',
         sections: { $push: '$sections' },
+        totalSection: { $first: '$totalSection' },
+        totalTime: { $sum: '$sections.totalTime' },
+        totalLecture: { $sum: { $size: '$sections.lectures' } },
       },
     },
   ]);
 
-  return list[0];
+  return list;
 };
 
 /**
