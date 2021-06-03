@@ -1,7 +1,7 @@
 const httpStatus = require('http-status');
 const moment = require('moment');
 const mongoose = require('mongoose');
-const { Course, SubCategory, Category, User } = require('../models');
+const { Course, SubCategory, Category, User, History } = require('../models');
 const ApiError = require('../utils/ApiError');
 
 /**
@@ -191,10 +191,10 @@ const queryCoursesFilterFollowSubCategory = async (filter, options) => {
   const { name, id } = filter;
   const { sort, limit, skip } = options;
 
-  const { courses: courseIDs } = await SubCategory.findById(id);
+  const { courses: courseIds } = await SubCategory.findById(id);
 
   const queryFilter = [
-    { $match: { _id: { $in: courseIDs } } },
+    { $match: { _id: { $in: courseIds } } },
     {
       $lookup: {
         from: 'user',
@@ -228,7 +228,7 @@ const queryCoursesFilterFollowSubCategory = async (filter, options) => {
   ];
 
   const queryTotal = {
-    _id: { $in: courseIDs },
+    _id: { $in: courseIds },
   };
 
   if (name.length > 0) {
@@ -242,7 +242,7 @@ const queryCoursesFilterFollowSubCategory = async (filter, options) => {
   const total = await Course.find(queryTotal).count();
   const courses = await Course.aggregate(queryFilter);
 
-  return [{ courses, total }];
+  return { courses, total };
 };
 
 /**
@@ -269,18 +269,18 @@ const queryCoursesFilterFollowCategory = async (filter, options) => {
       },
     },
     { $unwind: '$subCategories' },
-    { $group: { _id: '$_id', IDs: { $push: '$subCategories.courses' } } },
+    { $group: { _id: '$_id', Ids: { $push: '$subCategories.courses' } } },
   ]);
 
-  const { IDs } = result[0];
-  let courseIDs = [];
+  const { Ids } = result[0];
+  let courseIds = [];
 
-  IDs.forEach((e) => {
-    courseIDs = [...courseIDs, ...e];
+  Ids.forEach((e) => {
+    courseIds = [...courseIds, ...e];
   });
 
   const queryFilter = [
-    { $match: { _id: { $in: courseIDs } } },
+    { $match: { _id: { $in: courseIds } } },
     {
       $lookup: {
         from: 'user',
@@ -314,7 +314,7 @@ const queryCoursesFilterFollowCategory = async (filter, options) => {
   ];
 
   const queryTotal = {
-    _id: { $in: courseIDs },
+    _id: { $in: courseIds },
   };
 
   if (name.length > 0) {
@@ -328,7 +328,7 @@ const queryCoursesFilterFollowCategory = async (filter, options) => {
   const total = await Course.find(queryTotal).count();
   const courses = await Course.aggregate(queryFilter);
 
-  return [{ courses, total }];
+  return { courses, total };
 };
 
 /**
@@ -391,7 +391,7 @@ const queryCoursesFilter = async (filter, options) => {
 
   const courses = await Course.aggregate(queryFilter);
 
-  return [{ courses, total }];
+  return { courses, total };
 };
 
 /**
@@ -433,7 +433,7 @@ const queryAdvanceFilterCourses = async (filter, options) => {
     result = await queryCoursesFilter({ name: filter.name || '' }, { limit, skip, sort });
   }
 
-  const { courses, total: totalResults } = result[0];
+  const { courses, total: totalResults } = result;
   const totalPages = Math.ceil(totalResults / limit);
 
   return { courses, page, limit, totalPages, totalResults };
@@ -459,81 +459,72 @@ const queryCourses = async (filter, options) => {
  */
 const querySubscribedCourses = async (id, pagination) => {
   const { limit, skip } = pagination;
-  const result = await User.aggregate([
+
+  const { courses: courseIds } = await User.findById(id);
+  const total = courseIds.length;
+
+  const courses = await Course.aggregate([
+    { $match: { _id: { $in: courseIds } } },
     {
-      $match: {
-        _id: id,
+      $lookup: {
+        from: 'user',
+        localField: 'instructor',
+        foreignField: '_id',
+        as: 'instructor',
       },
     },
     {
       $project: {
         _id: 1,
-        courses: 1,
-        total: { $size: '$courses' },
+        name: 1,
+        instructorName: 'instructor.name',
+        averageRating: 1,
+        totalTime: 1,
+        totalLecture: 1,
+        urlThumb: 1,
+        createdAt: 1,
+        totalComment: { $size: '$comments' },
       },
     },
     {
-      $lookup: {
-        from: 'course',
-        localField: 'courses',
-        foreignField: '_id',
-        as: 'courses',
-      },
-    },
-    {
-      $unwind: {
-        path: '$courses',
-        preserveNullAndEmptyArrays: true,
-      },
-    },
-    {
-      $lookup: {
-        from: 'user',
-        localField: 'courses.instructor',
-        foreignField: '_id',
-        as: 'courses.instructor',
-      },
-    },
-    {
-      $project: {
-        'courses._id': '$courses._id',
-        'courses.name': '$courses.name',
-        'courses.targets': '$courses.targets',
-        'courses.introDescription': { $trim: { input: '$courses.introDescription' } },
-        'courses.instructorName': '$courses.instructor.name',
-        'courses.averageRating': '$courses.averageRating',
-        'courses.totalTime': '$courses.totalTime',
-        'courses.totalLecture': '$courses.totalLecture',
-        'courses.urlThumb': '$courses.urlThumb',
-        'courses.createdAt': '$courses.createdAt',
-        'courses.totalComment': {
-          $cond: { if: { $ne: ['$courses.comments', undefined] }, then: 1, else: { $size: '$courses.comments' } },
-        },
-        'courses.totalViewer': {
-          $cond: { if: { $ne: ['$courses.viewers', undefined] }, then: 1, else: { $size: '$courses.viewers' } },
-        },
-        total: 1,
-      },
-    },
-    {
-      $unwind: '$courses.instructorName',
+      $unwind: '$instructorName',
     },
     { $limit: limit },
     { $skip: skip },
+  ]);
+
+  const coursesStatus = await History.aggregate([
+    {
+      $match: {
+        course: { $in: courseIds },
+      },
+    },
+    {
+      $addFields: {
+        totalComplete: { $cond: { if: { $eq: ['$status', 2] }, then: 1, else: 0 } },
+      },
+    },
     {
       $group: {
-        _id: '$_id',
-        courses: { $push: '$courses' },
-        total: { $first: '$total' },
+        _id: '$course',
+        totalComplete: {
+          $sum: '$totalComplete',
+        },
+        totalLecture: { $sum: 1 },
       },
     },
   ]);
 
-  if (result.length === 0) {
-    return { courses: [], total: 0 };
-  }
+  const objCoursesStatus = {};
+  coursesStatus.forEach((e) => {
+    objCoursesStatus[e._id] = e;
+  });
 
-  return result[0];
+  courses.forEach((e) => {
+    e.complete = Math.round((objCoursesStatus[e._id].totalComplete / objCoursesStatus[e._id].totalLecture) * 100);
+  });
+
+  return { courses, total };
 };
 
 /**
@@ -542,81 +533,44 @@ const querySubscribedCourses = async (id, pagination) => {
  */
 const queryFavoriteCourses = async (id, pagination) => {
   const { limit, skip } = pagination;
-  const result = await User.aggregate([
-    {
-      $match: {
-        _id: id,
-      },
-    },
-    {
-      $project: {
-        _id: 0,
-        courses: '$favoriteCourses',
-        total: { $size: '$favoriteCourses' },
-      },
-    },
-    {
-      $lookup: {
-        from: 'course',
-        localField: 'courses',
-        foreignField: '_id',
-        as: 'courses',
-      },
-    },
-    {
-      $unwind: {
-        path: '$courses',
-        preserveNullAndEmptyArrays: true,
-      },
-    },
+
+  const { favoriteCourses: courseIds } = await User.findById(id);
+  const total = courseIds.length;
+
+  const courses = await Course.aggregate([
+    { $match: { _id: { $in: courseIds } } },
     {
       $lookup: {
         from: 'user',
-        localField: 'courses.instructor',
+        localField: 'instructor',
         foreignField: '_id',
-        as: 'courses.instructor',
+        as: 'instructor',
       },
     },
     {
       $project: {
-        'courses._id': '$courses._id',
-        'courses.name': '$courses.name',
-        'courses.targets': '$courses.targets',
-        'courses.introDescription': { $trim: { input: '$courses.introDescription' } },
-        'courses.instructorName': '$courses.instructor.name',
-        'courses.averageRating': '$courses.averageRating',
-        'courses.totalTime': '$courses.totalTime',
-        'courses.totalLecture': '$courses.totalLecture',
-        'courses.urlThumb': '$courses.urlThumb',
-        'courses.createdAt': '$courses.createdAt',
-        'courses.totalComment': {
-          $cond: { if: { $ne: ['$courses.comments', undefined] }, then: 1, else: { $size: '$courses.comments' } },
-        },
-        'courses.totalViewer': {
-          $cond: { if: { $ne: ['$courses.viewers', undefined] }, then: 1, else: { $size: '$courses.viewers' } },
-        },
-        total: 1,
+        _id: 1,
+        name: 1,
+        targets: 1,
+        introDescription: { $trim: { input: '$introDescription' } },
+        instructorName: '$instructor.name',
+        averageRating: 1,
+        totalTime: 1,
+        totalLecture: 1,
+        urlThumb: 1,
+        createdAt: 1,
+        totalComment: { $size: '$comments' },
+        totalViewer: { $size: '$viewers' },
       },
     },
     {
-      $unwind: '$courses.instructorName',
+      $unwind: '$instructorName',
     },
     { $limit: limit },
     { $skip: skip },
-    {
-      $group: {
-        _id: '$_id',
-        courses: { $push: '$courses' },
-        total: { $first: '$total' },
-      },
-    },
   ]);
 
-  if (result.length === 0) {
-    return { courses: [], total: 0 };
-  }
-
-  return result[0];
+  return { courses, total };
 };
 
 /**
@@ -916,12 +870,12 @@ const getCourseCommentById = async (id) => {
  * @returns {Promise<Category>}
  */
 const getCourseSectionById = async (id) => {
-  const courseID = new mongoose.Types.ObjectId(id);
+  const courseId = new mongoose.Types.ObjectId(id);
 
   const list = await Course.aggregate([
     {
       $match: {
-        _id: courseID,
+        _id: courseId,
       },
     },
     {
@@ -963,7 +917,7 @@ const getCourseSectionById = async (id) => {
     },
   ]);
 
-  return list;
+  return list[0];
 };
 
 /**
