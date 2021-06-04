@@ -30,7 +30,7 @@ const saleCourses = [
     detailDescription: `<div class="ud-component--course-landing-page-udlite--description" data-component-props="{&quot;target_audiences&quot;:[&quot;This course is for anyone who wants to learn about web development, regardless of previous experience&quot;,&quot;It's perfect for complete beginners with zero experience&quot;,&quot;It's also great for anyone who does have some experience in a few of the technologies(like HTML and CSS) but not all&quot;,&quot;If you want to take ONE COURSE to learn everything you need to know about web development, take this course&quot;],&quot;description&quot;:&quot;\u003cp\u003e\u003cstrong\u003eCOMPLETELY REDONE ON\u0026nbsp;OCTOBER 12th 2020, WITH OVER 500 BRAND NEW\u0026nbsp;VIDEOS!\u003c/strong\u003e\u003c/p\u003e\u003cp\u003eHi! Welcome to the brand new version of The Web Developer Bootcamp, Udemy's most popular web development course.\u0026nbsp; This course was just completely overhauled to prepare students for the 2021 job market, with over 60 hours of brand new content. This is the \u003cstrong\u003eonly course you need to learn web development. \u003c/strong\u003eThere are a lot of options for online developer training, but this course is without a doubt the most comprehensive and effective on the market.\u0026nbsp; Here's why:\u003c/p\u003e\u003cul\u003e\u003cli\u003e\u003cp\u003eThis is the only Udemy course taught by a professional bootcamp instructor with a track record of success.\u003c/p\u003e\u003c/li\u003e\u003cli\u003e\u003cp\u003e\u003cstrong\u003e94% of my in-person bootcamp students go on to get full-time developer jobs\u003c/strong\u003e. Most of them are complete beginners when I start working with them.\u003c/p\u003e\u003c/li\u003e\u003cli\u003e\u003cp\u003eThe previous 2 bootcamp programs that I taught cost \u003cstrong\u003e$14,000 and $21,000\u003c/strong\u003e.\u0026nbsp; This course is just as comprehensive but with brand new content for a fraction of the price.\u003c/p\u003e\u003c/li\u003e\u003cli\u003e\u003cp\u003eEverything I cover is up-to-date and relevant to 2021's developer job market.\u003cstrong\u003e This course does not cut any corners. I just spent 8 months redoing this behemoth of a course! \u003c/strong\u003e\u003c/p\u003e\u003c/li\u003e\u003cli\u003e\u003cp\u003eWe build 13+ projects, including a \u003cstrong\u003egigantic production application \u003c/strong\u003ecalled YelpCamp. No other course walks you through the creation of such a substantial application.\u003c/p\u003e\u003c/li\u003e\u003cli\u003e\u003cp\u003eThe course is \u003cstrong\u003econstantly updated\u003c/strong\u003e with new content, projects, and modules.\u0026nbsp; Think of it as a subscription to a never-ending supply of developer training.\u003c/p\u003e\u003c/li\u003e\u003cli\u003e\u003cp\u003eYou get to meet my cats and chickens! \u003c/p\u003e\u003c/li\u003e\u003c/ul\u003e\u003cp\u003eWhen you're learning to program you often have to sacrifice learning the exciting and current technologies in favor of the \&quot;beginner friendly\&quot; classes.\u0026nbsp; With this course, you get the best of both worlds.\u0026nbsp; This is a course designed for the complete beginner, yet it covers some of the most exciting and relevant topics in the industry.\u003c/p\u003e\u003cp\u003eThroughout the brand new version of the course we cover tons of tools and technologies including:\u003c/p\u003e\u003cul\u003e\u003cli\u003e\u003cp\u003e\u003cstrong\u003eHTML5\u003c/strong\u003e\u003c/p\u003e\u003c/li\u003e\u003cli\u003e\u003cp\u003e\u003cstrong\u003eCSS3\u003c/strong\u003e\u003c/p\u003e\u003c/li\u003e\u003cli\u003e\u003cp\u003eFlexbox\u003c/p\u003e\u003c/li\u003e\u003cli\u003e\u003cp\u003eResponsive Design\u003c/p\u003e\u003c/li\u003e\u003cli\u003e\u003cp\u003e\u003cstrong\u003eJavaScript (all 2020 modern syntax, ES6, ES2018, etc.)\u003c/strong\u003e\u003c/p\u003e\u003c/li\u003e\u003cli\u003e\u003cp\u003e\u003cstrong\u003eAsynchronous JavaScript \u003c/strong\u003e- Promises, async/await, etc.\u003c/p\u003e\u003c/li\u003e\u003cli\u003e\u003cp\u003e\u003cstrong\u003eAJAX \u003c/strong\u003eand single page apps\u003c/p\u003e\u003c/li\u003e\u003cli\u003e\u003cp\u003eBootstrap 4 and 5 (alpha)\u003c/p\u003e\u003c/li\u003e\u003cli\u003e\u003cp\u003eSemanticUI\u003c/p\u003e\u003c/li\u003e\u003cli\u003e\u003cp\u003eBulma CSS Framework\u003c/p\u003e\u003c/li\u003e\u003cli\u003e\u003cp\u003e\u003cstrong\u003eDOM Manipulation\u003c/strong\u003e\u003c/p\u003e\u003c/li\u003e\u003cli\u003e\u003cp\u003eUnix(Command Line) Commands\u003c/p\u003e\u003c/li\u003e\u003cli\u003e\u003cp\u003e\u003cstrong\u003eNodeJS\u003c/strong\u003e\u003c/p\u003e\u003c/li\u003e\u003cli\u003e\u003cp\u003eNPM\u003c/p\u003e\u003c/li\u003e\u003cli\u003e\u003cp\u003e\u003cstrong\u003eExpressJS\u003c/strong\u003e\u003c/p\u003e\u003c/li\u003e\u003cli\u003e\u003cp\u003eTemplating\u003c/p\u003e\u003c/li\u003e\u003cli\u003e\u003cp\u003e\u003cstrong\u003eREST\u003c/strong\u003e\u003c/p\u003e\u003c/li\u003e\u003cli\u003e\u003cp\u003e\u003cstrong\u003eSQL\u003c/strong\u003e\u0026nbsp;vs. \u003cstrong\u003eNoSQL\u003c/strong\u003e databases\u003c/p\u003e\u003c/li\u003e\u003cli\u003e\u003cp\u003e\u003cstrong\u003eMongoDB\u003c/strong\u003e\u003c/p\u003e\u003c/li\u003e\u003cli\u003e\u003cp\u003eDatabase Associations\u003c/p\u003e\u003c/li\u003e\u003cli\u003e\u003cp\u003e\u003cstrong\u003eSchema Design\u003c/strong\u003e\u003c/p\u003e\u003c/li\u003e\u003cli\u003e\u003cp\u003eMongoose\u003c/p\u003e\u003c/li\u003e\u003cli\u003e\u003cp\u003e\u003cstrong\u003eAuthentication From Scratch\u003c/strong\u003e\u003c/p\u003e\u003c/li\u003e\u003cli\u003e\u003cp\u003eCookies \u0026amp; Sessions\u003c/p\u003e\u003c/li\u003e\u003cli\u003e\u003cp\u003eAuthorization\u003c/p\u003e\u003c/li\u003e\u003cli\u003e\u003cp\u003e\u003cstrong\u003eCommon Security Issues - SQL\u0026nbsp;Injection, XSS, etc.\u003c/strong\u003e\u003c/p\u003e\u003c/li\u003e\u003cli\u003e\u003cp\u003eDeveloper Best Practices\u003c/p\u003e\u003c/li\u003e\u003cli\u003e\u003cp\u003e\u003cstrong\u003eDeploying Apps\u003c/strong\u003e\u003c/p\u003e\u003c/li\u003e\u003cli\u003e\u003cp\u003e\u003cstrong\u003eCloud Databases\u003c/strong\u003e\u003c/p\u003e\u003c/li\u003e\u003cli\u003e\u003cp\u003e\u003cstrong\u003eImage Upload \u003c/strong\u003eand Storage\u003c/p\u003e\u003c/li\u003e\u003cli\u003e\u003cp\u003e\u003cstrong\u003eMaps and Geocoding\u003c/strong\u003e\u003c/p\u003e\u003c/li\u003e\u003c/ul\u003e\u003cp\u003eThis course is also unique in the way that it is structured and presented. Many online courses are just a long series of \&quot;watch as I code\&quot; videos.\u0026nbsp; This course is different. I've incorporated everything I learned in my years of teaching to make this course not only more effective but more engaging. The course includes:\u003cbr\u003e\u003c/p\u003e\u003cul\u003e\u003cli\u003e\u003cp\u003eLectures\u003c/p\u003e\u003c/li\u003e\u003cli\u003e\u003cp\u003eCode-Alongs\u003c/p\u003e\u003c/li\u003e\u003cli\u003e\u003cp\u003eProjects\u003c/p\u003e\u003c/li\u003e\u003cli\u003e\u003cp\u003eExercises\u003c/p\u003e\u003c/li\u003e\u003cli\u003e\u003cp\u003eResearch Assignments\u003c/p\u003e\u003c/li\u003e\u003cli\u003e\u003cp\u003eSlides\u003c/p\u003e\u003c/li\u003e\u003cli\u003e\u003cp\u003eDownloads\u003c/p\u003e\u003c/li\u003e\u003cli\u003e\u003cp\u003eReadings\u003c/p\u003e\u003c/li\u003e\u003cli\u003e\u003cp\u003eToo many pictures of my dog Rusty\u003c/p\u003e\u003c/li\u003e\u003c/ul\u003e\u003cp\u003eIf you have any questions, please don't hesitate to contact me.\u0026nbsp; I got into this industry because I love working with people and helping students learn.\u0026nbsp; Sign up today and see how fun, exciting, and rewarding web development can be!\u003c/p\u003e&quot;}"><div class="udlite-text-sm  styles--description--3y4KY" data-purpose="course-description"><h2 class="udlite-heading-xl styles--description__header--3SNsO">Description</h2><div class="show-more--container--1QLmn"><span id="u107-show-more--1" data-type="checkbox" data-checked="checked" style="display:none"></span><div style="max-height:221px" class="show-more--content--isg5c show-more--with-gradient--2abmN"><div><div data-purpose="safely-set-inner-html:description:description"><p><strong>COMPLETELY REDONE ON&nbsp;OCTOBER 12th 2020, WITH OVER 500 BRAND NEW&nbsp;VIDEOS!</strong></p><p>Hi! Welcome to the brand new version of The Web Developer Bootcamp, Udemy's most popular web development course.&nbsp; This course was just completely overhauled to prepare students for the 2021 job market, with over 60 hours of brand new content. This is the <strong>only course you need to learn web development. </strong>There are a lot of options for online developer training, but this course is without a doubt the most comprehensive and effective on the market.&nbsp; Here's why:</p><ul><li><p>This is the only Udemy course taught by a professional bootcamp instructor with a track record of success.</p></li><li><p><strong>94% of my in-person bootcamp students go on to get full-time developer jobs</strong>. Most of them are complete beginners when I start working with them.</p></li><li><p>The previous 2 bootcamp programs that I taught cost <strong>$14,000 and $21,000</strong>.&nbsp; This course is just as comprehensive but with brand new content for a fraction of the price.</p></li><li><p>Everything I cover is up-to-date and relevant to 2021's developer job market.<strong> This course does not cut any corners. I just spent 8 months redoing this behemoth of a course! </strong></p></li><li><p>We build 13+ projects, including a <strong>gigantic production application </strong>called YelpCamp. No other course walks you through the creation of such a substantial application.</p></li><li><p>The course is <strong>constantly updated</strong> with new content, projects, and modules.&nbsp; Think of it as a subscription to a never-ending supply of developer training.</p></li><li><p>You get to meet my cats and chickens! </p></li></ul><p>When you're learning to program you often have to sacrifice learning the exciting and current technologies in favor of the "beginner friendly" classes.&nbsp; With this course, you get the best of both worlds.&nbsp; This is a course designed for the complete beginner, yet it covers some of the most exciting and relevant topics in the industry.</p><p>Throughout the brand new version of the course we cover tons of tools and technologies including:</p><ul><li><p><strong>HTML5</strong></p></li><li><p><strong>CSS3</strong></p></li><li><p>Flexbox</p></li><li><p>Responsive Design</p></li><li><p><strong>JavaScript (all 2020 modern syntax, ES6, ES2018, etc.)</strong></p></li><li><p><strong>Asynchronous JavaScript </strong>- Promises, async/await, etc.</p></li><li><p><strong>AJAX </strong>and single page apps</p></li><li><p>Bootstrap 4 and 5 (alpha)</p></li><li><p>SemanticUI</p></li><li><p>Bulma CSS Framework</p></li><li><p><strong>DOM Manipulation</strong></p></li><li><p>Unix(Command Line) Commands</p></li><li><p><strong>NodeJS</strong></p></li><li><p>NPM</p></li><li><p><strong>ExpressJS</strong></p></li><li><p>Templating</p></li><li><p><strong>REST</strong></p></li><li><p><strong>SQL</strong>&nbsp;vs. <strong>NoSQL</strong> databases</p></li><li><p><strong>MongoDB</strong></p></li><li><p>Database Associations</p></li><li><p><strong>Schema Design</strong></p></li><li><p>Mongoose</p></li><li><p><strong>Authentication From Scratch</strong></p></li><li><p>Cookies &amp; Sessions</p></li><li><p>Authorization</p></li><li><p><strong>Common Security Issues - SQL&nbsp;Injection, XSS, etc.</strong></p></li><li><p>Developer Best Practices</p></li><li><p><strong>Deploying Apps</strong></p></li><li><p><strong>Cloud Databases</strong></p></li><li><p><strong>Image Upload </strong>and Storage</p></li><li><p><strong>Maps and Geocoding</strong></p></li></ul><p>This course is also unique in the way that it is structured and presented. Many online courses are just a long series of "watch as I code" videos.&nbsp; This course is different. I've incorporated everything I learned in my years of teaching to make this course not only more effective but more engaging. The course includes:<br></p><ul><li><p>Lectures</p></li><li><p>Code-Alongs</p></li><li><p>Projects</p></li><li><p>Exercises</p></li><li><p>Research Assignments</p></li><li><p>Slides</p></li><li><p>Downloads</p></li><li><p>Readings</p></li><li><p>Too many pictures of my dog Rusty</p></li></ul><p>If you have any questions, please don't hesitate to contact me.&nbsp; I got into this industry because I love working with people and helping students learn.&nbsp; Sign up today and see how fun, exciting, and rewarding web development can be!</p></div><div class="styles--audience--2pZ0S" data-purpose="target-audience"><h2 class="udlite-heading-xl styles--audience__title--1Sob_">Who this course is for:</h2><ul class="styles--audience__list--3NCqY"><li>This course is for anyone who wants to learn about web development, regardless of previous experience</li><li>It's perfect for complete beginners with zero experience</li><li>It's also great for anyone who does have some experience in a few of the technologies(like HTML and CSS) but not all</li><li>If you want to take ONE COURSE to learn everything you need to know about web development, take this course</li></ul></div></div></div><button type="button" class="udlite-btn udlite-btn-medium udlite-btn-ghost udlite-heading-sm show-more--focusable-label--14fP5" data-css-toggle-id="u107-show-more--1"><span><span class="show-more--show-more--3ve3e">Show more</span><span class="show-more--show-less--3eSCX">Show less</span></span><svg aria-hidden="true" focusable="false" class="udlite-icon udlite-icon-xsmall show-more--show-more--3ve3e"><use xlink:href="#icon-expand"></use></svg><svg aria-hidden="true" focusable="false" class="udlite-icon udlite-icon-xsmall show-more--show-less--3eSCX"><use xlink:href="#icon-collapse"></use></svg></button></div></div></div>`,
     updatedAt: '2021-05-19T04:10:54.202Z',
     createdAt: '2021-05-10T04:10:54.202Z',
-    status: 0,
+    status: 2,
     instructor: getObjectId('Nguyen Thien Ly'),
     students: getObjectIds(['Hoang Dan An', 'Nguyen Van Linh', 'Vo Cong Kiet', 'Trinh Nhat Sinh']),
     introLectures: [],
@@ -92,7 +92,7 @@ const saleCourses = [
     `,
     updatedAt: '2021-05-19T04:10:54.202Z',
     createdAt: '2021-05-10T04:10:54.202Z',
-    status: 0,
+    status: 2,
     instructor: getObjectId('Nguyen Van Phuoc'),
     students: getObjectIds(['Hoang Thi Ngoc Hanh', 'Hoang Dan An', 'Nguyen Van Linh', 'Vo Kong Kiet', 'Trinh Nhat Sinh']),
     introLectures: [],
@@ -148,7 +148,7 @@ const saleCourses = [
     `,
     updatedAt: '2021-05-24T04:10:54.202Z',
     createdAt: '2021-05-23T04:10:54.202Z',
-    status: 0,
+    status: 2,
     instructor: getObjectId('Tran Van Chau'),
     students: getObjectIds([
       'Hoang Thi Ngoc Hanh',
@@ -193,7 +193,7 @@ const saleCourses = [
     `,
     updatedAt: '2021-05-25T04:10:54.202Z',
     createdAt: '2021-05-25T04:10:54.202Z',
-    status: 0,
+    status: 2,
     instructor: getObjectId('Trinh Quang Nghia'),
     students: getObjectIds([
       'Hoang Thi Ngoc Hanh',
@@ -238,7 +238,7 @@ const saleCourses = [
     `,
     updatedAt: '2021-05-24T04:10:54.202Z',
     createdAt: '2021-05-23T04:10:54.202Z',
-    status: 0,
+    status: 2,
     instructor: getObjectId('Nguyen Van Hau'),
     students: getObjectIds([
       'Hoang Thi Ngoc Hanh',
@@ -287,7 +287,7 @@ const saleCourses = [
     `,
     updatedAt: '2021-05-24T04:10:54.202Z',
     createdAt: '2021-05-23T04:10:54.202Z',
-    status: 0,
+    status: 2,
     instructor: getObjectId('Nguyen Thien Ly'),
     students: getObjectIds([
       'Hoang Thi Ngoc Hanh',
@@ -337,7 +337,7 @@ const saleCourses = [
     `,
     updatedAt: '2021-05-24T04:10:54.202Z',
     createdAt: '2021-05-23T04:10:54.202Z',
-    status: 0,
+    status: 2,
     instructor: getObjectId('Nguyen Van Hau'),
     students: getObjectIds([
       'Hoang Thi Ngoc Hanh',
@@ -386,7 +386,7 @@ const saleCourses = [
     `,
     updatedAt: '2021-05-24T04:10:54.202Z',
     createdAt: '2021-05-23T04:10:54.202Z',
-    status: 0,
+    status: 2,
     instructor: getObjectId('Nguyen Thien Ly'),
     students: getObjectIds([
       'Hoang Thi Ngoc Hanh',
@@ -444,7 +444,7 @@ Andrei is the instructor of the <strong>highest rated Web Development course on 
     `,
     updatedAt: '2021-05-24T04:10:54.202Z',
     createdAt: '2021-05-23T04:10:54.202Z',
-    status: 0,
+    status: 2,
     instructor: getObjectId('Nguyen Van Hau'),
     students: getObjectIds([
       'Hoang Thi Ngoc Hanh',
@@ -498,7 +498,7 @@ Andrei is the instructor of the <strong>highest rated Web Development course on 
     `,
     updatedAt: '2021-05-24T04:10:54.202Z',
     createdAt: '2021-05-23T04:10:54.202Z',
-    status: 0,
+    status: 2,
     instructor: getObjectId('Ngo Ngoc Dang Khoa'),
     students: getObjectIds([
       'Hoang Thi Ngoc Hanh',

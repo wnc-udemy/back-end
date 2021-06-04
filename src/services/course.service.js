@@ -19,7 +19,13 @@ const createCourse = async (courseBody) => {
  * @returns {Promise<QueryResult>}
  */
 const queryMostViewCourses = async () => {
+  // status: 2 - published
   const courses = await Course.aggregate([
+    {
+      $match: {
+        status: 2,
+      },
+    },
     {
       $project: {
         name: 1,
@@ -71,7 +77,14 @@ const queryMostViewCourses = async () => {
  * @returns {Promise<QueryResult>}
  */
 const queryLatestCourses = async () => {
+  // status: 2 - published
+
   const courses = await Course.aggregate([
+    {
+      $match: {
+        status: 2,
+      },
+    },
     {
       $project: {
         name: 1,
@@ -122,12 +135,14 @@ const queryLatestCourses = async () => {
 const queryHighlightCourses = async () => {
   const start = moment().subtract(7, 'days').toDate().toISOString();
 
+  // status: 2 - published
   const courses = await Course.aggregate([
     {
       $match: {
         createdAt: {
           $gte: start,
         },
+        status: 2,
       },
     },
     {
@@ -193,8 +208,9 @@ const queryCoursesFilterFollowSubCategory = async (filter, options) => {
 
   const { courses: courseIds } = await SubCategory.findById(id);
 
+  // status: 2 - published
   const queryFilter = [
-    { $match: { _id: { $in: courseIds } } },
+    { $match: { _id: { $in: courseIds }, status: 2 } },
     {
       $lookup: {
         from: 'user',
@@ -227,8 +243,10 @@ const queryCoursesFilterFollowSubCategory = async (filter, options) => {
     { $skip: skip },
   ];
 
+  // status: 2 - published
   const queryTotal = {
     _id: { $in: courseIds },
+    status: 2,
   };
 
   if (name.length > 0) {
@@ -279,8 +297,9 @@ const queryCoursesFilterFollowCategory = async (filter, options) => {
     courseIds = [...courseIds, ...e];
   });
 
+  // status: 2 - published
   const queryFilter = [
-    { $match: { _id: { $in: courseIds } } },
+    { $match: { _id: { $in: courseIds }, status: 2 } },
     {
       $lookup: {
         from: 'user',
@@ -313,8 +332,10 @@ const queryCoursesFilterFollowCategory = async (filter, options) => {
     { $skip: skip },
   ];
 
+  // status: 2 - published
   const queryTotal = {
     _id: { $in: courseIds },
+    status: 2,
   };
 
   if (name.length > 0) {
@@ -344,7 +365,11 @@ const queryCoursesFilter = async (filter, options) => {
   const { name } = filter;
   const { sort, limit, skip } = options;
 
+  // status: 2 - published
   const queryFilter = [
+    {
+      $match: { status: 2 },
+    },
     {
       $lookup: {
         from: 'user',
@@ -377,7 +402,8 @@ const queryCoursesFilter = async (filter, options) => {
     { $skip: skip },
   ];
 
-  const queryTotal = {};
+  // status: 2 - published
+  const queryTotal = { status: 2 };
 
   if (name.length > 0) {
     queryFilter.unshift({
@@ -461,10 +487,13 @@ const querySubscribedCourses = async (id, pagination) => {
   const { limit, skip } = pagination;
 
   const { courses: courseIds } = await User.findById(id);
-  const total = courseIds.length;
+  const publishedCourses = await Course.find({ _id: { $in: courseIds }, status: 2 });
+  const total = publishedCourses.length;
+  const publishedCourseIds = publishedCourses.map((e) => e._id);
 
+  // status: 2 - published
   const courses = await Course.aggregate([
-    { $match: { _id: { $in: courseIds } } },
+    { $match: { _id: { $in: publishedCourseIds } } },
     {
       $lookup: {
         from: 'user',
@@ -496,7 +525,7 @@ const querySubscribedCourses = async (id, pagination) => {
   const coursesStatus = await History.aggregate([
     {
       $match: {
-        course: { $in: courseIds },
+        course: { $in: publishedCourseIds },
       },
     },
     {
@@ -535,10 +564,11 @@ const queryFavoriteCourses = async (id, pagination) => {
   const { limit, skip } = pagination;
 
   const { favoriteCourses: courseIds } = await User.findById(id);
-  const total = courseIds.length;
+  const total = await Course.find({ _id: { $in: courseIds }, status: 2 }).count();
 
+  // status: 2 - published
   const courses = await Course.aggregate([
-    { $match: { _id: { $in: courseIds } } },
+    { $match: { _id: { $in: courseIds }, status: 2 } },
     {
       $lookup: {
         from: 'user',
@@ -577,15 +607,17 @@ const queryFavoriteCourses = async (id, pagination) => {
  * Query for your created courses of user
  * @returns {Promise<QueryResult>}
  */
-const queryYourCreatedCourses = async (id, pagination) => {
+const queryYourCreatedCourses = async (filter, pagination) => {
   const { limit, skip } = pagination;
+  const { userId, status } = filter;
 
-  const total = await Course.find({ instructor: id }).count();
+  const total = await Course.find({ instructor: userId, status }).count();
 
   const courses = await Course.aggregate([
     {
       $match: {
-        instructor: id,
+        instructor: userId,
+        status,
       },
     },
     {
@@ -632,25 +664,25 @@ const queryYourCreatedCourses = async (id, pagination) => {
  * @returns {Promise<QueryResult>}
  */
 const queryCoursesByUserId = async (id, filter, options) => {
-  const userID = new mongoose.Types.ObjectId(id);
+  const userId = new mongoose.Types.ObjectId(id);
   const limit = options.limit && parseInt(options.limit, 10) > 0 ? parseInt(options.limit, 10) : 10;
   const page = options.page && parseInt(options.page, 10) > 0 ? parseInt(options.page, 10) : 1;
   const skip = (page - 1) * limit;
-  const { type } = filter;
+  const { type, status } = filter;
 
   let result;
 
   // subscribed
   if (type === 0) {
-    result = await querySubscribedCourses(userID, { limit, skip });
+    result = await querySubscribedCourses(userId, { limit, skip });
   }
   // favorite
   else if (type === 1) {
-    result = await queryFavoriteCourses(userID, { limit, skip });
+    result = await queryFavoriteCourses(userId, { limit, skip });
   }
   // your created
   else {
-    result = await queryYourCreatedCourses(userID, { limit, skip });
+    result = await queryYourCreatedCourses({ userId, status }, { limit, skip });
   }
 
   const { courses, total: totalResults } = result;
@@ -1003,11 +1035,7 @@ const getCourseSimilarById = async (id) => {
  * @param {Object} updateBody
  * @returns {Promise<Course>}
  */
-const updateCourseById = async (courseId, updateBody) => {
-  const course = await getCourseById(courseId);
-  if (!course) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'Course not found');
-  }
+const updateCourseById = async (course, updateBody) => {
   Object.assign(course, updateBody);
   await course.save();
   return course;

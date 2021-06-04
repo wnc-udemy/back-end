@@ -5,7 +5,9 @@ const catchAsync = require('../utils/catchAsync');
 const { courseService } = require('../services');
 
 const createCourse = catchAsync(async (req, res) => {
-  const course = await courseService.createCourse(req.body);
+  const { user } = req;
+  const { _id: instructor } = user;
+  const course = await courseService.createCourse({ ...req.body, instructor });
   res.status(httpStatus.CREATED).send(course);
 });
 
@@ -116,7 +118,20 @@ const getCourseSimilar = catchAsync(async (req, res) => {
 });
 
 const updateCourse = catchAsync(async (req, res) => {
-  const course = await courseService.updateCourseById(req.params.courseId, req.body);
+  const { courseId } = req.params;
+  const { user } = req;
+  let course;
+
+  course = await courseService.getCourseById(courseId);
+  if (!course) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Course not found');
+  }
+
+  if (course.instructor.toString() !== user._id.toString()) {
+    throw new ApiError(httpStatus.FORBIDDEN, 'This course was not created by this user');
+  }
+
+  course = await courseService.updateCourseById(course, req.body);
   res.send(course);
 });
 

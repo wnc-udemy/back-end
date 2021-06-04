@@ -17,10 +17,22 @@ const getUsers = catchAsync(async (req, res) => {
 });
 
 const getCourses = catchAsync(async (req, res) => {
-  const filter = pick(req.query, ['name', 'type']);
+  const { user: userAuth } = req;
+  const { userId } = req.params;
+
+  const user = await userService.getUserById(userId);
+  if (!user) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
+  }
+
+  if (userAuth._id.toString() !== user._id.toString()) {
+    throw new ApiError(httpStatus.FORBIDDEN, 'User token incorrect with params user');
+  }
+
+  const filter = pick(req.query, ['name', 'type', 'status']);
   const options = pick(req.query, ['sortBy', 'limit', 'page']);
 
-  const result = await courseService.queryCoursesByUserId(req.params.userId, filter, options);
+  const result = await courseService.queryCoursesByUserId(userId, filter, options);
   res.send(result);
 });
 

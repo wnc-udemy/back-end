@@ -7,6 +7,7 @@ roleRights.set(roles[1], [
   'manageUsers',
   'getCoursesFollowUser',
   'getCourseMoodleFollowUser',
+  'getCourses',
   'manageHistories',
   'getHistories',
 ]);

@@ -8,9 +8,6 @@ const createCourse = {
     urlThumb: Joi.string().required(),
     fee: Joi.number().precision(2).required(),
     discount: Joi.number().min(0).max(100),
-    introDescription: Joi.string().required(),
-    detailDescription: Joi.string().required(),
-    instructor: Joi.string().custom(objectId).required(),
   }),
 };
 
@@ -44,12 +41,10 @@ const updateCourse = {
       urlThumb: Joi.string(),
       fee: Joi.number().precision(2),
       discount: Joi.number().min(0).max(100),
-      averageRating: Joi.number().precision(2).min(0).max(5),
       introDescription: Joi.string(),
       detailDescription: Joi.string(),
-      updatedAt: Joi.date(),
-      instructor: Joi.string().custom(objectId),
       status: Joi.number(),
+      targets: Joi.array(),
     })
     .min(1),
 };

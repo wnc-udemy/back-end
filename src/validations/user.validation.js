@@ -30,6 +30,7 @@ const getCourses = {
   }),
   query: Joi.object().keys({
     type: Joi.number().integer(),
+    status: Joi.number().integer(),
     name: Joi.string(),
     sortBy: Joi.string(),
     limit: Joi.number().integer(),

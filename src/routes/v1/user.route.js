@@ -13,7 +13,7 @@ router
 
 router
   .route('/:userId/courses')
-  .get(auth('getCoursesFollowUser'), validate(userValidation.getCourses), userController.getCourses);
+  .get(auth('getCourses'), auth('getCoursesFollowUser'), validate(userValidation.getCourses), userController.getCourses);
 
 router
   .route('/:userId/:courseId')
@@ -184,6 +184,17 @@ module.exports = router;
  *              - 2
  *           default: 0
  *         description: 'Type get courses 0: subscribed, 1: favorite, 2: your created'
+ *       - in: query
+ *         name: status
+ *         schema:
+ *           type: number
+ *           enum:
+ *              - 0
+ *              - 1
+ *              - 2
+ *              - 3
+ *           default: 0
+ *         description: 'Status of courses 0: Not complete, 1: Complete, 2: published, 3: Blocked'
  *       - in: query
  *         name: name
  *         schema:

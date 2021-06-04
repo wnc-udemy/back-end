@@ -88,7 +88,6 @@ module.exports = router;
  *               urlThumb: https://www.facebook.com/
  *               fee: 100
  *               discount: 0.3
- *               instructor: 609b9838b28d283ef805f15d
  *     responses:
  *       "201":
  *         description: Created
@@ -332,7 +331,7 @@ module.exports = router;
  *                 type: string
  *               url:
  *                 type: string
- *               url_thumb:
+ *               urlThumb:
  *                 type: string
  *               fee:
  *                 type: number
@@ -362,10 +361,10 @@ module.exports = router;
  *               urlThumb: https://www.facebook.com/
  *               fee: 100
  *               discount: 0.3
- *               averageRating: 4.5
+ *               status: 0
  *               introDescription: fake intro description
  *               detailDescription: fake detail description
- *               instructor: 609b9838b28d283ef805f15d
+ *               targets: ["fake target 1", "fake target 2", "fake target 3"]
  *     responses:
  *       "200":
  *         description: OK
