@@ -2,6 +2,14 @@ const roles = ['user', 'student', 'instructor', 'admin'];
 
 const roleRights = new Map();
 roleRights.set(roles[0], ['optionalInfo', 'manageUsers', 'getCategories']);
+roleRights.set(roles[1], [
+  'getUsers',
+  'manageUsers',
+  'getCoursesFollowUser',
+  'getCourseMoodleFollowUser',
+  'manageHistories',
+  'getHistories',
+]);
 roleRights.set(roles[2], [
   'optionalInfo',
   'getUsers',
@@ -10,6 +18,8 @@ roleRights.set(roles[2], [
   'getCourses',
   'manageCourses',
   'manageComments',
+  'manageHistories',
+  'getHistories',
 ]);
 roleRights.set(roles[3], [
   'optionalInfo',

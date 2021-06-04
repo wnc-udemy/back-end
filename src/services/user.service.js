@@ -100,16 +100,8 @@ const updateUserById = async (userId, updateBody) => {
  * @param {ObjectId} id
  * @returns {Promise<User>}
  */
-const updateFavoriteCourses = async (userId, courseId) => {
-  const user = await getUserById(userId);
-  if (!user) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
-  }
-
-  const course = await getCourseById(courseId);
-  if (!course) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'Course not found');
-  }
+const updateFavoriteCourses = async (user, course) => {
+  const { _id: courseId } = course;
 
   const idx = user.favoriteCourses.findIndex((e) => e.toString() === courseId);
 
@@ -128,23 +120,17 @@ const updateFavoriteCourses = async (userId, courseId) => {
  * @param {ObjectId} id
  * @returns {Promise<User>}
  */
-const updateSubscribedCourses = async (userId, courseId) => {
-  const user = await getUserById(userId);
-  if (!user) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
-  }
-
-  const course = await getCourseById(courseId);
-  if (!course) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'Course not found');
-  }
+/* eslint no-param-reassign: "error" */
+const updateSubscribedCourses = async (user, course) => {
+  const { _id: courseId } = course;
+  const { _id: userId } = user;
 
   const subCategory = await getSubCategoryByCourseId(courseId);
   if (!subCategory) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Sub category not found');
   }
 
-  const idx = user.courses.findIndex((e) => e.toString() === courseId);
+  const idx = user.courses.findIndex((e) => e.toString() === courseId.toString());
 
   if (idx !== -1) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'Course already exist in subscribed courses');
@@ -182,6 +168,10 @@ const updateSubscribedCourses = async (userId, courseId) => {
   // update new course into user courses
   user.courses.push(courseId);
   await user.save();
+
+  // update new student in course students
+  course.students.push(userId);
+  await course.save();
 
   // update quantity course in sub category  into sub category course
   subCategory.totalRegister[0] += 1;

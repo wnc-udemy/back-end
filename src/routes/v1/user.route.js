@@ -11,11 +11,17 @@ router
   .post(auth('manageUsers'), validate(userValidation.createUser), userController.createUser)
   .get(auth('getUsers'), validate(userValidation.getUsers), userController.getUsers);
 
-router.route('/:userId/courses').get(validate(userValidation.getCourses), userController.getCourses);
+router
+  .route('/:userId/courses')
+  .get(auth('getCoursesFollowUser'), validate(userValidation.getCourses), userController.getCourses);
 
-router.route('/:userId/:courseId').get(validate(userValidation.addCourse), userController.updateCourses);
+router
+  .route('/:userId/:courseId')
+  .get(auth('manageUsers'), validate(userValidation.addCourse), userController.updateCourses);
 
-router.route('/:userId/courses/:courseId').get(validate(userValidation.getHistories), userController.getHistories);
+router
+  .route('/:userId/courses/:courseId')
+  .get(auth('getCourseMoodleFollowUser'), validate(userValidation.getHistories), userController.getHistories);
 
 router
   .route('/:userId')

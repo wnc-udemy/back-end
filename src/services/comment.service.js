@@ -1,7 +1,5 @@
 const httpStatus = require('http-status');
 const { Comment } = require('../models');
-const { getUserById } = require('./user.service');
-const { getCourseById } = require('./course.service');
 const ApiError = require('../utils/ApiError');
 
 /**
@@ -9,25 +7,8 @@ const ApiError = require('../utils/ApiError');
  * @param {Object} commentBody
  * @returns {Promise<Comment>}
  */
-const createComment = async (commentBody) => {
-  const { user: userId, course: courseId } = commentBody;
-
-  const user = await getUserById(userId);
-  if (!user) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
-  }
-
-  const course = await getCourseById(courseId);
-  if (!course) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'Course not found');
-  }
-
-  const idx = user.courses.findIndex((e) => e.toString() === courseId);
-
-  if (idx === -1) {
-    throw new ApiError(httpStatus.BAD_REQUEST, 'User was not registered this course');
-  }
-
+/* eslint no-param-reassign: "error" */
+const createComment = async (commentBody, course) => {
   const comment = await Comment.create(commentBody);
   if (!comment) {
     throw new ApiError(httpStatus.exports, 'Create comment fail');

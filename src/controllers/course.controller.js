@@ -43,27 +43,27 @@ const getCourses = catchAsync(async (req, res) => {
 
 const getCourse = catchAsync(async (req, res) => {
   const { courseId } = req.params;
-  const item = await courseService.getCourseById(courseId);
-  if (!item) {
+  const course = await courseService.getCourseById(courseId);
+  if (!course) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Course not found');
   }
 
   const result = await courseService.getCourseDetailById(courseId);
 
   const { isLogin } = req;
-  const { user } = req;
+  const { user: userAuth } = req;
 
   if (isLogin) {
-    const { _id } = user;
+    const { _id } = userAuth;
 
-    const idxViewer = item.viewers.findIndex((e) => e.toString() === _id.toString());
+    const idxViewer = course.viewers.findIndex((e) => e.toString() === _id.toString());
 
     if (idxViewer === -1) {
-      item.viewers.push(_id);
-      await item.save();
+      course.viewers.push(_id);
+      await course.save();
     }
 
-    const { favoriteCourses, courses } = user;
+    const { favoriteCourses, courses } = userAuth;
 
     const idxFavorite = favoriteCourses.findIndex((e) => e.toString() === courseId.toString());
 

@@ -134,6 +134,18 @@ const updateHistoryById = async (historyId, updateBody) => {
 };
 
 /**
+ * Update history
+ * @param {Object} history
+ * @param {Object} updateBody
+ * @returns {Promise<History>}
+ */
+const updateHistory = async (history, updateBody) => {
+  Object.assign(history, updateBody);
+  await history.save();
+  return history;
+};
+
+/**
  * Update a multi histories
  * @param {Object} historyBodies
  * @returns {Promise<Ids>}
@@ -165,6 +177,7 @@ module.exports = {
   getHistoryById,
   getHistoriesByCourseId,
   updateHistoryById,
+  updateHistory,
   updateHistories,
   deleteHistoryById,
 };

@@ -477,7 +477,7 @@ const querySubscribedCourses = async (id, pagination) => {
       $project: {
         _id: 1,
         name: 1,
-        instructorName: 'instructor.name',
+        instructorName: '$instructor.name',
         averageRating: 1,
         totalTime: 1,
         totalLecture: 1,

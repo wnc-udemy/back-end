@@ -39,12 +39,31 @@ const getUser = catchAsync(async (req, res) => {
 
 const updateCourses = catchAsync(async (req, res) => {
   const { type } = req.query;
+  const { userId, courseId } = req.params;
+  const { user: userAuth } = req;
   let result;
 
+  const user = await userService.getUserById(userId);
+  if (!user) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
+  }
+
+  const course = await courseService.getCourseById(courseId);
+  if (!course) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Course not found');
+  }
+
+  if (userAuth._id.toString() !== user._id.toString()) {
+    throw new ApiError(httpStatus.FORBIDDEN, 'User token incorrect with params user');
+  }
+
+  // favorite
   if (type === 1) {
-    result = await userService.updateFavoriteCourses(req.params.userId, req.params.courseId);
-  } else {
-    result = await userService.updateSubscribedCourses(req.params.userId, req.params.courseId);
+    result = await userService.updateFavoriteCourses(user, course);
+  }
+  // subscribed
+  else {
+    result = await userService.updateSubscribedCourses(user, course);
   }
   res.send(result);
 });

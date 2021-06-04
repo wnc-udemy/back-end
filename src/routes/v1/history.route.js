@@ -14,7 +14,7 @@ router
 router
   .route('/:historyId')
   .get(auth('getHistories'), validate(historyValidation.getHistory), historyController.getHistory)
-  .patch(validate(historyValidation.updateHistory), historyController.updateHistory)
+  .patch(auth('manageHistories'), validate(historyValidation.updateHistory), historyController.updateHistory)
   .delete(auth('manageHistories'), validate(historyValidation.deleteHistory), historyController.deleteHistory);
 
 module.exports = router;

@@ -2,11 +2,37 @@ const httpStatus = require('http-status');
 const pick = require('../utils/pick');
 const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
-const { commentService } = require('../services');
+const { commentService, userService, courseService } = require('../services');
 
 const createComment = catchAsync(async (req, res) => {
-  const category = await commentService.createComment(req.body);
-  res.status(httpStatus.CREATED).send(category);
+  const { course: courseId, ...commentBody } = req.body;
+  const { user: userId } = commentBody;
+  const { user: userAuth } = req;
+
+  const user = await userService.getUserById(userId);
+  if (!user) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
+  }
+
+  const course = await courseService.getCourseById(courseId);
+  if (!course) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Course not found');
+  }
+
+  const idx = user.courses.findIndex((e) => e.toString() === courseId);
+
+  if (idx === -1) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'User was not registered this course');
+  }
+
+  if (userId !== user._id.toString()) {
+    if (userAuth._id.toString() !== user._id.toString()) {
+      throw new ApiError(httpStatus.FORBIDDEN, 'User token incorrect with params user');
+    }
+  }
+
+  const comment = await commentService.createComment(commentBody, course);
+  res.status(httpStatus.CREATED).send(comment);
 });
 
 const getComments = catchAsync(async (req, res) => {
