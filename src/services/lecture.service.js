@@ -37,15 +37,11 @@ const getLectureById = async (id) => {
 
 /**
  * Update lecture by id
- * @param {ObjectId} lectureId
+ * @param {Object} lecture
  * @param {Object} updateBody
  * @returns {Promise<Lecture>}
  */
-const updateLectureById = async (lectureId, updateBody) => {
-  const lecture = await getLectureById(lectureId);
-  if (!lecture) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'Lecture not found');
-  }
+const updateLectureById = async (lecture, updateBody) => {
   Object.assign(lecture, updateBody);
   await lecture.save();
   return lecture;

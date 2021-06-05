@@ -8,14 +8,14 @@ const router = express.Router();
 
 router
   .route('/')
-  .post(auth('manageLectures'), validate(lectureValidation.createLecture), lectureController.createLecture)
+  .post(auth('lecture.create'), validate(lectureValidation.createLecture), lectureController.createLecture)
   .get(auth('getLectures'), validate(lectureValidation.getLectures), lectureController.getLectures);
 
 router
   .route('/:lectureId')
   .get(auth('getLectures'), validate(lectureValidation.getLecture), lectureController.getLecture)
-  .patch(auth('manageLectures'), validate(lectureValidation.updateLecture), lectureController.updateLecture)
-  .delete(auth('manageLectures'), validate(lectureValidation.deleteLecture), lectureController.deleteLecture);
+  .patch(auth('lecture.update'), validate(lectureValidation.updateLecture), lectureController.updateLecture)
+  .delete(auth('lecture.delete'), validate(lectureValidation.deleteLecture), lectureController.deleteLecture);
 
 module.exports = router;
 
@@ -64,6 +64,8 @@ module.exports = router;
  *               type: 0
  *               lengthTime: 60
  *               isPreview: true
+ *               course: ff355ca6777e6293190c1627
+ *               section: ff355ca6777e6293190c1627
  *     responses:
  *       "201":
  *         description: Created
@@ -205,6 +207,9 @@ module.exports = router;
  *               type: 0
  *               lengthTime: 60
  *               isPreview: true
+ *               lengthTimeOld: 30
+ *               course: ff355ca6777e6293190c1627
+ *               section: ff355ca6777e6293190c1627
  *     responses:
  *       "200":
  *         description: OK
@@ -234,6 +239,18 @@ module.exports = router;
  *         schema:
  *           type: string
  *         description: Lecture id
+ *       - in: query
+ *         name: course
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Course id
+ *       - in: query
+ *         name: section
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Section id
  *     responses:
  *       "200":
  *         description: No content

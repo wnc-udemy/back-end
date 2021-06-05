@@ -163,7 +163,7 @@ const updateCourse = catchAsync(async (req, res) => {
     throw new ApiError(httpStatus.FORBIDDEN, 'This course was not created by this user');
   }
 
-  course = await courseService.updateCourseById(course, req.body);
+  course = await courseService.updateCourseById(course, { ...req.body, updatedAt: Date.now() });
   res.send(course);
 });
 

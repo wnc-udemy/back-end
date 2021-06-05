@@ -22,6 +22,14 @@ roleRights.set(roles[2], [
   'getHistories',
   'course.create',
   'course.update',
+  'section.create',
+  'section.update',
+  'section.delete',
+  'section.get',
+  'section.gets',
+  'lecture.create',
+  'lecture.update',
+  'lecture.delete',
 ]);
 roleRights.set(roles[3], [
   'optionalInfo',
