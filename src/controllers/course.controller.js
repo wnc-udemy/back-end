@@ -2,12 +2,27 @@ const httpStatus = require('http-status');
 const pick = require('../utils/pick');
 const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
-const { courseService } = require('../services');
+const { courseService, subCategoryService } = require('../services');
 
 const createCourse = catchAsync(async (req, res) => {
   const { user } = req;
+  const { subCategory: subCategoryId, ...courseBody } = req.body;
   const { _id: instructor } = user;
-  const course = await courseService.createCourse({ ...req.body, instructor });
+
+  const subCategory = await subCategoryService.getSubCategoryById(subCategoryId);
+  if (!subCategory) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Sub category not found');
+  }
+
+  const course = await courseService.createCourse({ ...courseBody, instructor });
+
+  if (!course) {
+    throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR, 'Create new course fail');
+  }
+
+  subCategory.courses.push(course._id);
+  await subCategory.save();
+
   res.status(httpStatus.CREATED).send(course);
 });
 
