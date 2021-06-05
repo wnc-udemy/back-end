@@ -2,6 +2,17 @@ const { getObjectIds, getObjectId } = require('../../helpers/index');
 
 const users = [
   {
+    _id: getObjectId('Supper admin'),
+    name: 'Supper admin',
+    email: 'admin@gmail.com',
+    password: '$2y$08$ydJKeNw4VGs0b1FReTtXj.kImtvDYT5y/xTBcIlC4HGUcmL.3VzVC',
+    role: 'admin',
+    isEmailVerified: false,
+    courses: [],
+    favoriteCourses: [],
+    histories: [],
+  },
+  {
     _id: getObjectId('Nguyen Thien Ly'),
     name: 'Nguyen Thien Ly',
     email: 'nguyenmit2012@gmail.com',

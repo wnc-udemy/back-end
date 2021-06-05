@@ -17,22 +17,47 @@ const getUsers = catchAsync(async (req, res) => {
 });
 
 const getCourses = catchAsync(async (req, res) => {
-  const { user: userAuth } = req;
+  const { user } = req;
   const { userId } = req.params;
+  const { type, status } = req.query;
+  const { role: userRole, _id: userAuthId } = user;
+  let { limit, page } = req.query;
+  let result;
 
-  const user = await userService.getUserById(userId);
+  if (userAuthId.toString() !== userId) {
+    throw new ApiError(httpStatus.FORBIDDEN, 'User token incorrect with params user');
+  }
+
   if (!user) {
     throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
   }
 
-  if (userAuth._id.toString() !== user._id.toString()) {
-    throw new ApiError(httpStatus.FORBIDDEN, 'User token incorrect with params user');
+  if (userRole === 'user' && type === 2) {
+    throw new ApiError(httpStatus.FORBIDDEN, 'Forbidden');
   }
 
-  const filter = pick(req.query, ['name', 'type', 'status']);
-  const options = pick(req.query, ['sortBy', 'limit', 'page']);
+  limit = limit && parseInt(limit, 10) > 0 ? parseInt(limit, 10) : 10;
+  page = page && parseInt(page, 10) > 0 ? parseInt(page, 10) : 1;
+  const skip = (page - 1) * limit;
 
-  const result = await courseService.queryCoursesByUserId(userId, filter, options);
+  // subscribed
+  if (type === 0) {
+    result = await courseService.querySubscribedCourses(userId, { limit, skip });
+  }
+  // favorite
+  else if (type === 1) {
+    result = await courseService.queryFavoriteCourses(userId, { limit, skip });
+  }
+  // your created
+  else {
+    result = await courseService.queryYourCreatedCourses({ id: userId, status }, { limit, skip });
+  }
+
+  const { courses, total: totalResults } = result;
+  const totalPages = Math.ceil(totalResults / limit);
+
+  result = { courses, page, limit, totalPages, totalResults };
+
   res.send(result);
 });
 

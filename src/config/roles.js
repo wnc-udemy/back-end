@@ -5,7 +5,6 @@ roleRights.set(roles[0], ['optionalInfo', 'manageUsers', 'getCategories']);
 roleRights.set(roles[1], [
   'getUsers',
   'manageUsers',
-  'getCoursesFollowUser',
   'getCourseMoodleFollowUser',
   'getCourses',
   'manageHistories',
@@ -21,11 +20,14 @@ roleRights.set(roles[2], [
   'manageComments',
   'manageHistories',
   'getHistories',
+  'course.create',
+  'course.update',
 ]);
 roleRights.set(roles[3], [
   'optionalInfo',
   'getUsers',
   'manageUsers',
+  'user.create',
   'getCategories',
   'manageCategories',
   'getSubCategories',
@@ -40,6 +42,8 @@ roleRights.set(roles[3], [
   'manageComments',
   'getHistories',
   'manageHistories',
+  'getCoursesOfInstructor',
+  'course.update',
 ]);
 
 module.exports = {

@@ -8,12 +8,10 @@ const router = express.Router();
 
 router
   .route('/')
-  .post(auth('manageUsers'), validate(userValidation.createUser), userController.createUser)
+  .post(auth('user.create'), validate(userValidation.createUser), userController.createUser)
   .get(auth('getUsers'), validate(userValidation.getUsers), userController.getUsers);
 
-router
-  .route('/:userId/courses')
-  .get(auth('getCourses'), auth('getCoursesFollowUser'), validate(userValidation.getCourses), userController.getCourses);
+router.route('/:userId/courses').get(auth('getCourses'), validate(userValidation.getCourses), userController.getCourses);
 
 router
   .route('/:userId/:courseId')
@@ -162,8 +160,8 @@ module.exports = router;
  * @swagger
  * /users/{id}/courses:
  *   get:
- *     summary: Get all courses of user
- *     description: Only user get all courses their active.
+ *     summary: Get all courses of user and instructor
+ *     description: Just user and instructor get all courses their active.
  *     tags: [Users]
  *     security:
  *       - bearerAuth: []

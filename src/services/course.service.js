@@ -485,8 +485,9 @@ const queryCourses = async (filter, options) => {
  */
 const querySubscribedCourses = async (id, pagination) => {
   const { limit, skip } = pagination;
+  const userId = new mongoose.Types.ObjectId(id);
 
-  const { courses: courseIds } = await User.findById(id);
+  const { courses: courseIds } = await User.findById(userId);
   const publishedCourses = await Course.find({ _id: { $in: courseIds }, status: 2 });
   const total = publishedCourses.length;
   const publishedCourseIds = publishedCourses.map((e) => e._id);
@@ -561,9 +562,10 @@ const querySubscribedCourses = async (id, pagination) => {
  * @returns {Promise<QueryResult>}
  */
 const queryFavoriteCourses = async (id, pagination) => {
+  const userId = new mongoose.Types.ObjectId(id);
   const { limit, skip } = pagination;
 
-  const { favoriteCourses: courseIds } = await User.findById(id);
+  const { favoriteCourses: courseIds } = await User.findById(userId);
   const total = await Course.find({ _id: { $in: courseIds }, status: 2 }).count();
 
   // status: 2 - published
@@ -609,7 +611,8 @@ const queryFavoriteCourses = async (id, pagination) => {
  */
 const queryYourCreatedCourses = async (filter, pagination) => {
   const { limit, skip } = pagination;
-  const { userId, status } = filter;
+  const { id, status } = filter;
+  const userId = new mongoose.Types.ObjectId(id);
 
   const total = await Course.find({ instructor: userId, status }).count();
 
@@ -654,42 +657,66 @@ const queryYourCreatedCourses = async (filter, pagination) => {
   return { courses, total };
 };
 
-/**
- * Query for users
- * @param {Object} filter - Mongo filter
- * @param {Object} options - Query options
- * @param {string} [options.sortBy] - Sort option in the format: sortField:(desc|asc)
- * @param {number} [options.limit] - Maximum number of results per page (default = 10)
- * @param {number} [options.page] - Current page (default = 1)
- * @returns {Promise<QueryResult>}
- */
-const queryCoursesByUserId = async (id, filter, options) => {
-  const userId = new mongoose.Types.ObjectId(id);
-  const limit = options.limit && parseInt(options.limit, 10) > 0 ? parseInt(options.limit, 10) : 10;
-  const page = options.page && parseInt(options.page, 10) > 0 ? parseInt(options.page, 10) : 1;
-  const skip = (page - 1) * limit;
-  const { type, status } = filter;
+// /**
+//  * Query for courses of user
+//  * @param {Object} filter - Mongo filter
+//  * @param {Object} options - Query options
+//  * @param {string} [options.sortBy] - Sort option in the format: sortField:(desc|asc)
+//  * @param {number} [options.limit] - Maximum number of results per page (default = 10)
+//  * @param {number} [options.page] - Current page (default = 1)
+//  * @returns {Promise<QueryResult>}
+//  */
+// const queryCoursesByUserId = async (id, filter, options) => {
+//   const userId = new mongoose.Types.ObjectId(id);
+//   const limit = options.limit && parseInt(options.limit, 10) > 0 ? parseInt(options.limit, 10) : 10;
+//   const page = options.page && parseInt(options.page, 10) > 0 ? parseInt(options.page, 10) : 1;
+//   const skip = (page - 1) * limit;
+//   const { type } = filter;
 
-  let result;
+//   let result;
 
-  // subscribed
-  if (type === 0) {
-    result = await querySubscribedCourses(userId, { limit, skip });
-  }
-  // favorite
-  else if (type === 1) {
-    result = await queryFavoriteCourses(userId, { limit, skip });
-  }
-  // your created
-  else {
-    result = await queryYourCreatedCourses({ userId, status }, { limit, skip });
-  }
+//   // subscribed
+//   if (type === 0) {
+//     result = await querySubscribedCourses(userId, { limit, skip });
+//   }
+//   // favorite
+//   else if (type === 1) {
+//     result = await queryFavoriteCourses(userId, { limit, skip });
+//   }
+//   // your created
+//   else {
+//     result = await queryYourCreatedCourses({ userId, status }, { limit, skip });
+//   }
 
-  const { courses, total: totalResults } = result;
-  const totalPages = Math.ceil(totalResults / limit);
+//   const { courses, total: totalResults } = result;
+//   const totalPages = Math.ceil(totalResults / limit);
 
-  return { courses, page, limit, totalPages, totalResults };
-};
+//   return { courses, page, limit, totalPages, totalResults };
+// };
+
+// /**
+//  * Query for courses of instructor
+//  * @param {Object} filter - Mongo filter
+//  * @param {Object} options - Query options
+//  * @param {string} [options.sortBy] - Sort option in the format: sortField:(desc|asc)
+//  * @param {number} [options.limit] - Maximum number of results per page (default = 10)
+//  * @param {number} [options.page] - Current page (default = 1)
+//  * @returns {Promise<QueryResult>}
+//  */
+// const queryCoursesOfInstructorByUserId = async (id, filter, options) => {
+//   const userId = new mongoose.Types.ObjectId(id);
+//   const limit = options.limit && parseInt(options.limit, 10) > 0 ? parseInt(options.limit, 10) : 10;
+//   const page = options.page && parseInt(options.page, 10) > 0 ? parseInt(options.page, 10) : 1;
+//   const skip = (page - 1) * limit;
+//   const { status } = filter;
+
+//   const result = await queryYourCreatedCourses({ userId, status }, { limit, skip });
+
+//   const { courses, total: totalResults } = result;
+//   const totalPages = Math.ceil(totalResults / limit);
+
+//   return { courses, page, limit, totalPages, totalResults };
+// };
 
 /**
  * Get course by id
@@ -747,15 +774,17 @@ const getCourseLectureById = async (id) => {
 /**
  * Get course by id
  * @param {ObjectId} id
+ * @param {number} status
  * @returns {Promise<Category>}
  */
-const getCourseDetailById = async (id) => {
+const getCourseDetailById = async (id, status) => {
   const courseId = new mongoose.Types.ObjectId(id);
 
   const list = await Course.aggregate([
     {
       $match: {
         _id: courseId,
+        status: { $in: status },
       },
     },
     {
@@ -797,6 +826,10 @@ const getCourseDetailById = async (id) => {
     },
   ]);
 
+  if (list.length === 0) {
+    return undefined;
+  }
+
   return list[0];
 };
 
@@ -812,15 +845,17 @@ const getCourseById = async (id) => {
 /**
  * Get course by id
  * @param {ObjectId} id
+ * @param {number} status
  * @returns {Promise<Category>}
  */
-const getCourseCommentById = async (id) => {
+const getCourseCommentById = async (id, status) => {
   const courseID = new mongoose.Types.ObjectId(id);
 
   const list = await Course.aggregate([
     {
       $match: {
         _id: courseID,
+        status: { $in: status },
       },
     },
     {
@@ -866,6 +901,10 @@ const getCourseCommentById = async (id) => {
     },
   ]);
 
+  if (list.length === 0) {
+    return undefined;
+  }
+
   const item = list[0];
   const total = item.comments.length;
   item.ratingRate = [0, 0, 0, 0, 0];
@@ -900,15 +939,17 @@ const getCourseCommentById = async (id) => {
 /**
  * Get course by id
  * @param {ObjectId} id
+ * @param {number} status
  * @returns {Promise<Category>}
  */
-const getCourseSectionById = async (id) => {
+const getCourseSectionById = async (id, status) => {
   const courseId = new mongoose.Types.ObjectId(id);
 
   const list = await Course.aggregate([
     {
       $match: {
         _id: courseId,
+        status: { $in: status },
       },
     },
     {
@@ -959,6 +1000,10 @@ const getCourseSectionById = async (id) => {
     },
   ]);
 
+  if (list.length === 0) {
+    return undefined;
+  }
+
   const { sections } = list[0];
 
   sections.forEach((e) => {
@@ -971,15 +1016,23 @@ const getCourseSectionById = async (id) => {
 /**
  * Get course by id
  * @param {ObjectId} id
+ * @param {number} status
  * @returns {Promise<Category>}
  */
-const getCourseSimilarById = async (id) => {
+const getCourseSimilarById = async (id, status) => {
   const courseID = new mongoose.Types.ObjectId(id);
+
+  const course = await Course.find({ _id: courseID, status: { $in: status } });
+
+  if (course.length === 0) {
+    return undefined;
+  }
 
   const list = await SubCategory.aggregate([
     {
       $match: {
         courses: { $elemMatch: { $eq: courseID } },
+        status,
       },
     },
     {
@@ -1062,7 +1115,9 @@ module.exports = {
   queryLatestCourses,
   queryHighlightCourses,
   queryAdvanceFilterCourses,
-  queryCoursesByUserId,
+  querySubscribedCourses,
+  queryFavoriteCourses,
+  queryYourCreatedCourses,
   getCourseById,
   getCourseDetailById,
   getCourseCommentById,

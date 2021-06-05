@@ -45,27 +45,74 @@ const getCourses = catchAsync(async (req, res) => {
 
 const getCourse = catchAsync(async (req, res) => {
   const { courseId } = req.params;
+  const { type } = req.query;
+  const { isLogin } = req;
+  const { user } = req;
+  const { role: userRole, _id: userAuthId } = user;
+
+  let result;
+
   const course = await courseService.getCourseById(courseId);
   if (!course) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Course not found');
   }
 
-  const result = await courseService.getCourseDetailById(courseId);
-
-  const { isLogin } = req;
-  const { user: userAuth } = req;
-
   if (isLogin) {
-    const { _id } = userAuth;
+    if (
+      (course.instructor.toString() !== userAuthId.toString() && type === 4) ||
+      (course.instructor.toString() !== userAuthId.toString() && type === 5)
+    ) {
+      throw new ApiError(httpStatus.FORBIDDEN, 'Forbidden');
+    }
 
-    const idxViewer = course.viewers.findIndex((e) => e.toString() === _id.toString());
+    if ((userRole === 'user' && type === 4) || (userRole === 'user' && type === 5)) {
+      throw new ApiError(httpStatus.FORBIDDEN, 'Forbidden');
+    }
+  } else if (type === 4 || type === 5) {
+    throw new ApiError(httpStatus.FORBIDDEN, 'Forbidden');
+  }
+
+  switch (type) {
+    // comments of course
+    case 1:
+      result = await courseService.getCourseCommentById(courseId, [2]);
+      break;
+    // similar course
+    case 2:
+      result = await courseService.getCourseSimilarById(courseId, [2]);
+      break;
+    // sections of course
+    case 3:
+      result = await courseService.getCourseSectionById(courseId, [2]);
+      break;
+    // instructor course detail
+    case 4:
+      result = await courseService.getCourseDetailById(courseId, [0, 1, 2, 3]);
+      break;
+    // instructor section
+    case 5:
+      result = await courseService.getCourseSectionById(courseId, [0, 1, 2, 3]);
+      break;
+
+    // default detail
+    default:
+      result = await courseService.getCourseDetailById(courseId, [2]);
+      break;
+  }
+
+  if (!result) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Course not found');
+  }
+
+  if (isLogin && type === 0) {
+    const idxViewer = course.viewers.findIndex((e) => e.toString() === userAuthId.toString());
 
     if (idxViewer === -1) {
-      course.viewers.push(_id);
+      course.viewers.push(userAuthId);
       await course.save();
     }
 
-    const { favoriteCourses, courses } = userAuth;
+    const { favoriteCourses, courses } = user;
 
     const idxFavorite = favoriteCourses.findIndex((e) => e.toString() === courseId.toString());
 
@@ -84,36 +131,6 @@ const getCourse = catchAsync(async (req, res) => {
     }
   }
 
-  res.send(result);
-});
-
-const getCourseComment = catchAsync(async (req, res) => {
-  const item = await courseService.getCourseById(req.params.courseId);
-  if (!item) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'Course not found');
-  }
-
-  const result = await courseService.getCourseCommentById(req.params.courseId);
-  res.send(result);
-});
-
-const getCourseSection = catchAsync(async (req, res) => {
-  const item = await courseService.getCourseById(req.params.courseId);
-  if (!item) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'Course not found');
-  }
-
-  const result = await courseService.getCourseSectionById(req.params.courseId);
-  res.send(result);
-});
-
-const getCourseSimilar = catchAsync(async (req, res) => {
-  const item = await courseService.getCourseById(req.params.courseId);
-  if (!item) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'Course not found');
-  }
-
-  const result = await courseService.getCourseSimilarById(req.params.courseId);
   res.send(result);
 });
 
@@ -144,9 +161,6 @@ module.exports = {
   createCourse,
   getCourses,
   getCourse,
-  getCourseComment,
-  getCourseSection,
-  getCourseSimilar,
   updateCourse,
   deleteCourse,
 };

@@ -28,6 +28,9 @@ const getCourse = {
   params: Joi.object().keys({
     courseId: Joi.string().custom(objectId),
   }),
+  query: Joi.object().keys({
+    type: Joi.number().integer(),
+  }),
 };
 
 const updateCourse = {
