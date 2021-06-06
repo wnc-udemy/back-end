@@ -8,14 +8,14 @@ const router = express.Router();
 
 router
   .route('/')
-  .post(auth('manageCategories'), validate(categoryValidation.createCategory), categoryController.createCategory)
+  .post(auth('category.create'), validate(categoryValidation.createCategory), categoryController.createCategory)
   .get(validate(categoryValidation.getCategories), categoryController.getCategories);
 
 router
   .route('/:categoryId')
-  .get(auth('getCategories'), validate(categoryValidation.getCategory), categoryController.getCategory)
-  .patch(auth('manageCategories'), validate(categoryValidation.updateCategory), categoryController.updateCategory)
-  .delete(auth('manageCategories'), validate(categoryValidation.deleteCategory), categoryController.deleteCategory);
+  .get(validate(categoryValidation.getCategory), categoryController.getCategory)
+  .patch(auth('category.update'), validate(categoryValidation.updateCategory), categoryController.updateCategory)
+  .delete(auth('category.delete'), validate(categoryValidation.deleteCategory), categoryController.deleteCategory);
 
 module.exports = router;
 

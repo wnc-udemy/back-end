@@ -8,25 +8,8 @@ const ApiError = require('../utils/ApiError');
  * @returns {Promise<Comment>}
  */
 /* eslint no-param-reassign: "error" */
-const createComment = async (commentBody, course) => {
+const createComment = async (commentBody) => {
   const comment = await Comment.create(commentBody);
-  if (!comment) {
-    throw new ApiError(httpStatus.exports, 'Create comment fail');
-  }
-
-  // Update course info after create new comment
-  const { _id: commentId, rating } = comment;
-  const { averageRating } = course;
-
-  if (averageRating === 0.0 || averageRating === 0) {
-    course.averageRating = rating;
-  } else {
-    course.averageRating = ((rating + averageRating) / 2).toFixed(2);
-  }
-  course.comments.push(commentId);
-
-  await course.save();
-
   return comment;
 };
 

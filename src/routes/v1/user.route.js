@@ -9,23 +9,23 @@ const router = express.Router();
 router
   .route('/')
   .post(auth('user.create'), validate(userValidation.createUser), userController.createUser)
-  .get(auth('getUsers'), validate(userValidation.getUsers), userController.getUsers);
+  .get(auth('user.gets'), validate(userValidation.getUsers), userController.getUsers);
 
-router.route('/:userId/courses').get(auth('getCourses'), validate(userValidation.getCourses), userController.getCourses);
+router.route('/:userId/courses').get(auth('course.gets'), validate(userValidation.getCourses), userController.getCourses);
 
 router
   .route('/:userId/:courseId')
-  .get(auth('manageUsers'), validate(userValidation.addCourse), userController.updateCourses);
+  .get(auth('user.update'), validate(userValidation.updateCourse), userController.updateCourses);
 
 router
   .route('/:userId/courses/:courseId')
-  .get(auth('getCourseMoodleFollowUser'), validate(userValidation.getHistories), userController.getHistories);
+  .get(auth('course.gets-for-moodle'), validate(userValidation.getHistories), userController.getHistories);
 
 router
   .route('/:userId')
-  .get(auth('getUsers'), validate(userValidation.getUser), userController.getUser)
-  .patch(auth('manageUsers'), validate(userValidation.updateUser), userController.updateUser)
-  .delete(auth('manageUsers'), validate(userValidation.deleteUser), userController.deleteUser);
+  .get(auth('user.get'), validate(userValidation.getUser), userController.getUser)
+  .patch(auth('user.update'), validate(userValidation.updateUser), userController.updateUser)
+  .delete(auth('user.delete'), validate(userValidation.deleteUser), userController.deleteUser);
 
 module.exports = router;
 

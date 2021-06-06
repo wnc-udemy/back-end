@@ -44,7 +44,7 @@ const getUser = {
   }),
 };
 
-const addCourse = {
+const updateCourse = {
   params: Joi.object().keys({
     userId: Joi.string().custom(objectId),
     courseId: Joi.string().custom(objectId),
@@ -94,7 +94,7 @@ module.exports = {
   getCourses,
   getHistories,
   getUser,
-  addCourse,
+  updateCourse,
   updateUser,
   deleteUser,
 };

@@ -136,7 +136,7 @@ const updateSubscribedCourses = async (user, course) => {
     throw new ApiError(httpStatus.BAD_REQUEST, 'Course already exist in subscribed courses');
   }
 
-  const { sections } = await getCourseSectionById(courseId);
+  const { sections } = await getCourseSectionById(courseId, [2]);
   const histories = [];
 
   sections.forEach((section) => {

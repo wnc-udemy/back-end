@@ -8,14 +8,14 @@ const router = express.Router();
 
 router
   .route('/')
-  .post(auth('manageComments'), validate(commentValidation.createComment), commentController.createComment)
-  .get(auth('getComments'), validate(commentValidation.getComments), commentController.getComments);
+  .post(auth('comment.create'), validate(commentValidation.createComment), commentController.createComment)
+  .get(auth('comment.gets'), validate(commentValidation.getComments), commentController.getComments);
 
 router
   .route('/:commentId')
-  .get(auth('getComments'), validate(commentValidation.getComment), commentController.getComment)
-  .patch(auth('manageComments'), validate(commentValidation.updateComment), commentController.updateComment)
-  .delete(auth('manageComments'), validate(commentValidation.deleteComment), commentController.deleteComment);
+  .get(auth('comment.get'), validate(commentValidation.getComment), commentController.getComment)
+  .patch(auth('comment.update'), validate(commentValidation.updateComment), commentController.updateComment)
+  .delete(auth('comment.delete'), validate(commentValidation.deleteComment), commentController.deleteComment);
 
 module.exports = router;
 

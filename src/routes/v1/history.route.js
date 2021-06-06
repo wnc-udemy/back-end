@@ -8,14 +8,14 @@ const router = express.Router();
 
 router
   .route('/')
-  .post(auth('manageHistories'), validate(historyValidation.createHistory), historyController.createHistory)
-  .get(auth('getHistories'), validate(historyValidation.getHistories), historyController.getHistories);
+  .post(auth('history.create'), validate(historyValidation.createHistory), historyController.createHistory)
+  .get(auth('history.gets'), validate(historyValidation.getHistories), historyController.getHistories);
 
 router
   .route('/:historyId')
-  .get(auth('getHistories'), validate(historyValidation.getHistory), historyController.getHistory)
-  .patch(auth('manageHistories'), validate(historyValidation.updateHistory), historyController.updateHistory)
-  .delete(auth('manageHistories'), validate(historyValidation.deleteHistory), historyController.deleteHistory);
+  .get(auth('history.get'), validate(historyValidation.getHistory), historyController.getHistory)
+  .patch(auth('history.update'), validate(historyValidation.updateHistory), historyController.updateHistory)
+  .delete(auth('history.delete'), validate(historyValidation.deleteHistory), historyController.deleteHistory);
 
 module.exports = router;
 

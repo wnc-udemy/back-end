@@ -9,7 +9,7 @@ const router = express.Router();
 router
   .route('/')
   .post(
-    auth('manageSubCategories'),
+    auth('sub-category.create'),
     validate(subCategoryValidation.createSubCategory),
     subCategoryController.createSubCategory
   )
@@ -21,14 +21,14 @@ router
 
 router
   .route('/:subCategoryId')
-  .get(auth('getSubCategories'), validate(subCategoryValidation.getSubCategory), subCategoryController.getSubCategory)
+  .get(auth('sub-category.get'), validate(subCategoryValidation.getSubCategory), subCategoryController.getSubCategory)
   .patch(
-    auth('manageSubCategories'),
+    auth('sub-category.update'),
     validate(subCategoryValidation.updateSubCategory),
     subCategoryController.updateSubCategory
   )
   .delete(
-    auth('manageSubCategories'),
+    auth('sub-category.delete'),
     validate(subCategoryValidation.deleteSubCategory),
     subCategoryController.deleteSubCategory
   );
@@ -103,6 +103,7 @@ module.exports = router;
  *                 type: string
  *             example:
  *               name: fake name
+ *               category: 4c17aadf5117487aab7bc50c
  *     responses:
  *       "201":
  *         description: Created
