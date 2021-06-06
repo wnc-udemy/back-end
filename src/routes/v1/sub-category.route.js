@@ -262,6 +262,12 @@ module.exports = router;
  *         schema:
  *           type: string
  *         description: Sub category id
+ *       - in: query
+ *         name: category
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Category id
  *     responses:
  *       "200":
  *         description: No content

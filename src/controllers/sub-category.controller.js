@@ -49,7 +49,35 @@ const updateSubCategory = catchAsync(async (req, res) => {
 });
 
 const deleteSubCategory = catchAsync(async (req, res) => {
-  await subCategoryService.deleteSubCategoryById(req.params.subCategoryId);
+  const { category: categoryId } = req.query;
+  const { subCategoryId } = req.params;
+  let subCategory;
+
+  const category = await categoryService.getCategoryById(categoryId);
+  if (!category) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Category not found');
+  }
+
+  subCategory = await subCategoryService.getSubCategoryById(subCategoryId);
+  if (!subCategory) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Sub category not found');
+  }
+
+  if (!category.subCategories.includes(subCategory._id)) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'This category was not included sub category');
+  }
+
+  subCategory = await subCategoryService.deleteSubCategoryById(subCategoryId);
+  if (!subCategory) {
+    throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR, 'Delete sub category fail');
+  }
+
+  const idx = category.subCategories.findIndex((e) => e.toString() === subCategory._id.toString());
+  if (idx !== -1) {
+    category.subCategories.splice(idx, 1);
+  }
+  await category.save();
+
   res.status(httpStatus.NO_CONTENT).send();
 });
 

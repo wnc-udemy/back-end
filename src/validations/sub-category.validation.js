@@ -39,6 +39,9 @@ const deleteSubCategory = {
   params: Joi.object().keys({
     subCategoryId: Joi.string().custom(objectId),
   }),
+  query: Joi.object().keys({
+    category: Joi.string().custom(objectId),
+  }),
 };
 
 module.exports = {
