@@ -63,7 +63,6 @@ const getCourse = catchAsync(async (req, res) => {
   const { type } = req.query;
   const { isLogin } = req;
   const { user } = req;
-  const { role: userRole, _id: userAuthId } = user;
 
   let result;
 
@@ -73,6 +72,7 @@ const getCourse = catchAsync(async (req, res) => {
   }
 
   if (isLogin) {
+    const { role: userRole, _id: userAuthId } = user;
     if (
       (course.instructor.toString() !== userAuthId.toString() && type === 4) ||
       (course.instructor.toString() !== userAuthId.toString() && type === 5)
@@ -108,6 +108,10 @@ const getCourse = catchAsync(async (req, res) => {
     case 5:
       result = await courseService.getCourseSectionById(courseId, [0, 1, 2, 3]);
       break;
+    // default
+    case 8:
+      result = course;
+      break;
 
     // default detail
     default:
@@ -120,6 +124,8 @@ const getCourse = catchAsync(async (req, res) => {
   }
 
   if (isLogin && type === 0) {
+    const { _id: userAuthId } = user;
+
     const idxViewer = course.viewers.findIndex((e) => e.toString() === userAuthId.toString());
 
     if (idxViewer === -1) {

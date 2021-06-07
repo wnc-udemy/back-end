@@ -5,7 +5,7 @@ const { roleRights } = require('../config/roles');
 
 const verifyCallback = (req, resolve, reject, requiredRights) => async (err, user, info) => {
   // Allow pass auth if api is mode optional info
-  if (requiredRights.length > 0 && !user && requiredRights[0] === 'optionalInfo') {
+  if (requiredRights.length > 0 && !user && requiredRights[0] === 'optional.get') {
     req.isLogin = false;
     resolve();
   }
