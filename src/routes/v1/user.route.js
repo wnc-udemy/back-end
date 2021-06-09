@@ -317,15 +317,6 @@ module.exports = router;
  *         schema:
  *           type: string
  *         description: Course id
- *       - in: query
- *         name: type
- *         schema:
- *           type: number
- *           enum:
- *              - 0
- *              - 1
- *           default: 0
- *         description: 'Type add course 0: subscribed, 1: favorite'
  *     responses:
  *       "200":
  *         description: OK
