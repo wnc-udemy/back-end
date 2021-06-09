@@ -103,7 +103,7 @@ const updateUserById = async (userId, updateBody) => {
 const updateFavoriteCourses = async (user, course) => {
   const { _id: courseId } = course;
 
-  const idx = user.favoriteCourses.findIndex((e) => e.toString() === courseId);
+  const idx = user.favoriteCourses.findIndex((e) => e.toString() === courseId.toString());
 
   if (idx !== -1) {
     user.favoriteCourses.splice(idx, 1);
