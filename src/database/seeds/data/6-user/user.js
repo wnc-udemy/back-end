@@ -1,4 +1,5 @@
 const { getObjectIds, getObjectId } = require('../../helpers/index');
+const moment = require('moment');
 
 const users = [
   {
@@ -11,6 +12,7 @@ const users = [
     courses: [],
     favoriteCourses: [],
     histories: [],
+    createdAt: moment().toISOString(),
   },
   {
     _id: getObjectId('Nguyen Thien Ly'),
@@ -22,6 +24,7 @@ const users = [
     courses: [],
     favoriteCourses: [],
     histories: [],
+    createdAt: moment().toISOString(),
   },
   {
     _id: getObjectId('Nguyen Van Hau'),
@@ -33,6 +36,7 @@ const users = [
     courses: [],
     favoriteCourses: [],
     histories: [],
+    createdAt: moment().toISOString(),
   },
   {
     _id: getObjectId('Nguyen Van Phuoc'),
@@ -44,6 +48,7 @@ const users = [
     courses: [],
     favoriteCourses: [],
     histories: [],
+    createdAt: moment().toISOString(),
   },
   {
     _id: getObjectId('Tran Van Chau'),
@@ -55,6 +60,7 @@ const users = [
     courses: [],
     favoriteCourses: [],
     histories: [],
+    createdAt: moment().toISOString(),
   },
   {
     _id: getObjectId('Hoang Dan An'),
@@ -123,6 +129,7 @@ const users = [
       'Operations 3',
     ]),
     histories: [],
+    createdAt: moment().toISOString(),
   },
   {
     _id: getObjectId('Nguyen Van Linh'),
@@ -191,6 +198,7 @@ const users = [
       'Operations 3',
     ]),
     histories: [],
+    createdAt: moment().toISOString(),
   },
   {
     _id: getObjectId('Trinh Nhat Sinh'),
@@ -259,6 +267,7 @@ const users = [
       'Operations 3',
     ]),
     histories: [],
+    createdAt: moment().toISOString(),
   },
   {
     _id: getObjectId('Vo Kong Kiet'),
@@ -327,6 +336,7 @@ const users = [
       'Operations 3',
     ]),
     histories: [],
+    createdAt: moment().toISOString(),
   },
 ];
 
