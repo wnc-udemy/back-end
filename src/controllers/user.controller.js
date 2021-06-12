@@ -25,10 +25,6 @@ const getCourses = catchAsync(async (req, res) => {
   let { limit, page } = req.query;
   let result;
 
-  if (userAuthId.toString() !== userId) {
-    throw new ApiError(httpStatus.FORBIDDEN, 'User token incorrect with params user');
-  }
-
   if (!user) {
     throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
   }
