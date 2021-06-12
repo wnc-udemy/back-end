@@ -10,10 +10,10 @@ const mobileDevelopmentCourses = [
     urlThumb:
       'https://img-c.udemycdn.com/course/240x135/1778502_f4b9_12.jpg?Expires=1622022542&Signature=iyG6uCfAoNaDLd7xnPBrjqHHfRGd4Wc0OAzaXhMjwElLKccSflnmQH8PkH6JoPGYVZhhF8tCcxVQWaPH~JRF~LotLDqte-jfrsxrZmKPLupo12kMJAJVB6sVaXgZF7gZXrO5s2v3R~V0mh79dcv-sE35srdFp~Z2EqnCbdPIDYszXXJZJaC51jBR9VJi~BYhrvoFHn6Ny28ZRC2Gnk2E5hyjp3waGM32BQL3x4GZaXldn-vpLKhNAJgmjpUd8I~EApVSAi-gWirOqKK1ZAwfGj2D7Fw5ZddEWxkcwzh8UGWUKfbJ4dTDRrYhoRVFWnSYM94rydn7VmtRWhA7HUE~dg__&Key-Pair-Id=APKAITJV77WS5ZT7262A',
     fee: 94.99,
-    discount: 0.89,
-    averageRating: 4.7,
+    discount: 0.7,
+    averageRating: 4.9,
     totalTime: 7340,
-    totalLecture: 35,
+    totalLecture: 32,
     targets: [
       'The ins and outs of HTML5, CSS3, and Modern JavaScript for 2021',
       'Create responsive, accessible, and beautiful layouts',
@@ -87,10 +87,10 @@ const mobileDevelopmentCourses = [
     urlThumb:
       'https://img-b.udemycdn.com/course/240x135/959700_8bd2_11.jpg?secure=DEStNr7madlmsum47Pz1DQ%3D%3D%2C1622023992',
     fee: 94.99,
-    discount: 0.89,
-    averageRating: 4.6,
+    discount: 0.82,
+    averageRating: 4.3,
     totalTime: 8340,
-    totalLecture: 44,
+    totalLecture: 34,
     targets: [
       'Develop modern, complex, responsive and scalable web applications with Angular 12',
       'Use the gained, deep understanding of the Angular fundamentals to quickly establish yourself as a frontend developer',
@@ -157,11 +157,11 @@ We will start by helping you get Python installed on your computer, regardless o
       'https://img-c.udemycdn.com/course/240x135/1708340_7108_5.jpg?Expires=1622021735&Signature=fREAgmDlorq2qPLbXyKE0wEERWXNBcIjwkVYYybWFd7aw2PDRaPJEenY0Y8-IiB-9wl~loWf~bcaFUnoKiw4otcvKJ5XT0~DXWQkdPn0fj5Y6KYDMRR450zJG8pvigOtwq~h51M8blD4or1J8e44xsKGYvAbVUnzCyoSj2fSBXM3~WpYwChqiidProPA8-dxvXHF3w5Xw4yott62WdPiAOHhh2WdQUeRgsLQ8kOMsaa6emTtVlaDTm5lQkfXQv9mQGqFHwMoUTCGB1vtBP-VZtijXFtQqrKIcqZMeUcPMOv7-Y2qYhOGf0j~ykT7AGY0D77nsBgI3eXTaLbnPnoWuw__&Key-Pair-Id=APKAITJV77WS5ZT7262A',
     urlThumb:
       'https://img-c.udemycdn.com/course/240x135/1708340_7108_5.jpg?Expires=1622021735&Signature=fREAgmDlorq2qPLbXyKE0wEERWXNBcIjwkVYYybWFd7aw2PDRaPJEenY0Y8-IiB-9wl~loWf~bcaFUnoKiw4otcvKJ5XT0~DXWQkdPn0fj5Y6KYDMRR450zJG8pvigOtwq~h51M8blD4or1J8e44xsKGYvAbVUnzCyoSj2fSBXM3~WpYwChqiidProPA8-dxvXHF3w5Xw4yott62WdPiAOHhh2WdQUeRgsLQ8kOMsaa6emTtVlaDTm5lQkfXQv9mQGqFHwMoUTCGB1vtBP-VZtijXFtQqrKIcqZMeUcPMOv7-Y2qYhOGf0j~ykT7AGY0D77nsBgI3eXTaLbnPnoWuw__&Key-Pair-Id=APKAITJV77WS5ZT7262A',
-    fee: 94.99,
-    discount: 0.89,
-    averageRating: 4.7,
+    fee: 93.99,
+    discount: 0.85,
+    averageRating: 4.4,
     totalTime: 4340,
-    totalLecture: 35,
+    totalLecture: 32,
     targets: [
       'Be able to build ANY website you want.',
       'Build fully-fledged websites and web apps for your startup or business.',
@@ -220,11 +220,11 @@ We will start by helping you get Python installed on your computer, regardless o
       'https://img-c.udemycdn.com/course/240x135/2259120_305f_6.jpg?Expires=1621989445&Signature=S~eghlZ7y4-YuxZNbWiQ~-~l6f1XjBOYYX8fgPtrBcEXLUbBNrsHTy5xYVlQe-dsECF2KhKKBBuL2FfHKaYy4SilNRYAXTBMkIeZBJcHknwCWKZMKjDKteP-Zf1QSf4V7fnYzDbbP9tb47tgeWzm5SE6NVkONY~cjWSxdAnAbTmypisGXEufcbopr-aXM~7KhtJaxRrOOyW5HRoFSBli1J25v00ZDD1xF4y9AI4Lik7PhiHkaghhqdnZ0DSbPSC~du1zbL3LKWtDLU65v5~vYaadXzDwo6T9TOc8Vy7-koMIXqo~XwE6oVc2QDJVSiTCc5v8FqAj~P62eDSN6tlWxQ__&Key-Pair-Id=APKAITJV77WS5ZT7262A',
     urlThumb:
       'https://img-c.udemycdn.com/course/240x135/2259120_305f_6.jpg?Expires=1621989445&Signature=S~eghlZ7y4-YuxZNbWiQ~-~l6f1XjBOYYX8fgPtrBcEXLUbBNrsHTy5xYVlQe-dsECF2KhKKBBuL2FfHKaYy4SilNRYAXTBMkIeZBJcHknwCWKZMKjDKteP-Zf1QSf4V7fnYzDbbP9tb47tgeWzm5SE6NVkONY~cjWSxdAnAbTmypisGXEufcbopr-aXM~7KhtJaxRrOOyW5HRoFSBli1J25v00ZDD1xF4y9AI4Lik7PhiHkaghhqdnZ0DSbPSC~du1zbL3LKWtDLU65v5~vYaadXzDwo6T9TOc8Vy7-koMIXqo~XwE6oVc2QDJVSiTCc5v8FqAj~P62eDSN6tlWxQ__&Key-Pair-Id=APKAITJV77WS5ZT7262A',
-    fee: 94.99,
+    fee: 74.99,
     discount: 0.89,
-    averageRating: 4.7,
+    averageRating: 4.9,
     totalTime: 4340,
-    totalLecture: 35,
+    totalLecture: 32,
     targets: [
       'Become an advanced, confident, and modern JavaScript developer from scratch',
       'Become job-ready by understanding how JavaScript really works behind the scenes',
@@ -277,11 +277,11 @@ We will start by helping you get Python installed on your computer, regardless o
     url: 'https://img-b.udemycdn.com/course/240x135/1289478_5831_10.jpg?secure=2ePWglDW5A9fS3bFsgH2OQ%3D%3D%2C1621985555',
     urlThumb:
       'https://img-b.udemycdn.com/course/240x135/1289478_5831_10.jpg?secure=2ePWglDW5A9fS3bFsgH2OQ%3D%3D%2C1621985555',
-    fee: 94.99,
-    discount: 0.89,
-    averageRating: 4.7,
+    fee: 93.99,
+    discount: 0.8,
+    averageRating: 4.6,
     totalTime: 4340,
-    totalLecture: 35,
+    totalLecture: 34,
     targets: [
       'Build amazing single page applications with React JS and Redux',
       'Realize the power of building composable components',
@@ -334,11 +334,11 @@ We will start by helping you get Python installed on your computer, regardless o
       'https://img-c.udemycdn.com/course/240x135/951618_0839_2.jpg?Expires=1622009419&Signature=CJQuZ4hPPMBf8NdEEBPBKJlowP4uWUpO4WHmBJO9tXIaHsIgPWFfdo0gpvxZu8D~ekjw4BV~q1MH1BiDKwAazdT7n0Z2V9yc3qrnrEGuq1c0XJDh9nkJcGMNToyCQD6C7o5~rOdgppEJ2KDlBaLTDxv4aYfsHH~6o-p7ByJrMHO3bXMF5UPf-HpdwrzS5DJtz9rKgpkHU7n7jSk5~3UB0wUgRb1t9c2QbZz7Np9yrs37DVXB6HNxQ9Ydk82jCL34gGhevqUL4GQ5pzJ9lMxlILPaZIz38yUGUVIApaK~YujkuGhgKetr4nDaouLVuJ~Gahtqvu4bKcdgGUWzcB2pkw__&Key-Pair-Id=APKAITJV77WS5ZT7262A',
     urlThumb:
       'https://img-c.udemycdn.com/course/240x135/951618_0839_2.jpg?Expires=1622009419&Signature=CJQuZ4hPPMBf8NdEEBPBKJlowP4uWUpO4WHmBJO9tXIaHsIgPWFfdo0gpvxZu8D~ekjw4BV~q1MH1BiDKwAazdT7n0Z2V9yc3qrnrEGuq1c0XJDh9nkJcGMNToyCQD6C7o5~rOdgppEJ2KDlBaLTDxv4aYfsHH~6o-p7ByJrMHO3bXMF5UPf-HpdwrzS5DJtz9rKgpkHU7n7jSk5~3UB0wUgRb1t9c2QbZz7Np9yrs37DVXB6HNxQ9Ydk82jCL34gGhevqUL4GQ5pzJ9lMxlILPaZIz38yUGUVIApaK~YujkuGhgKetr4nDaouLVuJ~Gahtqvu4bKcdgGUWzcB2pkw__&Key-Pair-Id=APKAITJV77WS5ZT7262A',
-    fee: 94.99,
-    discount: 0.89,
-    averageRating: 4.5,
+    fee: 70.99,
+    discount: 0.69,
+    averageRating: 3.9,
     totalTime: 4340,
-    totalLecture: 35,
+    totalLecture: 29,
     targets: [
       'Build websites and webapps',
       'Get a job as a junior web developer',
@@ -394,11 +394,11 @@ We will start by helping you get Python installed on your computer, regardless o
       'https://img-c.udemycdn.com/course/240x135/1436092_2024_4.jpg?Expires=1622002347&Signature=C-QbZDOQ0kMU7w~6loO2oUba10ZujEpGLZI0k2zsEwu8U6gtlZZnhL5jG6e9rCbPq118HakvTHLeKQBDa00BQDYcCoAzvFrNkMCe2gTuNIlgGTN4lnvXm3AFypTOw9l59amQnnx8B986yS1FZtPNXLw~OmianMd1RGjxNjbSKzwHJBmEmByGDzetRU4MvfMZF2xh5ldQ6OWs7VH0wk6Nw2u4MmCvIerYh47Oc8hV2FdXQF5edymHCw9sp2W4gOhikfmbswEHj6NrVk7r9uA8qp7oPbBHIh-Fkq0NOkP7t2w-9oTrbIsZXHcaSWIbwOY0NSa54GKeXRhSDSdinUfmuA__&Key-Pair-Id=APKAITJV77WS5ZT7262A',
     urlThumb:
       'https://img-c.udemycdn.com/course/240x135/1436092_2024_4.jpg?Expires=1622002347&Signature=C-QbZDOQ0kMU7w~6loO2oUba10ZujEpGLZI0k2zsEwu8U6gtlZZnhL5jG6e9rCbPq118HakvTHLeKQBDa00BQDYcCoAzvFrNkMCe2gTuNIlgGTN4lnvXm3AFypTOw9l59amQnnx8B986yS1FZtPNXLw~OmianMd1RGjxNjbSKzwHJBmEmByGDzetRU4MvfMZF2xh5ldQ6OWs7VH0wk6Nw2u4MmCvIerYh47Oc8hV2FdXQF5edymHCw9sp2W4gOhikfmbswEHj6NrVk7r9uA8qp7oPbBHIh-Fkq0NOkP7t2w-9oTrbIsZXHcaSWIbwOY0NSa54GKeXRhSDSdinUfmuA__&Key-Pair-Id=APKAITJV77WS5ZT7262A',
-    fee: 94.99,
-    discount: 0.89,
-    averageRating: 4.5,
+    fee: 87.99,
+    discount: 0.76,
+    averageRating: 4.3,
     totalTime: 4340,
-    totalLecture: 35,
+    totalLecture: 34,
     targets: [
       'Real-world skills to build real-world websites: professional, beautiful and truly responsive websites',
       'The proven 7 real-world steps from complete scratch to a fully functional and optimized website',
@@ -456,11 +456,11 @@ We will start by helping you get Python installed on your computer, regardless o
     url: 'https://img-b.udemycdn.com/course/240x135/1405812_931d_2.jpg?secure=f-WrysCljD351fOrw2AOYg%3D%3D%2C1621989518',
     urlThumb:
       'https://img-b.udemycdn.com/course/240x135/1405812_931d_2.jpg?secure=f-WrysCljD351fOrw2AOYg%3D%3D%2C1621989518',
-    fee: 94.99,
-    discount: 0.89,
-    averageRating: 4.7,
+    fee: 95.99,
+    discount: 0.69,
+    averageRating: 4.4,
     totalTime: 4340,
-    totalLecture: 35,
+    totalLecture: 33,
     targets: [
       'Build amazing Vue.js Applications - all the Way from Small and Simple Ones up to Large Enterprise-level Ones',
       'Leverage Vue.js in both Multi- and Single-Page-Applications (MPAs and SPAs)',
@@ -515,11 +515,11 @@ We will start by helping you get Python installed on your computer, regardless o
     url: 'https://img-b.udemycdn.com/course/240x135/1070124_3a0f_4.jpg?secure=KDOrkw1PXWHr4iFLX8npUQ%3D%3D%2C1621997263',
     urlThumb:
       'https://img-b.udemycdn.com/course/240x135/1070124_3a0f_4.jpg?secure=KDOrkw1PXWHr4iFLX8npUQ%3D%3D%2C1621997263',
-    fee: 94.99,
-    discount: 0.89,
-    averageRating: 4.7,
+    fee: 44.99,
+    discount: 0.69,
+    averageRating: 4.4,
     totalTime: 4340,
-    totalLecture: 35,
+    totalLecture: 36,
     targets: [
       'Skills that will allow you to apply for jobs like: Web Developer, Software Developer, Front End Developer, Javascript Developer, and Full Stack Developer',
       'Build 10+ real world Web Development projects you can show off',
@@ -581,11 +581,11 @@ We will start by helping you get Python installed on your computer, regardless o
       'https://img-c.udemycdn.com/course/240x135/892102_963b.jpg?Expires=1622008452&Signature=BC5xSzneDU4-yxtFUD8kIvT0NNFyL8j0moisoqFduAaDixxYjf6X4IaaFRzZpT2KZammCXBCn-2-ley1wL5gGynvLKwSbaLKvDYSdddliXOh3hjrRI5OmdOcmmsd-j3I~SVTmpJOS7TEXyWsjKrJyymf9a1raglNY-wRb7axt65KcWtBLLI50M4f4loSCvaiik44kxD7xNsc0NNDjJMXkuR~p-byn-1e4tmIwCg7~C~GS4mr1WKMp0u~aqMLlb0XDtqixSaEdzWzdeoKIZylIEeEWwg94AMk~Ab3q1YiDTJqM9IahKU1eioI5rPcmLCGcMFQ9xlByKTqlWaqNROuvw__&Key-Pair-Id=APKAITJV77WS5ZT7262A',
     urlThumb:
       'https://img-c.udemycdn.com/course/240x135/892102_963b.jpg?Expires=1622008452&Signature=BC5xSzneDU4-yxtFUD8kIvT0NNFyL8j0moisoqFduAaDixxYjf6X4IaaFRzZpT2KZammCXBCn-2-ley1wL5gGynvLKwSbaLKvDYSdddliXOh3hjrRI5OmdOcmmsd-j3I~SVTmpJOS7TEXyWsjKrJyymf9a1raglNY-wRb7axt65KcWtBLLI50M4f4loSCvaiik44kxD7xNsc0NNDjJMXkuR~p-byn-1e4tmIwCg7~C~GS4mr1WKMp0u~aqMLlb0XDtqixSaEdzWzdeoKIZylIEeEWwg94AMk~Ab3q1YiDTJqM9IahKU1eioI5rPcmLCGcMFQ9xlByKTqlWaqNROuvw__&Key-Pair-Id=APKAITJV77WS5ZT7262A',
-    fee: 94.99,
+    fee: 80.99,
     discount: 0.89,
-    averageRating: 4.7,
+    averageRating: 4.5,
     totalTime: 4340,
-    totalLecture: 35,
+    totalLecture: 36,
     targets: [
       `Grasp how Javascript works and it's fundamental concepts`,
       'Understand advanced concepts such as closures, prototypal inheritance, IIFEs, and much more.',

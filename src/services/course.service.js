@@ -35,6 +35,7 @@ const queryMostViewCourses = async () => {
         averageRating: 1,
         totalTime: 1,
         totalLecture: 1,
+        fee: 1,
         urlThumb: 1,
         totalComment: {
           $size: '$comments',
@@ -94,6 +95,7 @@ const queryLatestCourses = async () => {
         averageRating: 1,
         totalTime: 1,
         totalLecture: 1,
+        fee: 1,
         urlThumb: 1,
         totalComment: {
           $size: '$comments',
@@ -154,6 +156,7 @@ const queryHighlightCourses = async () => {
         averageRating: 1,
         totalTime: 1,
         totalLecture: 1,
+        fee: 1,
         urlThumb: 1,
         createdAt: 1,
         totalComment: {
@@ -228,6 +231,7 @@ const queryCoursesFilterFollowSubCategory = async (filter, options) => {
         averageRating: 1,
         totalTime: 1,
         totalLecture: 1,
+        fee: 1,
         urlThumb: 1,
         createdAt: 1,
         totalComment: { $size: '$comments' },
@@ -317,6 +321,7 @@ const queryCoursesFilterFollowCategory = async (filter, options) => {
         averageRating: 1,
         totalTime: 1,
         totalLecture: 1,
+        fee: 1,
         urlThumb: 1,
         createdAt: 1,
         totalComment: { $size: '$comments' },
@@ -387,6 +392,7 @@ const queryCoursesFilter = async (filter, options) => {
         averageRating: 1,
         totalTime: 1,
         totalLecture: 1,
+        fee: 1,
         urlThumb: 1,
         createdAt: 1,
         totalComment: { $size: '$comments' },
@@ -440,7 +446,7 @@ const queryAdvanceFilterCourses = async (filter, options) => {
   if (options.sortBy) {
     options.sortBy.split(',').forEach((sortOption) => {
       const [key, order] = sortOption.split(':');
-      sort[`courses.${key}`] = order === 'desc' ? -1 : 1;
+      sort[key] = order === 'desc' ? -1 : 1;
     });
   } else {
     sort.createdAt = 1;
@@ -511,6 +517,7 @@ const querySubscribedCourses = async (id, pagination) => {
         averageRating: 1,
         totalTime: 1,
         totalLecture: 1,
+        fee: 1,
         urlThumb: 1,
         createdAt: 1,
         totalComment: { $size: '$comments' },
@@ -589,6 +596,7 @@ const queryFavoriteCourses = async (id, pagination) => {
         averageRating: 1,
         totalTime: 1,
         totalLecture: 1,
+        fee: 1,
         urlThumb: 1,
         createdAt: 1,
         totalComment: { $size: '$comments' },
@@ -641,6 +649,7 @@ const queryYourCreatedCourses = async (filter, pagination) => {
         averageRating: 1,
         totalTime: 1,
         totalLecture: 1,
+        fee: 1,
         urlThumb: 1,
         createdAt: 1,
         totalComment: { $size: '$comments' },
@@ -813,6 +822,8 @@ const getCourseDetailById = async (id, status) => {
         averageRating: 1,
         totalTime: 1,
         totalLecture: 1,
+        targets: 1,
+        fee: 1,
         url: 1,
         updatedAt: 1,
         totalComment: {
@@ -872,6 +883,7 @@ const getCourseCommentById = async (id, status) => {
         preserveNullAndEmptyArrays: true,
       },
     },
+    { $sort: { 'comments.createdAt': -1 } },
     {
       $lookup: {
         from: 'user',
@@ -1064,6 +1076,7 @@ const getCourseSimilarById = async (id, status) => {
         averageRating: '$courses.averageRating',
         totalTime: '$courses.totalTime',
         totalLecture: '$courses.totalLecture',
+        totalLecture: '$courses.fee',
         urlThumb: '$courses.urlThumb',
         createdAt: '$courses.createdAt',
         totalComment: { $size: '$courses.comments' },

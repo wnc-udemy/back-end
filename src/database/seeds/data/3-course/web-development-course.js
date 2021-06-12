@@ -9,11 +9,11 @@ const webDevelopmentCourses = [
       'https://img-c.udemycdn.com/course/240x135/625204_436a_3.jpg?Expires=1622002346&Signature=UBxJ7ORZECwkY7mzc7oK3ZF1G7hQ253jUHCnyIlRrIBqSIs~rm-cTYfdVnXjC4V0SpVMIYu8XtNzA5L2Y~MYI2tlLCkBmwuLkQ9MoB6-pnRTgE7Vly5MPXmt8LLk0-vM0SUKARVepw9Z3b5XKmMOIotT2SBrpdAkM40aSfkwvlB5vLGDi4OLSTE5~fjnXaGBsiokktwqbbn3-jygDUnE6fxBCGETkEgw7yZN2Vl~Vc0OsT6BxoTV-PrGT-J3qSNM2qW-ixNUNbIJ~9yomVbVBUgTNn779BIAZDjryFGYhMYuY1lHYrPTmwSnWPcMCJIeO760dNbo~E1hA8Y2TRVXlA__&Key-Pair-Id=APKAITJV77WS5ZT7262A',
     urlThumb:
       'https://img-c.udemycdn.com/course/240x135/756150_c033_2.jpg?Expires=1622002347&Signature=EfN9xLg2zO8cjGKuM6qlLEvURYSfjQB4h1IAJZApmT-yq39zlwEv0OtTUxnFUzPDDd9b9GZ6bHBoyPDPdrKvK4~YL5Y4ueEKvgpLiJu32e7GXoOJ9tJKKR87vazyJgbAgSJPX9AzLHuWE92qlZpqP1XpiTTPLiH1FIc56DcDQ4pfSO9z~Qwup8ZjF6mlsK84xH8u5rwpxBjgFLEiC~WZc64Iom1nqh2eogb-w7bupxeMhMb~5SB7XjCOpXy757D9rytyPyClbz2v2EaG6~oMPCQWJz53PumslFI9FJYOFJ1s6Ohk403gP8tyAxZDfKOzA1uBHUgjtpmeThm7XC9TTQ__&Key-Pair-Id=APKAITJV77WS5ZT7262A',
-    fee: 94.99,
+    fee: 64.99,
     discount: 0.89,
-    averageRating: 4.7,
+    averageRating: 4.1,
     totalTime: 4340,
-    totalLecture: 35,
+    totalLecture: 31,
     targets: [
       'The ins and outs of HTML5, CSS3, and Modern JavaScript for 2021',
       'Create responsive, accessible, and beautiful layouts',
@@ -102,11 +102,11 @@ const webDevelopmentCourses = [
       'https://img-c.udemycdn.com/course/240x135/756150_c033_2.jpg?Expires=1622002347&Signature=EfN9xLg2zO8cjGKuM6qlLEvURYSfjQB4h1IAJZApmT-yq39zlwEv0OtTUxnFUzPDDd9b9GZ6bHBoyPDPdrKvK4~YL5Y4ueEKvgpLiJu32e7GXoOJ9tJKKR87vazyJgbAgSJPX9AzLHuWE92qlZpqP1XpiTTPLiH1FIc56DcDQ4pfSO9z~Qwup8ZjF6mlsK84xH8u5rwpxBjgFLEiC~WZc64Iom1nqh2eogb-w7bupxeMhMb~5SB7XjCOpXy757D9rytyPyClbz2v2EaG6~oMPCQWJz53PumslFI9FJYOFJ1s6Ohk403gP8tyAxZDfKOzA1uBHUgjtpmeThm7XC9TTQ__&Key-Pair-Id=APKAITJV77WS5ZT7262A',
     urlThumb:
       'https://img-c.udemycdn.com/course/240x135/756150_c033_2.jpg?Expires=1622002347&Signature=EfN9xLg2zO8cjGKuM6qlLEvURYSfjQB4h1IAJZApmT-yq39zlwEv0OtTUxnFUzPDDd9b9GZ6bHBoyPDPdrKvK4~YL5Y4ueEKvgpLiJu32e7GXoOJ9tJKKR87vazyJgbAgSJPX9AzLHuWE92qlZpqP1XpiTTPLiH1FIc56DcDQ4pfSO9z~Qwup8ZjF6mlsK84xH8u5rwpxBjgFLEiC~WZc64Iom1nqh2eogb-w7bupxeMhMb~5SB7XjCOpXy757D9rytyPyClbz2v2EaG6~oMPCQWJz53PumslFI9FJYOFJ1s6Ohk403gP8tyAxZDfKOzA1uBHUgjtpmeThm7XC9TTQ__&Key-Pair-Id=APKAITJV77WS5ZT7262A',
-    fee: 94.99,
-    discount: 0.89,
-    averageRating: 4.6,
+    fee: 91.99,
+    discount: 0.69,
+    averageRating: 4.2,
     totalTime: 4340,
-    totalLecture: 35,
+    totalLecture: 36,
     targets: [
       'Develop modern, complex, responsive and scalable web applications with Angular 12',
       'Use the gained, deep understanding of the Angular fundamentals to quickly establish yourself as a frontend developer',
@@ -184,11 +184,11 @@ const webDevelopmentCourses = [
       'https://img-c.udemycdn.com/course/240x135/1565838_e54e_12.jpg?Expires=1622002347&Signature=TgtUdj5EkOtgxcsfetOKgVjKcgCvjKt50NzaGtU0HwxG2AkR2sXdoxaNACYXVdzRiAGw8A~GfmJGhVDo5YQAEirSllbcWO-1TyzrmLXyFLITOvAqxIrd1904uRjrC8YAVE1kJwAG6OsGBnnG2ztcG3jEEPdOw2IwrdBGWFPLHjW9NL4VSnf32DwlhIraxwdDr~cN3Q-tiYuxpeokmF-QJcW2tL7NO4Aq4OjcuH8Pz1iAjInlsLZ8f419WIF4lFVorZ7RYbQAnnAB9B~DqyoC770VQayc6HXNKJ-LFQR-cprN2zINSu4jeUgW92TbPFJL0Bjrb7~0-QYKZdK0v~EP1w__&Key-Pair-Id=APKAITJV77WS5ZT7262A',
     urlThumb:
       'https://img-c.udemycdn.com/course/240x135/1565838_e54e_12.jpg?Expires=1622002347&Signature=TgtUdj5EkOtgxcsfetOKgVjKcgCvjKt50NzaGtU0HwxG2AkR2sXdoxaNACYXVdzRiAGw8A~GfmJGhVDo5YQAEirSllbcWO-1TyzrmLXyFLITOvAqxIrd1904uRjrC8YAVE1kJwAG6OsGBnnG2ztcG3jEEPdOw2IwrdBGWFPLHjW9NL4VSnf32DwlhIraxwdDr~cN3Q-tiYuxpeokmF-QJcW2tL7NO4Aq4OjcuH8Pz1iAjInlsLZ8f419WIF4lFVorZ7RYbQAnnAB9B~DqyoC770VQayc6HXNKJ-LFQR-cprN2zINSu4jeUgW92TbPFJL0Bjrb7~0-QYKZdK0v~EP1w__&Key-Pair-Id=APKAITJV77WS5ZT7262A',
-    fee: 94.99,
+    fee: 78.99,
     discount: 0.89,
-    averageRating: 4.7,
+    averageRating: 4.5,
     totalTime: 4340,
-    totalLecture: 35,
+    totalLecture: 25,
     targets: [
       'Be able to build ANY website you want.',
       'Build fully-fledged websites and web apps for your startup or business.',
@@ -253,11 +253,11 @@ const webDevelopmentCourses = [
       'https://img-c.udemycdn.com/course/240x135/851712_fc61_6.jpg?Expires=1622018818&Signature=R5v5cLBUly-mCBnDjz9mQll-Gcp4WZB54NKnbtfl46ZL95UQzx6kDPoQ2r1~jCACRVzwle-~gsqHJHZvN2QM~7QsBcO7TKMddmsai1eHBJwOSCSrvKoUNNht-KaThTSVda2FwkK9VXuMKDeeC32cU9nW0ivZx55hw8rvzUKUZ0aRsUB~W64Pe1JVjXUj8jutmEpth5pFWwR0Tl3CqTOSbBZVNRU7PVwTsnDESjb0XqaktW7mQYidaxIBgpYV~o~q3Lt4LkzBEge0-Jejk1cXFfhEADQRhx3W870OE3qKcSLANSMnxzUFrJKowjZOdtqMlX1IG-eScXzmW0Uvsi0RQQ__&Key-Pair-Id=APKAITJV77WS5ZT7262A',
     urlThumb:
       'https://img-c.udemycdn.com/course/240x135/851712_fc61_6.jpg?Expires=1622018818&Signature=R5v5cLBUly-mCBnDjz9mQll-Gcp4WZB54NKnbtfl46ZL95UQzx6kDPoQ2r1~jCACRVzwle-~gsqHJHZvN2QM~7QsBcO7TKMddmsai1eHBJwOSCSrvKoUNNht-KaThTSVda2FwkK9VXuMKDeeC32cU9nW0ivZx55hw8rvzUKUZ0aRsUB~W64Pe1JVjXUj8jutmEpth5pFWwR0Tl3CqTOSbBZVNRU7PVwTsnDESjb0XqaktW7mQYidaxIBgpYV~o~q3Lt4LkzBEge0-Jejk1cXFfhEADQRhx3W870OE3qKcSLANSMnxzUFrJKowjZOdtqMlX1IG-eScXzmW0Uvsi0RQQ__&Key-Pair-Id=APKAITJV77WS5ZT7262A',
-    fee: 94.99,
+    fee: 66.99,
     discount: 0.89,
-    averageRating: 4.7,
+    averageRating: 3.2,
     totalTime: 4340,
-    totalLecture: 35,
+    totalLecture: 31,
     targets: [
       'Become an advanced, confident, and modern JavaScript developer from scratch',
       'Become job-ready by understanding how JavaScript really works behind the scenes',
@@ -311,11 +311,11 @@ const webDevelopmentCourses = [
       'https://img-c.udemycdn.com/course/240x135/705264_caa9_11.jpg?Expires=1622018655&Signature=Vid4Xna~i5FcrgKLHCry4H7Khe6ZA2XBRbUpoWucV4qj5KLQaGsGCKco5p2Hx8xbO-vSOLcXYogf45tEe-2UgWzvRUNcLo87H9OZJkXoIeuSp8okkBtOs5UnTTyABVbLhyIHWQYeJW2FMpHrCj28Pt6Dn-sQlSqElowX3XXt9zyRt6JRoVFKtR8SFSN6lDqfiDVsOswcamVk03FKsi86rV7oQr18Lv~GiHifGIOwyu4CIaauyVBgaCgU8hZKHcpU7pyvB1pw70fllUPubaqhqMAoBkISBXXIklzhyRFQKy0SSn~iCiqyPhLIjpua8VhaAfoWjm2x7mzrkuP03ptX5A__&Key-Pair-Id=APKAITJV77WS5ZT7262A',
     urlThumb:
       'https://img-c.udemycdn.com/course/240x135/705264_caa9_11.jpg?Expires=1622018655&Signature=Vid4Xna~i5FcrgKLHCry4H7Khe6ZA2XBRbUpoWucV4qj5KLQaGsGCKco5p2Hx8xbO-vSOLcXYogf45tEe-2UgWzvRUNcLo87H9OZJkXoIeuSp8okkBtOs5UnTTyABVbLhyIHWQYeJW2FMpHrCj28Pt6Dn-sQlSqElowX3XXt9zyRt6JRoVFKtR8SFSN6lDqfiDVsOswcamVk03FKsi86rV7oQr18Lv~GiHifGIOwyu4CIaauyVBgaCgU8hZKHcpU7pyvB1pw70fllUPubaqhqMAoBkISBXXIklzhyRFQKy0SSn~iCiqyPhLIjpua8VhaAfoWjm2x7mzrkuP03ptX5A__&Key-Pair-Id=APKAITJV77WS5ZT7262A',
-    fee: 94.99,
+    fee: 23.99,
     discount: 0.89,
-    averageRating: 4.7,
+    averageRating: 4.2,
     totalTime: 4340,
-    totalLecture: 35,
+    totalLecture: 16,
     targets: [
       'Build amazing single page applications with React JS and Redux',
       'Realize the power of building composable components',
@@ -368,11 +368,11 @@ const webDevelopmentCourses = [
       'https://img-c.udemycdn.com/course/240x135/764164_de03_2.jpg?Expires=1622018755&Signature=F3hDacG-YZwNxJJjqhRo6tV5iP7mTXjlLr0oib5JwjV45WmGhsrxqlg7Azb-DCOfM1FbbeQLPdpBUFLsU77a5h30ktYUuF0VCSlUfugd3Mj9Xg-iLXwANR05s1Hzh3XBRa3AWhU5pc4OtZK56FTGgYIa1FRWun2w4ksmKMWyJ5xbvl8i1emkboHW1RU-Vxw~tiHuIOeAOIO362N83QgEyEuExmxbRqogb-zUYXbpvSDjz6iMHs2lpQt-m2ZnjsZ~4PQwEAMOQu9cyYs0HfmM3yBzKGh9SoZ~IMF8Jw0WeaTDeliCXhU3x17jTji~Uobgf25L8SjHxOIGd9vZwYUOfA__&Key-Pair-Id=APKAITJV77WS5ZT7262A',
     urlThumb:
       'https://img-c.udemycdn.com/course/240x135/764164_de03_2.jpg?Expires=1622018755&Signature=F3hDacG-YZwNxJJjqhRo6tV5iP7mTXjlLr0oib5JwjV45WmGhsrxqlg7Azb-DCOfM1FbbeQLPdpBUFLsU77a5h30ktYUuF0VCSlUfugd3Mj9Xg-iLXwANR05s1Hzh3XBRa3AWhU5pc4OtZK56FTGgYIa1FRWun2w4ksmKMWyJ5xbvl8i1emkboHW1RU-Vxw~tiHuIOeAOIO362N83QgEyEuExmxbRqogb-zUYXbpvSDjz6iMHs2lpQt-m2ZnjsZ~4PQwEAMOQu9cyYs0HfmM3yBzKGh9SoZ~IMF8Jw0WeaTDeliCXhU3x17jTji~Uobgf25L8SjHxOIGd9vZwYUOfA__&Key-Pair-Id=APKAITJV77WS5ZT7262A',
-    fee: 94.99,
-    discount: 0.89,
+    fee: 64.99,
+    discount: 0.59,
     averageRating: 4.5,
     totalTime: 4340,
-    totalLecture: 35,
+    totalLecture: 30,
     targets: [
       'Build websites and webapps',
       'Get a job as a junior web developer',
@@ -428,11 +428,11 @@ const webDevelopmentCourses = [
       'https://img-c.udemycdn.com/course/240x135/437398_46c3_9.jpg?Expires=1622020583&Signature=PWSHGL~HjTwovxefa1YCWKTQZ0wqlQMF26RSDrBdabpY6PdKHHMKLKz9mCHJY74sZ4rPchCRSuT7ziBelHiiuGoqO-wDs9bKV-SSTpgWISDV99SWMPpU~MIbiXVqUvTD3yi43LXZN7mCGyLkYmbxCUOPWJo-6Azmmr2s8OkeT8Gyj1Rwg6Tnyj5dCAyacnfAe8mZRMKMNXDUF87l07LM8-630X9MZ7sBF4JbCQtdp1fyYi9JQRk1VVeFxXY9l7brV49m9v4ZCFsbwdRYatv93LeCaF-SM8yOxp-bPCpW6vPdLguDpUSopcfReb02wOxYVsacq0XDs5elq0dI-nE2WA__&Key-Pair-Id=APKAITJV77WS5ZT7262A',
     urlThumb:
       'https://img-c.udemycdn.com/course/240x135/437398_46c3_9.jpg?Expires=1622020583&Signature=PWSHGL~HjTwovxefa1YCWKTQZ0wqlQMF26RSDrBdabpY6PdKHHMKLKz9mCHJY74sZ4rPchCRSuT7ziBelHiiuGoqO-wDs9bKV-SSTpgWISDV99SWMPpU~MIbiXVqUvTD3yi43LXZN7mCGyLkYmbxCUOPWJo-6Azmmr2s8OkeT8Gyj1Rwg6Tnyj5dCAyacnfAe8mZRMKMNXDUF87l07LM8-630X9MZ7sBF4JbCQtdp1fyYi9JQRk1VVeFxXY9l7brV49m9v4ZCFsbwdRYatv93LeCaF-SM8yOxp-bPCpW6vPdLguDpUSopcfReb02wOxYVsacq0XDs5elq0dI-nE2WA__&Key-Pair-Id=APKAITJV77WS5ZT7262A',
-    fee: 94.99,
-    discount: 0.89,
+    fee: 33.99,
+    discount: 0.49,
     averageRating: 4.5,
     totalTime: 4340,
-    totalLecture: 35,
+    totalLecture: 44,
     targets: [
       'Real-world skills to build real-world websites: professional, beautiful and truly responsive websites',
       'The proven 7 real-world steps from complete scratch to a fully functional and optimized website',
@@ -500,10 +500,10 @@ const webDevelopmentCourses = [
     urlThumb:
       'https://img-c.udemycdn.com/course/240x135/995016_ebf4_3.jpg?Expires=1622006445&Signature=jFg3pYugjEFadINSTJh04JBgpF81g2gy2~lBmuwRdKly5hvTawAQ~bn25f9eYB3tTtvbDseEbIHbR6ycLcvzGGyv4tORl36M~PcaT2L4K4XQfc0lNIGltD47gQ8g2K681t3boWoA-H2hbtGrguufbI3qitHwN09Lu9XionneD-vZKeyW9Ea4g~HiaaZtxpI24gfNFOI-~Q6VrIzzYrL5X4UtnVCLrf2SZIIfzseHASnpwevG3lpI5pxjnUJMgA1FCJK-BRghFR5AbYNXkObTB5qPjqyGfKMj1UCutb66YqdKwfTZSE2ZP9YLuiJGwZ5J0kP-3WeaDPdQgx1m7VOySQ__&Key-Pair-Id=APKAITJV77WS5ZT7262A',
     fee: 94.99,
-    discount: 0.89,
-    averageRating: 4.7,
+    discount: 0.69,
+    averageRating: 3.4,
     totalTime: 4340,
-    totalLecture: 35,
+    totalLecture: 25,
     targets: [
       'Build amazing Vue.js Applications - all the Way from Small and Simple Ones up to Large Enterprise-level Ones',
       'Leverage Vue.js in both Multi- and Single-Page-Applications (MPAs and SPAs)',
@@ -558,11 +558,11 @@ const webDevelopmentCourses = [
     url: 'https://img-b.udemycdn.com/course/240x135/1430746_2f43_10.jpg?secure=Moyi23xn5Pwg7xFa_SuVlg%3D%3D%2C1622018754',
     urlThumb:
       'https://img-b.udemycdn.com/course/240x135/1430746_2f43_10.jpg?secure=Moyi23xn5Pwg7xFa_SuVlg%3D%3D%2C1622018754',
-    fee: 94.99,
+    fee: 56.99,
     discount: 0.89,
-    averageRating: 4.7,
+    averageRating: 4.4,
     totalTime: 4340,
-    totalLecture: 35,
+    totalLecture: 37,
     targets: [
       'Skills that will allow you to apply for jobs like: Web Developer, Software Developer, Front End Developer, Javascript Developer, and Full Stack Developer',
       'Build 10+ real world Web Development projects you can show off',
