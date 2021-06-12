@@ -15,7 +15,7 @@ router.route('/:userId/courses').get(auth('course.gets'), validate(userValidatio
 
 router
   .route('/:userId/:courseId')
-  .get(auth('user.update'), validate(userValidation.updateCourse), userController.updateCourses);
+  .get(auth('course.update'), validate(userValidation.updateCourse), userController.updateCourses);
 
 router
   .route('/:userId/courses/:courseId')

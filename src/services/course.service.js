@@ -558,7 +558,11 @@ const querySubscribedCourses = async (id, pagination) => {
   });
 
   courses.forEach((e) => {
-    e.complete = Math.round((objCoursesStatus[e._id].totalComplete / objCoursesStatus[e._id].totalLecture) * 100);
+    if (objCoursesStatus[e._id]) {
+      e.complete = Math.round((objCoursesStatus[e._id].totalComplete / objCoursesStatus[e._id].totalLecture) * 100);
+    } else {
+      e.complete = 0;
+    }
   });
 
   return { courses, total };

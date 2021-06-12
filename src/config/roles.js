@@ -7,6 +7,7 @@ roleRights.set(roles[0], [
   'user.update',
   'course.gets-for-moodle',
   'course.gets',
+  'course.update',
   'history.update',
   'history.delete',
   'history.create',
