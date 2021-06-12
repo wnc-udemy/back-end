@@ -73,7 +73,7 @@ const updateUser = {
       email: Joi.string().email(),
       password: Joi.string().custom(password),
       name: Joi.string(),
-      role: Joi.string().valid('user', 'student', 'instructor', 'admin'),
+      role: Joi.string().valid('user', 'instructor', 'admin'),
       isEmailVerified: Joi.boolean(),
       courses: Joi.array(),
       favoriteCourses: Joi.array(),
