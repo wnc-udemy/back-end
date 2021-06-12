@@ -42,13 +42,24 @@ const queryAllCategories = async () => {
       },
     },
     {
+      $addFields: {
+        'subCategories.total': { $size: '$subCategories.courses' },
+      },
+    },
+    {
       $project: {
         'subCategories.courses': 0,
         'subCategories.bestSellerCourses': 0,
         'subCategories.totalRegister': 0,
       },
     },
+    {
+      $addFields: {
+        total: { $sum: '$subCategories.total' },
+      },
+    },
   ]);
+
   return categories;
 };
 
