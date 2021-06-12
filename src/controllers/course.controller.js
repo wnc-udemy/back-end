@@ -92,13 +92,13 @@ const getCourse = catchAsync(async (req, res) => {
     case 1:
       result = await courseService.getCourseCommentById(courseId, [2]);
       break;
-    // similar course
-    case 2:
-      result = await courseService.getCourseSimilarById(courseId, [2]);
-      break;
     // sections of course
-    case 3:
+    case 2:
       result = await courseService.getCourseSectionById(courseId, [2]);
+      break;
+    // similar course
+    case 3:
+      result = await courseService.getCourseSimilarById(courseId, [2]);
       break;
     // instructor course detail
     case 4:

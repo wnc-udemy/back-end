@@ -866,6 +866,17 @@ const getCourseById = async (id) => {
 const getCourseCommentById = async (id, status) => {
   const courseID = new mongoose.Types.ObjectId(id);
 
+  const course = await Course.findOne({
+    _id: courseID,
+    status: { $in: status },
+  });
+
+  if (course.comments.length === 0) {
+    const { _id, comments } = course;
+    return { _id, comments, averageRating: 0, ratingRate: [0, 0, 0, 0, 0] };
+  }
+
+  // TODO: if course not exits comment
   const list = await Course.aggregate([
     {
       $match: {
@@ -959,12 +970,22 @@ const getCourseCommentById = async (id, status) => {
  * @returns {Promise<Category>}
  */
 const getCourseSectionById = async (id, status) => {
-  const courseId = new mongoose.Types.ObjectId(id);
+  const courseID = new mongoose.Types.ObjectId(id);
+
+  const course = await Course.findOne({
+    _id: courseID,
+    status: { $in: status },
+  });
+
+  if (course.sections.length === 0) {
+    const { _id, sections } = course;
+    return { _id, sections, totalSection: 0, totalTime: 0, totalLecture: 0 };
+  }
 
   const list = await Course.aggregate([
     {
       $match: {
-        _id: courseId,
+        _id: courseID,
         status: { $in: status },
       },
     },
@@ -1048,7 +1069,6 @@ const getCourseSimilarById = async (id, status) => {
     {
       $match: {
         courses: { $elemMatch: { $eq: courseID } },
-        status,
       },
     },
     {
@@ -1061,6 +1081,11 @@ const getCourseSimilarById = async (id, status) => {
     },
     {
       $unwind: '$courses',
+    },
+    {
+      $match: {
+        'courses.status': { $in: status },
+      },
     },
     {
       $lookup: {
@@ -1080,7 +1105,7 @@ const getCourseSimilarById = async (id, status) => {
         averageRating: '$courses.averageRating',
         totalTime: '$courses.totalTime',
         totalLecture: '$courses.totalLecture',
-        totalLecture: '$courses.fee',
+        fee: '$courses.fee',
         urlThumb: '$courses.urlThumb',
         createdAt: '$courses.createdAt',
         totalComment: { $size: '$courses.comments' },
