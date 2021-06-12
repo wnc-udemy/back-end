@@ -8,6 +8,11 @@ const createComment = catchAsync(async (req, res) => {
   const { course: courseId, ...commentBody } = req.body;
   const { user } = req;
   const { _id: userId } = user;
+  const { rating } = commentBody;
+
+  if (!rating || rating > 5) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Rating was invalid');
+  }
 
   if (!user) {
     throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
@@ -30,7 +35,7 @@ const createComment = catchAsync(async (req, res) => {
   }
 
   // Update course info after create new comment
-  const { _id: commentId, rating } = comment;
+  const { _id: commentId } = comment;
   const { averageRating } = course;
 
   if (averageRating === 0.0 || averageRating === 0) {
