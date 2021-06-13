@@ -243,8 +243,8 @@ const queryCoursesFilterFollowSubCategory = async (filter, options) => {
       $unwind: '$instructorName',
     },
     { $sort: sort },
-    { $limit: limit },
     { $skip: skip },
+    { $limit: limit },
   ];
 
   // status: 2 - published
@@ -333,8 +333,8 @@ const queryCoursesFilterFollowCategory = async (filter, options) => {
       $unwind: '$instructorName',
     },
     { $sort: sort },
-    { $limit: limit },
     { $skip: skip },
+    { $limit: limit },
   ];
 
   // status: 2 - published
@@ -404,8 +404,8 @@ const queryCoursesFilter = async (filter, options) => {
       $unwind: '$instructorName',
     },
     { $sort: sort },
-    { $limit: limit },
     { $skip: skip },
+    { $limit: limit },
   ];
 
   // status: 2 - published
@@ -526,8 +526,8 @@ const querySubscribedCourses = async (id, pagination) => {
     {
       $unwind: '$instructorName',
     },
-    { $limit: limit },
     { $skip: skip },
+    { $limit: limit },
   ]);
 
   const coursesStatus = await History.aggregate([
@@ -610,8 +610,8 @@ const queryFavoriteCourses = async (id, pagination) => {
     {
       $unwind: '$instructorName',
     },
-    { $limit: limit },
     { $skip: skip },
+    { $limit: limit },
   ]);
 
   return { courses, total };
@@ -663,8 +663,8 @@ const queryYourCreatedCourses = async (filter, pagination) => {
     {
       $unwind: '$instructorName',
     },
-    { $limit: limit },
     { $skip: skip },
+    { $limit: limit },
   ]);
 
   return { courses, total };
