@@ -122,7 +122,7 @@ function handleMessage(senderPSID, message) {
     }
   });
 
-  logger.info({ entityChosen });
+  console.log({ entityChosen });
 
   if (entityChosen === '') {
     // default
@@ -153,7 +153,7 @@ const postWebhook = catchAsync(async (req, res) => {
     body.entry.forEach(function (entry) {
       // Gets the body of the webhook event
       const webhookEvent = entry.messaging[0];
-      logger.info({ webhookEvent });
+      console.log({ webhookEvent });
 
       // Get the sender PSID
       const senderPSID = webhookEvent.sender.id;
@@ -161,7 +161,7 @@ const postWebhook = catchAsync(async (req, res) => {
 
       // Check if the event is a message or postback and
       // pass the event to the appropriate handler function
-      logger.info({ isMessage: webhookEvent.message });
+      console.log({ isMessage: webhookEvent.message });
       if (webhookEvent.message) {
         handleMessage(senderPSID, webhookEvent.message);
       } else if (webhookEvent.postback) {
