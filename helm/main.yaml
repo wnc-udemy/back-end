@@ -8,8 +8,8 @@ image:
   containerPort: 3000
   repository: <FULLREPO>
   pullPolicy: IfNotPresent
-  command: ["yarn"] 
-  args: ["start"]
+  command: ['yarn']
+  args: ['start']
   healthCheck:
     livenessProbe:
       httpGet:
@@ -89,6 +89,9 @@ configmap:
   SMTP_PASSWORD: Tuanh0909@
   EMAIL_FROM: farm.udemy@gmail.com
   URL_VERIFY_EMAIL: https://wnc-backend.farmhub.asia/v1/auth
+  MY_VERIFY_FB_TOKEN: myverirtyfbtokenarandomstring
+  FB_PAGE_TOKEN: EAANrXy00CjoBADL8xbATBBhQCN7nhfPeEDSXFhu7GT7rfb34mPDaycl0P62pKf08tNZClpWI8Us3l8TOvkXVR2GpcRuW59gSu4DBKvzIPtNyVefvLBNm16ceHGKOJacmzu9ZACaRSH8kJQOJIvTzNIrIiPQaH4QhrikoEZCTHdyF8UyhZBZBN
+
 resources:
   {}
   # We usually recommend not to specify default resources and to leave this as a conscious
