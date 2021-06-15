@@ -15,6 +15,8 @@ function callSendAPI(senderPSID, response) {
     message: { text: response },
   };
 
+  logger.info({ response });
+
   // Send the HTTP request to the Messenger Platform
   request(
     {
@@ -48,10 +50,6 @@ function handlePostback(senderPSID, receivedPostback) {
   // Send the message to acknowledge the postback
   callSendAPI(senderPSID, response);
 }
-
-// function firstTrait(nlp, name) {
-//     return nlp && nlp.entities && nlp.entities[name] && nlp.entities[name][0];
-// }
 
 function firstTrait(nlp, name) {
   return nlp && nlp.entities && nlp.traits[name] && nlp.traits[name][0];
@@ -124,6 +122,8 @@ function handleMessage(senderPSID, message) {
     }
   });
 
+  logger.info({ entityChosen });
+
   if (entityChosen === '') {
     // default
     callSendAPI(senderPSID, `The bot is needed more training, try to say "thanks a lot" or "hi" to the bot`);
@@ -153,7 +153,7 @@ const postWebhook = catchAsync(async (req, res) => {
     body.entry.forEach(function (entry) {
       // Gets the body of the webhook event
       const webhookEvent = entry.messaging[0];
-      logger.info(webhookEvent);
+      logger.info({ webhookEvent });
 
       // Get the sender PSID
       const senderPSID = webhookEvent.sender.id;
@@ -161,6 +161,7 @@ const postWebhook = catchAsync(async (req, res) => {
 
       // Check if the event is a message or postback and
       // pass the event to the appropriate handler function
+      logger.info({ isMessage: webhookEvent.message });
       if (webhookEvent.message) {
         handleMessage(senderPSID, webhookEvent.message);
       } else if (webhookEvent.postback) {
