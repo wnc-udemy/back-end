@@ -90,7 +90,7 @@ configmap:
   EMAIL_FROM: farm.udemy@gmail.com
   URL_VERIFY_EMAIL: https://wnc-backend.farmhub.asia/v1/auth
   MY_VERIFY_FB_TOKEN: myverirtyfbtokenarandomstring
-  FB_PAGE_TOKEN: EAANrXy00CjoBADL8xbATBBhQCN7nhfPeEDSXFhu7GT7rfb34mPDaycl0P62pKf08tNZClpWI8Us3l8TOvkXVR2GpcRuW59gSu4DBKvzIPtNyVefvLBNm16ceHGKOJacmzu9ZACaRSH8kJQOJIvTzNIrIiPQaH4QhrikoEZCTHdyF8UyhZBZBN
+  FB_PAGE_TOKEN: EAAo4sw2fJdgBAI3yNfZCmQaY3qSrRxuse7s8CMFAq7VdhiigaPfPbN4VpQcOO8dSndh9JtWjze9CBEJERs1i94eNjdZC2PS6tFMCROQx2AReP0o221lzEmrfRKoUU0jo3VL9IHw9TguYzy6AWz60V9hYrTzurdUFX0ZAVZASSmsDpT50uljR
 
 resources:
   {}
