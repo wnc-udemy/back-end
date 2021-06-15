@@ -20,7 +20,7 @@ function callSendAPI(senderPSID, response) {
   // Send the HTTP request to the Messenger Platform
   request(
     {
-      uri: 'https://graph.facebook.com/v7.0/me/messages',
+      url: 'https://graph.facebook.com/v11.0/me/messages',
       qs: { access_token: config.chatbot.facebookToken },
       method: 'POST',
       json: requestBody,
