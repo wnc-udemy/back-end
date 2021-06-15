@@ -21,7 +21,7 @@ const getCourses = catchAsync(async (req, res) => {
   const { user } = req;
   const { userId } = req.params;
   const { type, status } = req.query;
-  const { role: userRole, _id: userAuthId } = user;
+  const { role: userRole } = user;
   let { limit, page } = req.query;
   let result;
 

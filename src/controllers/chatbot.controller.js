@@ -196,6 +196,9 @@ const getWebhook = catchAsync(async (req, res) => {
       // Responds with '403 Forbidden' if verify tokens do not match
       throw new ApiError(httpStatus.FORBIDDEN, 'Forbidden');
     }
+  } else {
+    // Responds with '400 Bad request' if mode, token, challenge undefined
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Bad request');
   }
 });
 

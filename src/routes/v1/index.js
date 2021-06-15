@@ -2,7 +2,6 @@ const express = require('express');
 const authRoute = require('./auth.route');
 const userRoute = require('./user.route');
 const categoryRoute = require('./category.route');
-const webhookRoute = require('./webhook.route');
 const subCategoryRoute = require('./sub-category.route');
 const courseRoute = require('./course.route');
 const sectionRoute = require('./section.route');
@@ -26,10 +25,6 @@ const defaultRoutes = [
   {
     path: '/categories',
     route: categoryRoute,
-  },
-  {
-    path: '/webhook',
-    route: webhookRoute,
   },
   {
     path: '/sub-categories',
