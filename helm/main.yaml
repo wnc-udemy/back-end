@@ -89,8 +89,6 @@ configmap:
   SMTP_PASSWORD: Tuanh0909@
   EMAIL_FROM: farm.udemy@gmail.com
   URL_VERIFY_EMAIL: https://wnc-backend.farmhub.asia/v1/auth
-  MY_VERIFY_FB_TOKEN: mystringtoken
-  FB_PAGE_TOKEN: EAADZA5eYVKDsBAHkZCCMci0IVZBTEYcgMM4SY2yxTNhgnpzIgqqVnZAHMUUEQl38wkdMcaFhttoXizlQl61CwX4z1MVWZBqESCTJm8zIwEEx56ZCme2DSIno5sp0OpuvalOYyOb1UWg3sCEpmc7kA5duOh7yiIMvh0Lvr7W0zgyzp3Mu8ejpz6
 
 resources:
   {}

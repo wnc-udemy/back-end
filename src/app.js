@@ -11,7 +11,6 @@ const morgan = require('./config/morgan');
 const { jwtStrategy } = require('./config/passport');
 const { authLimiter } = require('./middlewares/rateLimiter');
 const routes = require('./routes/v1');
-const webhookRoute = require('./routes/webhook.route');
 const { errorConverter, errorHandler } = require('./middlewares/error');
 const ApiError = require('./utils/ApiError');
 
@@ -41,9 +40,6 @@ app.options('*', cors());
 // jwt authentication
 app.use(passport.initialize());
 passport.use('jwt', jwtStrategy);
-
-// v1 webhook route, allow req.params special like hub.mode, etc
-app.use('/webhook', webhookRoute);
 
 // sanitize request data
 app.use(xss());
