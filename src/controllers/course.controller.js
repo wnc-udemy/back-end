@@ -34,13 +34,16 @@ const getCourses = catchAsync(async (req, res) => {
 
   switch (type) {
     case 1:
-      result = await courseService.queryMostViewCourses();
+      options = pick(req.query, ['limit', 'page']);
+      result = await courseService.queryMostViewCourses(options);
       break;
     case 2:
-      result = await courseService.queryLatestCourses();
+      options = pick(req.query, ['limit', 'page']);
+      result = await courseService.queryLatestCourses(options);
       break;
     case 3:
-      result = await courseService.queryHighlightCourses();
+      options = pick(req.query, ['limit', 'page']);
+      result = await courseService.queryHighlightCourses(options);
       break;
     case 4:
       filter = pick(req.query, ['name', 'category', 'subCategory']);

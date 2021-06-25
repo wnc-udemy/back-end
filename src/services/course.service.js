@@ -16,9 +16,15 @@ const createCourse = async (courseBody) => {
 
 /**
  * Query for most view courses
+ * @param {number} [options.limit] - Maximum number of results per page (default = 10)
+ * @param {number} [options.page] - Current page (default = 1)
  * @returns {Promise<QueryResult>}
  */
-const queryMostViewCourses = async () => {
+const queryMostViewCourses = async (options) => {
+  const limit = options.limit && parseInt(options.limit, 10) > 0 ? parseInt(options.limit, 10) : 10;
+  const page = options.page && parseInt(options.page, 10) > 0 ? parseInt(options.page, 10) : 1;
+  const skip = (page - 1) * limit;
+
   // status: 2 - published
   const courses = await Course.aggregate([
     {
@@ -68,6 +74,8 @@ const queryMostViewCourses = async () => {
     {
       $unwind: '$instructorName',
     },
+    { $skip: skip },
+    { $limit: limit },
   ]);
 
   return courses;
@@ -75,11 +83,16 @@ const queryMostViewCourses = async () => {
 
 /**
  * Query for latest courses
+ * @param {number} [options.limit] - Maximum number of results per page (default = 10)
+ * @param {number} [options.page] - Current page (default = 1)
  * @returns {Promise<QueryResult>}
  */
-const queryLatestCourses = async () => {
-  // status: 2 - published
+const queryLatestCourses = async (options) => {
+  const limit = options.limit && parseInt(options.limit, 10) > 0 ? parseInt(options.limit, 10) : 10;
+  const page = options.page && parseInt(options.page, 10) > 0 ? parseInt(options.page, 10) : 1;
+  const skip = (page - 1) * limit;
 
+  // status: 2 - published
   const courses = await Course.aggregate([
     {
       $match: {
@@ -126,16 +139,23 @@ const queryLatestCourses = async () => {
     {
       $unwind: '$instructorName',
     },
+    { $skip: skip },
+    { $limit: limit },
   ]);
   return courses;
 };
 
 /**
  * Query for highlight courses
+ * @param {number} [options.limit] - Maximum number of results per page (default = 10)
+ * @param {number} [options.page] - Current page (default = 1)
  * @returns {Promise<QueryResult>}
  */
-const queryHighlightCourses = async () => {
+const queryHighlightCourses = async (options) => {
   const start = moment().subtract(7, 'days').toDate().toISOString();
+  const limit = options.limit && parseInt(options.limit, 10) > 0 ? parseInt(options.limit, 10) : 10;
+  const page = options.page && parseInt(options.page, 10) > 0 ? parseInt(options.page, 10) : 1;
+  const skip = (page - 1) * limit;
 
   // status: 2 - published
   const courses = await Course.aggregate([
@@ -191,7 +211,8 @@ const queryHighlightCourses = async () => {
       $unwind: '$instructorName',
     },
     { $sort: { createdAt: -1 } },
-    { $limit: 4 },
+    { $skip: skip },
+    { $limit: limit },
   ]);
   return courses;
 };
