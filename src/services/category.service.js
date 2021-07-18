@@ -1,6 +1,7 @@
 const httpStatus = require('http-status');
 const { Category } = require('../models');
 const ApiError = require('../utils/ApiError');
+const { getSubCategories } = require('./sub-category.service');
 
 /**
  * Create a category
@@ -41,12 +42,24 @@ const queryAllCategories = async () => {
       },
     },
     {
+      $addFields: {
+        'subCategories.total': { $size: '$subCategories.courses' },
+      },
+    },
+    {
       $project: {
         'subCategories.courses': 0,
         'subCategories.bestSellerCourses': 0,
+        'subCategories.totalRegister': 0,
+      },
+    },
+    {
+      $addFields: {
+        total: { $sum: '$subCategories.total' },
       },
     },
   ]);
+
   return categories;
 };
 
@@ -85,6 +98,15 @@ const deleteCategoryById = async (categoryId) => {
   if (!category) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Category not found');
   }
+
+  const subCategories = await getSubCategories(category.subCategories);
+
+  const total = subCategories.reduce((sum, e) => sum + e.courses.length, 0);
+
+  if (total > 0) {
+    throw new ApiError(httpStatus.BAD_REQUEST, `This category have ${total} courses`);
+  }
+
   await category.remove();
   return category;
 };

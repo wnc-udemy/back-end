@@ -6,20 +6,16 @@ const courseController = require('../../controllers/course.controller');
 
 const router = express.Router();
 
-router.route('/most-view').get(validate(courseValidation.getCourses), courseController.getMostViewCourses);
-router.route('/latest').get(validate(courseValidation.getCourses), courseController.getLatestCourses);
-router.route('/highlight').get(validate(courseValidation.getCourses), courseController.getHighlightCourses);
-
 router
   .route('/')
-  .post(auth('manageCourses'), validate(courseValidation.createCourse), courseController.createCourse)
-  .get(auth('getCourses'), validate(courseValidation.getCourses), courseController.getCourses);
+  .post(auth('course.create'), validate(courseValidation.createCourse), courseController.createCourse)
+  .get(validate(courseValidation.getCourses), courseController.getCourses);
 
 router
   .route('/:courseId')
-  .get(validate(courseValidation.getCourse), courseController.getCourse)
-  .patch(auth('manageCourses'), validate(courseValidation.updateCourse), courseController.updateCourse)
-  .delete(auth('manageCourses'), validate(courseValidation.deleteCourse), courseController.deleteCourse);
+  .get(auth('optional.get'), validate(courseValidation.getCourse), courseController.getCourse)
+  .patch(auth('course.update'), validate(courseValidation.updateCourse), courseController.updateCourse)
+  .delete(auth('course.delete'), validate(courseValidation.deleteCourse), courseController.deleteCourse);
 
 module.exports = router;
 
@@ -28,123 +24,6 @@ module.exports = router;
  * tags:
  *   name: Courses
  *   description: Course management and retrieval
- */
-
-/**
- * @swagger
- * /courses/most-view:
- *   get:
- *     summary: Get most view courses
- *     description: All user can retrieve all most view courses
- *     tags: [Courses]
- *     security:
- *       - bearerAuth: []
- *     responses:
- *       "200":
- *         description: OK
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 results:
- *                   type: array
- *                   items:
- *                     $ref: '#/components/schemas/Course'
- *                 page:
- *                   type: integer
- *                   example: 1
- *                 limit:
- *                   type: integer
- *                   example: 10
- *                 totalPages:
- *                   type: integer
- *                   example: 1
- *                 totalResults:
- *                   type: integer
- *                   example: 1
- *       "401":
- *         $ref: '#/components/responses/Unauthorized'
- *       "403":
- *         $ref: '#/components/responses/Forbidden'
- */
-
-/**
- * @swagger
- * /courses/latest:
- *   get:
- *     summary: Get latest courses
- *     description: All user can retrieve all latest courses
- *     tags: [Courses]
- *     security:
- *       - bearerAuth: []
- *     responses:
- *       "200":
- *         description: OK
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 results:
- *                   type: array
- *                   items:
- *                     $ref: '#/components/schemas/Course'
- *                 page:
- *                   type: integer
- *                   example: 1
- *                 limit:
- *                   type: integer
- *                   example: 10
- *                 totalPages:
- *                   type: integer
- *                   example: 1
- *                 totalResults:
- *                   type: integer
- *                   example: 1
- *       "401":
- *         $ref: '#/components/responses/Unauthorized'
- *       "403":
- *         $ref: '#/components/responses/Forbidden'
- */
-
-/**
- * @swagger
- * /courses/highlight:
- *   get:
- *     summary: Get highlight courses
- *     description: All user can retrieve all highlight courses
- *     tags: [Courses]
- *     security:
- *       - bearerAuth: []
- *     responses:
- *       "200":
- *         description: OK
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 results:
- *                   type: array
- *                   items:
- *                     $ref: '#/components/schemas/Course'
- *                 page:
- *                   type: integer
- *                   example: 1
- *                 limit:
- *                   type: integer
- *                   example: 10
- *                 totalPages:
- *                   type: integer
- *                   example: 1
- *                 totalResults:
- *                   type: integer
- *                   example: 1
- *       "401":
- *         $ref: '#/components/responses/Unauthorized'
- *       "403":
- *         $ref: '#/components/responses/Forbidden'
  */
 
 /**
@@ -205,10 +84,7 @@ module.exports = router;
  *               urlThumb: https://www.facebook.com/
  *               fee: 100
  *               discount: 0.3
- *               averageRating: 4.5
- *               introDescription: fake intro description
- *               detailDescription: fake detail description
- *               instructor: 609b9838b28d283ef805f15d
+ *               subCategory: 041c7252af945b797e1012a2
  *     responses:
  *       "201":
  *         description: Created
@@ -231,10 +107,31 @@ module.exports = router;
  *       - bearerAuth: []
  *     parameters:
  *       - in: query
+ *         name: type
+ *         schema:
+ *           enum:
+ *            - 0
+ *            - 1
+ *            - 2
+ *            - 3
+ *            - 4
+ *           default: 0
+ *         description: 'Type get courses 0: default list, 1: most view, 2: latest, 3: highlight, 4: advance filter'
+ *       - in: query
  *         name: name
  *         schema:
  *           type: string
  *         description: Course name
+ *       - in: query
+ *         name: category
+ *         schema:
+ *           type: string
+ *         description: Category id
+ *       - in: query
+ *         name: subCategory
+ *         schema:
+ *           type: string
+ *         description: Sub category id
  *       - in: query
  *         name: sortBy
  *         schema:
@@ -300,6 +197,19 @@ module.exports = router;
  *         schema:
  *           type: string
  *         description: Course id
+ *       - in: query
+ *         name: type
+ *         schema:
+ *           type: number
+ *           enum:
+ *             - 0
+ *             - 1
+ *             - 2
+ *             - 3
+ *             - 4
+ *             - 5
+ *           default: 0
+ *         description: 'Type get course 0: default mode info, 1: comment, 2: section, 3: similar, 4: instructor mode info, 5: instructor mode section'
  *     responses:
  *       "200":
  *         description: OK
@@ -338,7 +248,7 @@ module.exports = router;
  *                 type: string
  *               url:
  *                 type: string
- *               url_thumb:
+ *               urlThumb:
  *                 type: string
  *               fee:
  *                 type: number
@@ -368,10 +278,10 @@ module.exports = router;
  *               urlThumb: https://www.facebook.com/
  *               fee: 100
  *               discount: 0.3
- *               averageRating: 4.5
+ *               status: 0
  *               introDescription: fake intro description
  *               detailDescription: fake detail description
- *               instructor: 609b9838b28d283ef805f15d
+ *               targets: ["fake target 1", "fake target 2", "fake target 3"]
  *     responses:
  *       "200":
  *         description: OK

@@ -41,11 +41,7 @@ const getSectionById = async (id) => {
  * @param {Object} updateBody
  * @returns {Promise<Section>}
  */
-const updateSectionById = async (sectionId, updateBody) => {
-  const section = await getSectionById(sectionId);
-  if (!section) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'Section not found');
-  }
+const updateSectionById = async (section, updateBody) => {
   Object.assign(section, updateBody);
   await section.save();
   return section;
@@ -53,7 +49,7 @@ const updateSectionById = async (sectionId, updateBody) => {
 
 /**
  * Delete section by id
- * @param {ObjectId} sectionId
+ * @param {Object} section
  * @returns {Promise<Section>}
  */
 const deleteSectionById = async (sectionId) => {

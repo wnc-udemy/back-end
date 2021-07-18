@@ -8,6 +8,8 @@ const createLecture = {
     type: Joi.number(),
     lengthTime: Joi.number().required(),
     isPreview: Joi.boolean().required(),
+    course: Joi.string().custom(objectId),
+    section: Joi.string().custom(objectId),
   }),
 };
 
@@ -37,14 +39,21 @@ const updateLecture = {
       url: Joi.string(),
       type: Joi.number(),
       lengthTime: Joi.number(),
+      lengthTimeOld: Joi.number(),
       isPreview: Joi.boolean(),
+      course: Joi.string().custom(objectId),
+      section: Joi.string().custom(objectId),
     })
-    .min(1),
+    .min(3),
 };
 
 const deleteLecture = {
   params: Joi.object().keys({
     lectureId: Joi.string().custom(objectId),
+  }),
+  query: Joi.object().keys({
+    course: Joi.string().custom(objectId).required(),
+    section: Joi.string().custom(objectId).required(),
   }),
 };
 

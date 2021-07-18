@@ -17,12 +17,16 @@ const lectureSchema = mongoose.Schema(
       required: true,
     },
     type: {
-      // 0: videos, 1: markdown, 2: html, 3: question
+      // 0: videos, 1: markdown, 2: question
       type: Number,
       required: true,
     },
     isPreview: {
       type: Boolean,
+      required: true,
+    },
+    order: {
+      type: Number,
       required: true,
     },
   },

@@ -44,6 +44,10 @@ const userSchema = mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    createdAt: {
+      type: Date,
+      default: Date.now(),
+    },
     courses: {
       type: [{ type: mongoose.SchemaTypes.ObjectId, ref: 'Course' }],
       default: [],

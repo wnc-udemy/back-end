@@ -8,14 +8,24 @@ const router = express.Router();
 
 router
   .route('/')
-  .post(auth('manageUsers'), validate(userValidation.createUser), userController.createUser)
-  .get(auth('getUsers'), validate(userValidation.getUsers), userController.getUsers);
+  .post(auth('user.create'), validate(userValidation.createUser), userController.createUser)
+  .get(auth('user.gets'), validate(userValidation.getUsers), userController.getUsers);
+
+router.route('/:userId/courses').get(auth('course.gets'), validate(userValidation.getCourses), userController.getCourses);
+
+router
+  .route('/:userId/:courseId')
+  .get(auth('course.update'), validate(userValidation.updateCourse), userController.updateCourses);
+
+router
+  .route('/:userId/courses/:courseId')
+  .get(auth('course.gets-for-moodle'), validate(userValidation.getHistories), userController.getHistories);
 
 router
   .route('/:userId')
-  .get(auth('getUsers'), validate(userValidation.getUser), userController.getUser)
-  .patch(auth('manageUsers'), validate(userValidation.updateUser), userController.updateUser)
-  .delete(auth('manageUsers'), validate(userValidation.deleteUser), userController.deleteUser);
+  .get(validate(userValidation.getUser), userController.getUser)
+  .patch(auth('user.update'), validate(userValidation.updateUser), userController.updateUser)
+  .delete(auth('user.delete'), validate(userValidation.deleteUser), userController.deleteUser);
 
 module.exports = router;
 
@@ -144,6 +154,182 @@ module.exports = router;
  *         $ref: '#/components/responses/Unauthorized'
  *       "403":
  *         $ref: '#/components/responses/Forbidden'
+ */
+
+/**
+ * @swagger
+ * /users/{id}/courses:
+ *   get:
+ *     summary: Get all courses of user and instructor
+ *     description: Just user and instructor get all courses their active.
+ *     tags: [Users]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: User id
+ *       - in: query
+ *         name: type
+ *         schema:
+ *           type: number
+ *           enum:
+ *              - 0
+ *              - 1
+ *              - 2
+ *           default: 0
+ *         description: 'Type get courses 0: subscribed, 1: favorite, 2: your created'
+ *       - in: query
+ *         name: status
+ *         schema:
+ *           type: number
+ *           enum:
+ *              - 0
+ *              - 1
+ *              - 2
+ *              - 3
+ *           default: 0
+ *         description: 'Status of courses 0: Not complete, 1: Complete, 2: published, 3: Blocked'
+ *       - in: query
+ *         name: name
+ *         schema:
+ *           type: string
+ *         description: Course name
+ *       - in: query
+ *         name: sortBy
+ *         schema:
+ *           type: string
+ *         description: sort by query in the form of field:desc/asc (ex. name:asc)
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *           minimum: 1
+ *         default: 10
+ *         description: Maximum number of users
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *           minimum: 1
+ *           default: 1
+ *         description: Page number
+ *     responses:
+ *       "200":
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 results:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/User'
+ *                 page:
+ *                   type: integer
+ *                   example: 1
+ *                 limit:
+ *                   type: integer
+ *                   example: 10
+ *                 totalPages:
+ *                   type: integer
+ *                   example: 1
+ *                 totalResults:
+ *                   type: integer
+ *                   example: 1
+ *       "401":
+ *         $ref: '#/components/responses/Unauthorized'
+ *       "403":
+ *         $ref: '#/components/responses/Forbidden'
+ *       "404":
+ *         $ref: '#/components/responses/NotFound'
+ */
+
+/**
+ * @swagger
+ * /users/{userId}/{courseId}:
+ *   get:
+ *     summary: Add course for a user
+ *     description: Only owner user can be add their course.
+ *     tags: [Users]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: userId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: User id
+ *       - in: path
+ *         name: courseId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Course id
+ *       - in: query
+ *         name: type
+ *         schema:
+ *           type: number
+ *           enum:
+ *              - 0
+ *              - 1
+ *           default: 0
+ *         description: 'Type add course 0: subscribed, 1: favorite'
+ *     responses:
+ *       "200":
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *                $ref: '#/components/schemas/User'
+ *       "401":
+ *         $ref: '#/components/responses/Unauthorized'
+ *       "403":
+ *         $ref: '#/components/responses/Forbidden'
+ *       "404":
+ *         $ref: '#/components/responses/NotFound'
+ */
+
+/**
+ * @swagger
+ * /users/{userId}/courses/{courseId}:
+ *   get:
+ *     summary: Get histories of course for a user
+ *     description: Only owner user can be get their histories course.
+ *     tags: [Users]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: userId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: User id
+ *       - in: path
+ *         name: courseId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Course id
+ *     responses:
+ *       "200":
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *                $ref: '#/components/schemas/User'
+ *       "401":
+ *         $ref: '#/components/responses/Unauthorized'
+ *       "403":
+ *         $ref: '#/components/responses/Forbidden'
+ *       "404":
+ *         $ref: '#/components/responses/NotFound'
  */
 
 /**

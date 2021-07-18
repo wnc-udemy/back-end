@@ -4,6 +4,7 @@ const { objectId } = require('./custom.validation');
 const createSubCategory = {
   body: Joi.object().keys({
     name: Joi.string().required(),
+    category: Joi.string().custom(objectId).required(),
   }),
 };
 
@@ -37,6 +38,9 @@ const updateSubCategory = {
 const deleteSubCategory = {
   params: Joi.object().keys({
     subCategoryId: Joi.string().custom(objectId),
+  }),
+  query: Joi.object().keys({
+    category: Joi.string().custom(objectId),
   }),
 };
 

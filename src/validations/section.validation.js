@@ -4,7 +4,7 @@ const { objectId } = require('./custom.validation');
 const createSection = {
   body: Joi.object().keys({
     name: Joi.string().required(),
-    totalTime: Joi.number().required(),
+    course: Joi.string().custom(objectId),
   }),
 };
 
@@ -31,14 +31,17 @@ const updateSection = {
   body: Joi.object()
     .keys({
       name: Joi.string(),
-      totalTime: Joi.string(),
+      course: Joi.string().custom(objectId),
     })
-    .min(1),
+    .min(2),
 };
 
 const deleteSection = {
   params: Joi.object().keys({
     sectionId: Joi.string().custom(objectId),
+  }),
+  query: Joi.object().keys({
+    course: Joi.string().custom(objectId).required(),
   }),
 };
 

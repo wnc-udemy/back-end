@@ -30,10 +30,6 @@ app.use(express.json());
 // parse urlencoded request body
 app.use(express.urlencoded({ extended: true }));
 
-// sanitize request data
-app.use(xss());
-app.use(mongoSanitize());
-
 // gzip compression
 app.use(compression());
 
@@ -44,6 +40,10 @@ app.options('*', cors());
 // jwt authentication
 app.use(passport.initialize());
 passport.use('jwt', jwtStrategy);
+
+// sanitize request data
+app.use(xss());
+app.use(mongoSanitize());
 
 // limit repeated failed requests to auth endpoints
 if (config.env === 'production') {

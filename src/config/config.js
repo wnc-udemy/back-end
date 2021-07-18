@@ -24,6 +24,8 @@ const envVarsSchema = Joi.object()
     SMTP_PASSWORD: Joi.string().description('password for email server'),
     EMAIL_FROM: Joi.string().description('the from field in the emails sent by the app'),
     URL_VERIFY_EMAIL: Joi.string().description('Verify email url'),
+    MY_VERIFY_FB_TOKEN: Joi.string().description('My verify facebook token'),
+    FB_PAGE_TOKEN: Joi.string().description('Facebook page token'),
   })
   .unknown();
 
@@ -63,4 +65,8 @@ module.exports = {
     from: envVars.EMAIL_FROM,
   },
   urlVerifyEmail: envVars.URL_VERIFY_EMAIL,
+  chatbot: {
+    verifyToken: envVars.MY_VERIFY_FB_TOKEN,
+    facebookToken: envVars.FB_PAGE_TOKEN,
+  },
 };

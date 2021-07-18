@@ -1,6 +1,19 @@
+const moment = require('moment');
 const { getObjectIds, getObjectId } = require('../../helpers/index');
 
 const users = [
+  {
+    _id: getObjectId('Supper admin'),
+    name: 'Supper admin',
+    email: 'admin@gmail.com',
+    password: '$2y$08$ydJKeNw4VGs0b1FReTtXj.kImtvDYT5y/xTBcIlC4HGUcmL.3VzVC',
+    role: 'admin',
+    isEmailVerified: false,
+    courses: [],
+    favoriteCourses: [],
+    histories: [],
+    createdAt: moment().toISOString(),
+  },
   {
     _id: getObjectId('Nguyen Thien Ly'),
     name: 'Nguyen Thien Ly',
@@ -11,6 +24,31 @@ const users = [
     courses: [],
     favoriteCourses: [],
     histories: [],
+    createdAt: moment().toISOString(),
+  },
+  {
+    _id: getObjectId('Trinh Quang Nghia'),
+    name: 'Trinh Quang Nghia',
+    email: 'quangnghiashoppee@gmail.com',
+    password: '$2y$08$ydJKeNw4VGs0b1FReTtXj.kImtvDYT5y/xTBcIlC4HGUcmL.3VzVC',
+    role: 'instructor',
+    isEmailVerified: false,
+    courses: [],
+    favoriteCourses: [],
+    histories: [],
+    createdAt: moment().toISOString(),
+  },
+  {
+    _id: getObjectId('Ngo Ngoc Dang Khoa'),
+    name: 'Ngo Ngoc Dang Khoa',
+    email: 'dangkhoahcmus@gmail.com',
+    password: '$2y$08$ydJKeNw4VGs0b1FReTtXj.kImtvDYT5y/xTBcIlC4HGUcmL.3VzVC',
+    role: 'instructor',
+    isEmailVerified: false,
+    courses: [],
+    favoriteCourses: [],
+    histories: [],
+    createdAt: moment().toISOString(),
   },
   {
     _id: getObjectId('Nguyen Van Hau'),
@@ -22,6 +60,7 @@ const users = [
     courses: [],
     favoriteCourses: [],
     histories: [],
+    createdAt: moment().toISOString(),
   },
   {
     _id: getObjectId('Nguyen Van Phuoc'),
@@ -33,6 +72,7 @@ const users = [
     courses: [],
     favoriteCourses: [],
     histories: [],
+    createdAt: moment().toISOString(),
   },
   {
     _id: getObjectId('Tran Van Chau'),
@@ -44,6 +84,7 @@ const users = [
     courses: [],
     favoriteCourses: [],
     histories: [],
+    createdAt: moment().toISOString(),
   },
   {
     _id: getObjectId('Hoang Dan An'),
@@ -112,6 +153,7 @@ const users = [
       'Operations 3',
     ]),
     histories: [],
+    createdAt: moment().toISOString(),
   },
   {
     _id: getObjectId('Nguyen Van Linh'),
@@ -180,6 +222,7 @@ const users = [
       'Operations 3',
     ]),
     histories: [],
+    createdAt: moment().toISOString(),
   },
   {
     _id: getObjectId('Trinh Nhat Sinh'),
@@ -248,6 +291,7 @@ const users = [
       'Operations 3',
     ]),
     histories: [],
+    createdAt: moment().toISOString(),
   },
   {
     _id: getObjectId('Vo Kong Kiet'),
@@ -316,6 +360,7 @@ const users = [
       'Operations 3',
     ]),
     histories: [],
+    createdAt: moment().toISOString(),
   },
 ];
 

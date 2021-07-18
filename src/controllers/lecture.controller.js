@@ -1,11 +1,53 @@
 const httpStatus = require('http-status');
+const moment = require('moment');
 const pick = require('../utils/pick');
-const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
-const { lectureService } = require('../services');
+const ApiError = require('../utils/ApiError');
+const { lectureService, sectionService, courseService } = require('../services');
 
 const createLecture = catchAsync(async (req, res) => {
-  const lecture = await lectureService.createLecture(req.body);
+  const { course: courseId, section: sectionId, ...lectureBody } = req.body;
+  const { user } = req;
+  const { _id: userId } = user;
+
+  const course = await courseService.getCourseById(courseId);
+  if (!course) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Course not found');
+  }
+
+  const section = await sectionService.getSectionById(sectionId);
+  if (!section) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Section not found');
+  }
+
+  if (!course.sections.includes(section._id)) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'This course was not included section');
+  }
+
+  if (userId.toString() !== course.instructor.toString()) {
+    throw new ApiError(httpStatus.FORBIDDEN, 'This course was not created by this user');
+  }
+
+  const order = moment().unix();
+
+  const lecture = await lectureService.createLecture({ ...lectureBody, order });
+
+  if (!lecture) {
+    throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR, 'Create new lecture fail');
+  }
+
+  section.lectures.push(lecture._id);
+  section.totalTime += lecture.lengthTime;
+  await section.save();
+
+  if (lecture.isPreview === true) {
+    course.introLectures.push(lecture._id);
+  }
+  course.totalTime += lecture.lengthTime;
+  course.updatedAt = Date.now();
+  course.totalLecture += 1;
+  await course.save();
+
   res.status(httpStatus.CREATED).send(lecture);
 });
 
@@ -25,12 +67,125 @@ const getLecture = catchAsync(async (req, res) => {
 });
 
 const updateLecture = catchAsync(async (req, res) => {
-  const lecture = await lectureService.updateLectureById(req.params.lectureId, req.body);
+  const { course: courseId, section: sectionId, lengthTimeOld, ...lectureBody } = req.body;
+  const { user } = req;
+  const { lectureId } = req.params;
+  const { _id: userId } = user;
+  let lecture;
+
+  const course = await courseService.getCourseById(courseId);
+  if (!course) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Course not found');
+  }
+
+  const section = await sectionService.getSectionById(sectionId);
+  if (!section) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Section not found');
+  }
+
+  lecture = await lectureService.getLectureById(lectureId);
+  if (!lecture) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Lecture not found');
+  }
+
+  if (!course.sections.includes(section._id)) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'This course was not includes section');
+  }
+
+  if (!section.lectures.includes(lecture._id)) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'This section was not includes lecture');
+  }
+
+  if (userId.toString() !== course.instructor.toString()) {
+    throw new ApiError(httpStatus.FORBIDDEN, 'This course was not created by this user');
+  }
+
+  lecture = await lectureService.updateLectureById(lecture, lectureBody);
+
+  if (!lecture) {
+    throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR, 'Update lecture fail');
+  }
+
+  if (lengthTimeOld !== undefined) {
+    section.totalTime -= lengthTimeOld;
+    section.totalTime += lecture.lengthTime;
+
+    await section.save();
+
+    course.totalTime -= lengthTimeOld;
+    course.totalTime += lecture.lengthTime;
+  }
+
+  const idx = course.introLectures.findIndex((e) => e.toString() === lecture._id.toString());
+  if (lecture.isPreview === true) {
+    if (idx === -1) {
+      course.introLectures.push(lecture._id);
+    }
+  } else if (idx !== -1) {
+    course.introLectures.splice(idx, 1);
+  }
+  course.updatedAt = Date.now();
+  await course.save();
+
   res.send(lecture);
 });
 
 const deleteLecture = catchAsync(async (req, res) => {
-  await lectureService.deleteLectureById(req.params.lectureId);
+  const { lectureId } = req.params;
+  const { user } = req;
+  const { course: courseId, section: sectionId } = req.query;
+  const { _id: userId } = user;
+  let lecture;
+
+  const course = await courseService.getCourseById(courseId);
+  if (!course) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Course not found');
+  }
+
+  const section = await sectionService.getSectionById(sectionId);
+  if (!section) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Section not found');
+  }
+
+  lecture = await lectureService.getLectureById(lectureId);
+  if (!lecture) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Lecture not found');
+  }
+
+  if (!course.sections.includes(section._id)) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'This course was not includes section');
+  }
+
+  if (!section.lectures.includes(lecture._id)) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'This section was not includes lecture');
+  }
+
+  if (userId.toString() !== course.instructor.toString()) {
+    throw new ApiError(httpStatus.FORBIDDEN, 'This course was not created by this user');
+  }
+
+  lecture = await lectureService.deleteLectureById(lectureId);
+
+  if (!lecture) {
+    throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR, 'Delete lecture fail');
+  }
+
+  const idxSection = section.lectures.findIndex((e) => e.toString() === lecture._id.toString());
+  section.lectures.splice(idxSection, 1);
+  section.totalTime -= lecture.lengthTime;
+  await section.save();
+
+  if (lecture.isPreview === true) {
+    const idx = course.introLectures.findIndex((e) => e.toString() === lecture._id.toString());
+    if (idx !== -1) {
+      course.introLectures.splice(idx, 1);
+    }
+  }
+  course.totalTime -= lecture.lengthTime;
+  course.totalLecture -= 1;
+  course.updatedAt = Date.now();
+  await course.save();
+
   res.status(httpStatus.NO_CONTENT).send();
 });
 

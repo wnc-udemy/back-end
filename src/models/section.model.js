@@ -12,6 +12,10 @@ const sectionSchema = mongoose.Schema(
       type: Number,
       default: 0,
     },
+    order: {
+      type: Number,
+      required: true,
+    },
     lectures: {
       type: [{ type: mongoose.SchemaTypes.ObjectId, ref: 'Lecture' }],
       default: [],

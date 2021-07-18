@@ -1,4 +1,5 @@
 const httpStatus = require('http-status');
+const mongoose = require('mongoose');
 const { History } = require('../models');
 const ApiError = require('../utils/ApiError');
 
@@ -13,6 +14,17 @@ const createHistory = async (historyBody) => {
 };
 
 /**
+ * Create a multi histories
+ * @param {Object} historyBodies
+ * @returns {Promise<Ids>}
+ */
+const createHistories = async (historyBodies) => {
+  const histories = await History.insertMany(historyBodies);
+  const Ids = histories.map((e) => e._id);
+  return Ids;
+};
+
+/**
  * Query for histories
  * @param {Object} filter - Mongo filter
  * @param {Object} options - Query options
@@ -23,6 +35,68 @@ const createHistory = async (historyBody) => {
  */
 const queryHistories = async (filter, options) => {
   const histories = await History.paginate(filter, options);
+  return histories;
+};
+
+/**
+ * Get histories by course id
+ * @param {ObjectId} id
+ * @returns {Promise<History>}
+ */
+const getHistoriesByCourseId = async (id) => {
+  const courseID = new mongoose.Types.ObjectId(id);
+  const histories = await History.aggregate([
+    {
+      $match: {
+        course: courseID,
+      },
+    },
+    {
+      $group: {
+        _id: '$section',
+        lectures: {
+          $push: {
+            _id: '$_id',
+            status: '$status',
+            type: '$type',
+            order: '$order',
+            url: '$url',
+            atTime: '$atTime',
+            lengthTime: '$lengthTime',
+            name: '$name',
+          },
+        },
+      },
+    },
+    {
+      $lookup: {
+        from: 'section',
+        localField: '_id',
+        foreignField: '_id',
+        as: 'section',
+      },
+    },
+    {
+      $project: {
+        _id: 1,
+        name: '$section.name',
+        order: '$section.order',
+        totalTime: '$section.totalTime',
+        lectures: 1,
+      },
+    },
+    {
+      $unwind: '$name',
+    },
+    {
+      $unwind: '$order',
+    },
+    {
+      $unwind: '$totalTime',
+    },
+    { $sort: { order: 1 } },
+  ]);
+
   return histories;
 };
 
@@ -42,13 +116,44 @@ const getHistoryById = async (id) => {
  * @returns {Promise<History>}
  */
 const updateHistoryById = async (historyId, updateBody) => {
+  const { atTime } = updateBody;
   const history = await getHistoryById(historyId);
+  const { lengthTime } = history;
+  // const statusDefine = [0, 1, 2];
+
   if (!history) {
     throw new ApiError(httpStatus.NOT_FOUND, 'History not found');
   }
+  if (atTime > lengthTime) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'At time great than length time');
+  }
+
   Object.assign(history, updateBody);
   await history.save();
   return history;
+};
+
+/**
+ * Update history
+ * @param {Object} history
+ * @param {Object} updateBody
+ * @returns {Promise<History>}
+ */
+const updateHistory = async (history, updateBody) => {
+  Object.assign(history, updateBody);
+  await history.save();
+  return history;
+};
+
+/**
+ * Update a multi histories
+ * @param {Object} historyBodies
+ * @returns {Promise<Ids>}
+ */
+const updateHistories = async (historyBodies) => {
+  const histories = await History.insertMany(historyBodies);
+  const Ids = histories.map((e) => e._id);
+  return Ids;
 };
 
 /**
@@ -67,8 +172,12 @@ const deleteHistoryById = async (historyId) => {
 
 module.exports = {
   createHistory,
+  createHistories,
   queryHistories,
   getHistoryById,
+  getHistoriesByCourseId,
   updateHistoryById,
+  updateHistory,
+  updateHistories,
   deleteHistoryById,
 };

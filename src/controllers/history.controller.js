@@ -25,7 +25,31 @@ const getHistory = catchAsync(async (req, res) => {
 });
 
 const updateHistory = catchAsync(async (req, res) => {
-  const history = await historyService.updateHistoryById(req.params.historyId, req.body);
+  const { user } = req;
+  const { historyId } = req.params;
+  const { atTime } = req.body;
+  let history;
+
+  history = await historyService.getHistoryById(historyId);
+
+  if (!history) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'History not found');
+  }
+
+  const { course: courseId } = history;
+  const { lengthTime } = history;
+
+  const idx = user.courses.findIndex((e) => e.toString() === courseId.toString());
+
+  if (idx === -1) {
+    throw new ApiError(httpStatus.FORBIDDEN, 'History is not part of the subscribed course');
+  }
+
+  if (atTime > lengthTime) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'At time great than length time');
+  }
+
+  history = await historyService.updateHistory(history, req.body);
   res.send(history);
 });
 

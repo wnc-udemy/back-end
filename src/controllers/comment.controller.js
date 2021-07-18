@@ -2,11 +2,51 @@ const httpStatus = require('http-status');
 const pick = require('../utils/pick');
 const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
-const { commentService } = require('../services');
+const { commentService, courseService } = require('../services');
 
 const createComment = catchAsync(async (req, res) => {
-  const category = await commentService.createComment(req.body);
-  res.status(httpStatus.CREATED).send(category);
+  const { course: courseId, ...commentBody } = req.body;
+  const { user } = req;
+  const { _id: userId } = user;
+  const { rating } = commentBody;
+
+  if (!rating || rating > 5) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Rating was invalid');
+  }
+
+  if (!user) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
+  }
+
+  const course = await courseService.getCourseById(courseId);
+  if (!course) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Course not found');
+  }
+
+  const idx = user.courses.findIndex((e) => e.toString() === courseId);
+
+  if (idx === -1) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'User was not registered this course');
+  }
+
+  const comment = await commentService.createComment({ ...commentBody, user: userId });
+  if (!comment) {
+    throw new ApiError(httpStatus.exports, 'Create comment fail');
+  }
+
+  // Update course info after create new comment
+  const { _id: commentId } = comment;
+  const { averageRating } = course;
+
+  if (averageRating === 0.0 || averageRating === 0) {
+    course.averageRating = rating;
+  } else {
+    course.averageRating = ((rating + averageRating) / 2).toFixed(2);
+  }
+  course.comments.push(commentId);
+  await course.save();
+
+  res.status(httpStatus.CREATED).send(comment);
 });
 
 const getComments = catchAsync(async (req, res) => {

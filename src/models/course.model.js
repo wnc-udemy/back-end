@@ -53,9 +53,13 @@ const courseSchema = mongoose.Schema(
       default: Date.now(),
     },
     status: {
-      // 0: Not complete, 1: Complete, 2: Blocked
+      // 0: Not complete, 1: Complete, 2: published, 3: Blocked
       type: Number,
       default: 0,
+    },
+    targets: {
+      type: Array,
+      default: [],
     },
     instructor: {
       type: mongoose.SchemaTypes.ObjectId,
@@ -92,6 +96,9 @@ const courseSchema = mongoose.Schema(
 // add plugin that converts mongoose to json
 courseSchema.plugin(toJSON);
 courseSchema.plugin(paginate);
+
+// text search
+courseSchema.index({ name: 'text' });
 
 /**
  * @typedef Course

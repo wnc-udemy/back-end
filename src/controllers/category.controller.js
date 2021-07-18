@@ -10,14 +10,17 @@ const createCategory = catchAsync(async (req, res) => {
 });
 
 const getCategories = catchAsync(async (req, res) => {
-  const filter = pick(req.query, ['name', 'role']);
-  const options = pick(req.query, ['sortBy', 'limit', 'page']);
-  const result = await categoryService.queryCategories(filter, options);
-  res.send(result);
-});
+  const { type } = req.query;
+  let result;
 
-const getAllCategories = catchAsync(async (req, res) => {
-  const result = await categoryService.queryAllCategories();
+  if (type === 1) {
+    result = await categoryService.queryAllCategories();
+  } else {
+    const filter = pick(req.query, ['name', 'role']);
+    const options = pick(req.query, ['sortBy', 'limit', 'page']);
+    result = await categoryService.queryCategories(filter, options);
+  }
+
   res.send(result);
 });
 
@@ -42,7 +45,6 @@ const deleteCategory = catchAsync(async (req, res) => {
 module.exports = {
   createCategory,
   getCategories,
-  getAllCategories,
   getCategory,
   updateCategory,
   deleteCategory,

@@ -5,7 +5,7 @@ const createComment = {
   body: Joi.object().keys({
     content: Joi.string().required(),
     rating: Joi.number().required(),
-    createAt: Joi.date(),
+    course: Joi.string().custom(objectId),
   }),
 };
 

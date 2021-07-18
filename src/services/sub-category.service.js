@@ -60,6 +60,24 @@ const getSubCategoryById = async (id) => {
 };
 
 /**
+ * Get sub categories
+ * @param {Array<string>} ids
+ * @returns {Promise<SubCategory>}
+ */
+const getSubCategories = async (ids) => {
+  return SubCategory.find({ _id: { $in: ids } });
+};
+
+/**
+ * Get sub category by course id
+ * @param {ObjectId} id
+ * @returns {Promise<SubCategory>}
+ */
+const getSubCategoryByCourseId = async (id) => {
+  return SubCategory.findOne({ courses: { $elemMatch: { $eq: id } } });
+};
+
+/**
  * Update sub category by id
  * @param {ObjectId} subCategoryId
  * @param {Object} updateBody
@@ -85,6 +103,11 @@ const deleteSubCategoryById = async (subCategoryId) => {
   if (!subCategory) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Sub category not found');
   }
+
+  if (subCategory.courses.length > 0) {
+    throw new ApiError(httpStatus.BAD_REQUEST, `This Sub category have ${subCategory.courses.length} courses`);
+  }
+
   await subCategory.remove();
   return subCategory;
 };
@@ -93,7 +116,9 @@ module.exports = {
   createSubCategory,
   querySubCategories,
   queryMostSubscribedSubCategories,
+  getSubCategoryByCourseId,
   getSubCategoryById,
+  getSubCategories,
   updateSubCategoryById,
   deleteSubCategoryById,
 };

@@ -60,12 +60,16 @@ const devRoutes = [
   },
 ];
 
+router.use('/health-check', (req, res) => {
+  res.send('ok');
+});
+
 defaultRoutes.forEach((route) => {
   router.use(route.path, route.route);
 });
 
 /* istanbul ignore next */
-if (config.env === 'development') {
+if (config.env === 'development' || config.env === 'production') {
   devRoutes.forEach((route) => {
     router.use(route.path, route.route);
   });

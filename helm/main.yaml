@@ -8,19 +8,19 @@ image:
   containerPort: 3000
   repository: <FULLREPO>
   pullPolicy: IfNotPresent
-  command: ["yarn"] 
-  args: ["start"]
+  command: ['yarn']
+  args: ['start']
   healthCheck:
     livenessProbe:
       httpGet:
-        path: /v1
+        path: /v1/health-check
         port: http
       initialDelaySeconds: 30
       periodSeconds: 10
       failureThreshold: 10
     readinessProbe:
       httpGet:
-        path: /v1
+        path: /v1/health-check
         port: http
       initialDelaySeconds: 30
       periodSeconds: 10
@@ -89,6 +89,7 @@ configmap:
   SMTP_PASSWORD: Tuanh0909@
   EMAIL_FROM: farm.udemy@gmail.com
   URL_VERIFY_EMAIL: https://wnc-backend.farmhub.asia/v1/auth
+
 resources:
   {}
   # We usually recommend not to specify default resources and to leave this as a conscious

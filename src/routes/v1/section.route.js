@@ -8,14 +8,14 @@ const router = express.Router();
 
 router
   .route('/')
-  .post(auth('manageSections'), validate(sectionValidation.createSection), sectionController.createSection)
-  .get(auth('getSections'), validate(sectionValidation.getCategories), sectionController.getSections);
+  .post(auth('section.create'), validate(sectionValidation.createSection), sectionController.createSection)
+  .get(auth('section.gets'), validate(sectionValidation.getCategories), sectionController.getSections);
 
 router
   .route('/:sectionId')
-  .get(auth('getSections'), validate(sectionValidation.getSection), sectionController.getSection)
-  .patch(auth('manageSections'), validate(sectionValidation.updateSection), sectionController.updateSection)
-  .delete(auth('manageSections'), validate(sectionValidation.deleteSection), sectionController.deleteSection);
+  .get(auth('section.get'), validate(sectionValidation.getSection), sectionController.getSection)
+  .patch(auth('section.update'), validate(sectionValidation.updateSection), sectionController.updateSection)
+  .delete(auth('section.delete'), validate(sectionValidation.deleteSection), sectionController.deleteSection);
 
 module.exports = router;
 
@@ -48,9 +48,11 @@ module.exports = router;
  *                 type: string
  *               totalTime:
  *                 type: number
+ *               order:
+ *                 type: number
  *             example:
  *               name: fake name
- *               totalTime: 100
+ *               course: 2da059832c99349037d894ed
  *     responses:
  *       "201":
  *         description: Created
@@ -180,9 +182,11 @@ module.exports = router;
  *                 type: string
  *               totalTime:
  *                 type: number
+ *               order:
+ *                 type: number
  *             example:
  *               name: fake name
- *               totalTime: 100
+ *               course: 2da059832c99349037d894ed
  *     responses:
  *       "200":
  *         description: OK
@@ -211,7 +215,13 @@ module.exports = router;
  *         required: true
  *         schema:
  *           type: string
- *         description: Category id
+ *         description: Section id
+ *       - in: query
+ *         name: course
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Course id
  *     responses:
  *       "200":
  *         description: No content

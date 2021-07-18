@@ -8,14 +8,14 @@ const router = express.Router();
 
 router
   .route('/')
-  .post(auth('manageHistories'), validate(historyValidation.createHistory), historyController.createHistory)
-  .get(auth('getHistories'), validate(historyValidation.getHistories), historyController.getHistories);
+  .post(auth('history.create'), validate(historyValidation.createHistory), historyController.createHistory)
+  .get(auth('history.gets'), validate(historyValidation.getHistories), historyController.getHistories);
 
 router
   .route('/:historyId')
-  .get(auth('getHistories'), validate(historyValidation.getHistory), historyController.getHistory)
-  .patch(auth('manageHistories'), validate(historyValidation.updateHistory), historyController.updateHistory)
-  .delete(auth('manageHistories'), validate(historyValidation.deleteHistory), historyController.deleteHistory);
+  .get(auth('history.get'), validate(historyValidation.getHistory), historyController.getHistory)
+  .patch(auth('history.update'), validate(historyValidation.updateHistory), historyController.updateHistory)
+  .delete(auth('history.delete'), validate(historyValidation.deleteHistory), historyController.deleteHistory);
 
 module.exports = router;
 
@@ -46,18 +46,33 @@ module.exports = router;
  *               - course
  *               - atTime
  *             properties:
- *               lecture:
+ *               name:
  *                 type: string
- *               course:
+ *               url:
  *                 type: string
  *               atTime:
  *                 type: number
+ *               lengthTime:
+ *                 type: number
  *               status:
  *                 type: number
+ *               type:
+ *                 type: number
+ *               lecture:
+ *                 type: string
+ *               section:
+ *                 type: string
+ *               course:
+ *                 type: string
  *             example:
- *               lecture: 609b9838b28d283ef805f15d
+ *               section: 609b9838b28d283ef805f15d
  *               course: 609b9838b28d283ef805f15d
+ *               lecture: 609b9838b28d283ef805f35d
  *               atTime: 60
+ *               lengthTime: 3600
+ *               url: 'https://www.facebook.com/'
+ *               type: 0
+ *               status: 0
  *     responses:
  *       "201":
  *         description: Created
@@ -178,17 +193,12 @@ module.exports = router;
  *           schema:
  *             type: object
  *             properties:
- *               lecture:
- *                 type: string
- *               course:
- *                 type: string
  *               atTime:
  *                 type: number
  *               status:
  *                 type: number
  *             example:
- *               lecture: 609b9838b28d283ef805f15d
- *               course: 609b9838b28d283ef805f15d
+ *               status: 1
  *               atTime: 60
  *     responses:
  *       "200":

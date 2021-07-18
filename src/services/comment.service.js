@@ -7,6 +7,7 @@ const ApiError = require('../utils/ApiError');
  * @param {Object} commentBody
  * @returns {Promise<Comment>}
  */
+/* eslint no-param-reassign: "error" */
 const createComment = async (commentBody) => {
   const comment = await Comment.create(commentBody);
   return comment;
