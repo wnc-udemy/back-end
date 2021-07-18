@@ -1,16 +1,17 @@
-image: gcr.io/farmhub-313500/ubuntu-custom-image:v1.1.0
+image: gcr.io/farmhub-core/ubuntu-custom-image:v1.3.0
 
 variables:
   IMAGE: back-end-service
   IMAGE_NAME: $IMAGE-$CI_COMMIT_REF_NAME
   NAMESPACE: wnc-udemy
   HELM_VALUE: $CI_COMMIT_REF_NAME
-  HELM_VERSION: 0.7.0
-  FULLREPO: gcr.io/farmhub-313500/$IMAGE-$CI_COMMIT_REF_NAME
+  HELM_VERSION: 1.6.0
+  FULLREPO: gcr.io/farmhub-320109/$IMAGE-$CI_COMMIT_REF_NAME
+  CHART_NAME: deploychart
 
 .predeploy: &predeploy |
-  helm repo add farmhub gs://farmhub-313500-helmcharts/deploychart
-  helm pull farmhub/helm-template --untar=true --version $HELM_VERSION
+  helm repo add farmhub-core gs://farmhub-core-helmcharts/$CHART_NAME
+  helm pull farmhub-core/$CHART_NAME --untar=true --version $HELM_VERSION
 
 .replace_helm: &replace_helm |
   sed -i "s|<IMAGE>|$FULLREPO:$CI_COMMIT_SHORT_SHA|g" helm/$HELM_VALUE.yaml
@@ -51,3 +52,4 @@ deploy_dev:
     - /usr/bin/skaffold deploy -a build.json
   only:
     - main
+
