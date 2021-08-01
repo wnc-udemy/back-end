@@ -1,9 +1,10 @@
-apiVersion: skaffold/v2beta10
+apiVersion: skaffold/v2beta19
 kind: Config
 build:
   tagPolicy:
-    envTemplate:
-      template: "{{.IMAGE_NAME}}:{{.CI_COMMIT_SHORT_SHA}}"
+    gitCommit:
+      variant: "AbbrevCommitSha"
+      ignoreChanges: true
   artifacts:
   - image: <FULLREPO>
     kaniko:
@@ -22,9 +23,10 @@ deploy:
   helm:
     releases:
     - name: <IMAGE_NAME>
-      chartPath: helm-template
+      chartPath: deploychart
       namespace: <NAMESPACE>
       artifactOverrides:
         image.repository: <FULLREPO>
       valuesFiles:
         - helm/<HELM_VALUE>.yaml
+
