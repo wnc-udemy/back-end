@@ -1136,7 +1136,7 @@ const getCourseSimilarById = async (id, status) => {
         name: '$courses.name',
         introDescription: { $trim: { input: '$courses.introDescription' } },
         targets: '$courses.targets',
-        instructorName: '$courses.instructor.name',
+        instructor: '$courses.instructor',
         averageRating: '$courses.averageRating',
         totalTime: '$courses.totalTime',
         totalLecture: '$courses.totalLecture',
@@ -1148,7 +1148,17 @@ const getCourseSimilarById = async (id, status) => {
       },
     },
     {
-      $unwind: '$instructorName',
+      $project: {
+        'instructor.intro': 0,
+        'instructor.description': 0,
+        'instructor.histories': 0,
+        'instructor.password': 0,
+        'instructor.role': 0,
+        'instructor.isEmailVerified': 0,
+        'instructor.courses': 0,
+        'instructor.favoriteCourses': 0,
+        'instructor.createdAt': 0,
+      },
     },
     { $sort: { createdAt: -1 } },
     {
