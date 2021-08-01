@@ -11,6 +11,18 @@ const userSchema = mongoose.Schema(
       required: true,
       trim: true,
     },
+    avatar: {
+      type: String,
+      default: 'https://i.imgur.com/ZFP9ojv.jpg',
+    },
+    intro: {
+      type: String,
+      default: 'I am a web newbie',
+    },
+    description: {
+      type: String,
+      default: 'Type here!!',
+    },
     email: {
       type: String,
       required: true,

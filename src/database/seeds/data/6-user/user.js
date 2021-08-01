@@ -8,6 +8,10 @@ const users = [
     email: 'admin@gmail.com',
     password: '$2y$08$ydJKeNw4VGs0b1FReTtXj.kImtvDYT5y/xTBcIlC4HGUcmL.3VzVC',
     role: 'admin',
+    avatar: 'https://i.imgur.com/ZFP9ojv.jpg',
+    intro: 'Developer and Lead Instructor',
+    description:
+      "I'm Angela, I'm a developer with a passion for teaching. I'm the lead instructor at the London App Brewery, London's leading Programming Bootcamp. I've helped hundreds of thousands of students learn to code and change their lives by becoming a developer. I've been invited by companies such as Twitter, Facebook and Google to teach their employees.",
     isEmailVerified: false,
     courses: [],
     favoriteCourses: [],
@@ -20,6 +24,10 @@ const users = [
     email: 'nguyenmit2012@gmail.com',
     password: '$2y$08$ydJKeNw4VGs0b1FReTtXj.kImtvDYT5y/xTBcIlC4HGUcmL.3VzVC',
     role: 'instructor',
+    avatar: 'https://i.imgur.com/ZFP9ojv.jpg',
+    intro: 'Developer and Lead Instructor',
+    description:
+      "I'm Angela, I'm a developer with a passion for teaching. I'm the lead instructor at the London App Brewery, London's leading Programming Bootcamp. I've helped hundreds of thousands of students learn to code and change their lives by becoming a developer. I've been invited by companies such as Twitter, Facebook and Google to teach their employees.",
     isEmailVerified: false,
     courses: [],
     favoriteCourses: [],
@@ -32,6 +40,10 @@ const users = [
     email: 'quangnghiashoppee@gmail.com',
     password: '$2y$08$ydJKeNw4VGs0b1FReTtXj.kImtvDYT5y/xTBcIlC4HGUcmL.3VzVC',
     role: 'instructor',
+    avatar: 'https://i.imgur.com/ZFP9ojv.jpg',
+    intro: 'Developer and Lead Instructor',
+    description:
+      "I'm Angela, I'm a developer with a passion for teaching. I'm the lead instructor at the London App Brewery, London's leading Programming Bootcamp. I've helped hundreds of thousands of students learn to code and change their lives by becoming a developer. I've been invited by companies such as Twitter, Facebook and Google to teach their employees.",
     isEmailVerified: false,
     courses: [],
     favoriteCourses: [],
@@ -44,6 +56,10 @@ const users = [
     email: 'dangkhoahcmus@gmail.com',
     password: '$2y$08$ydJKeNw4VGs0b1FReTtXj.kImtvDYT5y/xTBcIlC4HGUcmL.3VzVC',
     role: 'instructor',
+    avatar: 'https://i.imgur.com/ZFP9ojv.jpg',
+    intro: 'Developer and Lead Instructor',
+    description:
+      "I'm Angela, I'm a developer with a passion for teaching. I'm the lead instructor at the London App Brewery, London's leading Programming Bootcamp. I've helped hundreds of thousands of students learn to code and change their lives by becoming a developer. I've been invited by companies such as Twitter, Facebook and Google to teach their employees.",
     isEmailVerified: false,
     courses: [],
     favoriteCourses: [],
@@ -56,6 +72,10 @@ const users = [
     email: 'haunguyen1012@gmail.com',
     password: '$2y$08$ydJKeNw4VGs0b1FReTtXj.kImtvDYT5y/xTBcIlC4HGUcmL.3VzVC',
     role: 'instructor',
+    avatar: 'https://i.imgur.com/ZFP9ojv.jpg',
+    intro: 'Developer and Lead Instructor',
+    description:
+      "I'm Angela, I'm a developer with a passion for teaching. I'm the lead instructor at the London App Brewery, London's leading Programming Bootcamp. I've helped hundreds of thousands of students learn to code and change their lives by becoming a developer. I've been invited by companies such as Twitter, Facebook and Google to teach their employees.",
     isEmailVerified: false,
     courses: [],
     favoriteCourses: [],
@@ -68,6 +88,10 @@ const users = [
     email: 'vanphuoc1012@gmail.com',
     password: '$2y$08$ydJKeNw4VGs0b1FReTtXj.kImtvDYT5y/xTBcIlC4HGUcmL.3VzVC',
     role: 'instructor',
+    avatar: 'https://i.imgur.com/ZFP9ojv.jpg',
+    intro: 'Developer and Lead Instructor',
+    description:
+      "I'm Angela, I'm a developer with a passion for teaching. I'm the lead instructor at the London App Brewery, London's leading Programming Bootcamp. I've helped hundreds of thousands of students learn to code and change their lives by becoming a developer. I've been invited by companies such as Twitter, Facebook and Google to teach their employees.",
     isEmailVerified: false,
     courses: [],
     favoriteCourses: [],
@@ -80,6 +104,10 @@ const users = [
     email: 'tranvanchau2012@gmail.com',
     password: '$2y$08$ydJKeNw4VGs0b1FReTtXj.kImtvDYT5y/xTBcIlC4HGUcmL.3VzVC',
     role: 'instructor',
+    avatar: 'https://i.imgur.com/ZFP9ojv.jpg',
+    intro: 'Developer and Lead Instructor',
+    description:
+      "I'm Angela, I'm a developer with a passion for teaching. I'm the lead instructor at the London App Brewery, London's leading Programming Bootcamp. I've helped hundreds of thousands of students learn to code and change their lives by becoming a developer. I've been invited by companies such as Twitter, Facebook and Google to teach their employees.",
     isEmailVerified: false,
     courses: [],
     favoriteCourses: [],
@@ -92,6 +120,10 @@ const users = [
     email: 'beohoang98@gmail.com',
     password: '$2y$08$ydJKeNw4VGs0b1FReTtXj.kImtvDYT5y/xTBcIlC4HGUcmL.3VzVC',
     role: 'user',
+    avatar: 'https://i.imgur.com/ZFP9ojv.jpg',
+    intro: 'Developer and Lead Instructor',
+    description:
+      "I'm Angela, I'm a developer with a passion for teaching. I'm the lead instructor at the London App Brewery, London's leading Programming Bootcamp. I've helped hundreds of thousands of students learn to code and change their lives by becoming a developer. I've been invited by companies such as Twitter, Facebook and Google to teach their employees.",
     isEmailVerified: false,
     courses: getObjectIds([
       'Web development 1',
@@ -161,6 +193,10 @@ const users = [
     email: 'beohoang98@gmail.com',
     password: '$2y$08$ydJKeNw4VGs0b1FReTtXj.kImtvDYT5y/xTBcIlC4HGUcmL.3VzVC',
     role: 'user',
+    avatar: 'https://i.imgur.com/ZFP9ojv.jpg',
+    intro: 'Developer and Lead Instructor',
+    description:
+      "I'm Angela, I'm a developer with a passion for teaching. I'm the lead instructor at the London App Brewery, London's leading Programming Bootcamp. I've helped hundreds of thousands of students learn to code and change their lives by becoming a developer. I've been invited by companies such as Twitter, Facebook and Google to teach their employees.",
     isEmailVerified: false,
     courses: getObjectIds([
       'Web development 1',
@@ -230,6 +266,10 @@ const users = [
     email: 'trinhnhatsinh01@gmail.com',
     password: '$2y$08$ydJKeNw4VGs0b1FReTtXj.kImtvDYT5y/xTBcIlC4HGUcmL.3VzVC',
     role: 'user',
+    avatar: 'https://i.imgur.com/ZFP9ojv.jpg',
+    intro: 'Developer and Lead Instructor',
+    description:
+      "I'm Angela, I'm a developer with a passion for teaching. I'm the lead instructor at the London App Brewery, London's leading Programming Bootcamp. I've helped hundreds of thousands of students learn to code and change their lives by becoming a developer. I've been invited by companies such as Twitter, Facebook and Google to teach their employees.",
     isEmailVerified: false,
     courses: getObjectIds([
       'Web development 1',
@@ -299,6 +339,10 @@ const users = [
     email: 'kongkiet98@gmail.com',
     password: '$2y$08$ydJKeNw4VGs0b1FReTtXj.kImtvDYT5y/xTBcIlC4HGUcmL.3VzVC',
     role: 'user',
+    avatar: 'https://i.imgur.com/ZFP9ojv.jpg',
+    intro: 'Developer and Lead Instructor',
+    description:
+      "I'm Angela, I'm a developer with a passion for teaching. I'm the lead instructor at the London App Brewery, London's leading Programming Bootcamp. I've helped hundreds of thousands of students learn to code and change their lives by becoming a developer. I've been invited by companies such as Twitter, Facebook and Google to teach their employees.",
     isEmailVerified: false,
     courses: getObjectIds([
       'Web development 1',
