@@ -19,6 +19,7 @@ const getCourses = {
     subCategory: Joi.string().custom(objectId),
     role: Joi.string(),
     sortBy: Joi.string(),
+    status: Joi.number().integer(),
     limit: Joi.number().integer(),
     page: Joi.number().integer(),
     type: Joi.number().integer(),

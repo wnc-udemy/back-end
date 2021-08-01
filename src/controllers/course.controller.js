@@ -28,6 +28,8 @@ const createCourse = catchAsync(async (req, res) => {
 
 const getCourses = catchAsync(async (req, res) => {
   const { type } = req.query;
+  const { user } = req;
+  const { role: useRole } = user;
   let filter;
   let options;
   let result;
@@ -49,6 +51,15 @@ const getCourses = catchAsync(async (req, res) => {
       filter = pick(req.query, ['name', 'category', 'subCategory']);
       options = pick(req.query, ['sortBy', 'limit', 'page']);
       result = await courseService.queryAdvanceFilterCourses(filter, options);
+      break;
+
+    case 5:
+      if (useRole !== 'admin') {
+        throw new ApiError(httpStatus.FORBIDDEN, 'forbidden');
+      }
+      filter = pick(req.query, ['status']);
+      options = pick(req.query, ['sortBy', 'limit', 'page']);
+      result = await courseService.queryAdminCensorshipCourses(filter, options);
       break;
 
     default:

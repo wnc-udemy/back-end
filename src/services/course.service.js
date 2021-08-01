@@ -507,6 +507,20 @@ const queryCourses = async (filter, options) => {
 };
 
 /**
+ * Query for admin censorship courses
+ * @param {Object} filter - Mongo filter
+ * @param {Object} options - Query options
+ * @param {string} [options.sortBy] - Sort option in the format: sortField:(desc|asc)
+ * @param {number} [options.limit] - Maximum number of results per page (default = 10)
+ * @param {number} [options.page] - Current page (default = 1)
+ * @returns {Promise<QueryResult>}
+ */
+const queryAdminCensorshipCourses = async (filter, options) => {
+  const courses = await Course.paginate(filter, options);
+  return courses;
+};
+
+/**
  * Query for subscribed courses of user
  * @returns {Promise<QueryResult>}
  */
@@ -1181,6 +1195,7 @@ module.exports = {
   querySubscribedCourses,
   queryFavoriteCourses,
   queryYourCreatedCourses,
+  queryAdminCensorshipCourses,
   getCourseById,
   getCourseDetailById,
   getCourseCommentById,

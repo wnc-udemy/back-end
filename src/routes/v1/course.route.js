@@ -9,7 +9,7 @@ const router = express.Router();
 router
   .route('/')
   .post(auth('course.create'), validate(courseValidation.createCourse), courseController.createCourse)
-  .get(validate(courseValidation.getCourses), courseController.getCourses);
+  .get(auth('course.gets'), validate(courseValidation.getCourses), courseController.getCourses);
 
 router
   .route('/:courseId')
@@ -115,8 +115,20 @@ module.exports = router;
  *            - 2
  *            - 3
  *            - 4
+ *            - 5
  *           default: 0
- *         description: 'Type get courses 0: default list, 1: most view, 2: latest, 3: highlight, 4: advance filter'
+ *         description: 'Type get courses 0: default list, 1: most view, 2: latest, 3: highlight, 4: advance filter, 5: admin censorship'
+ *       - in: query
+ *         name: status
+ *         schema:
+ *           type: number
+ *           enum:
+ *              - 0
+ *              - 1
+ *              - 2
+ *              - 3
+ *           default: 0
+ *         description: 'Status of courses 0: Not complete, 1: Complete, 2: published, 3: Blocked'
  *       - in: query
  *         name: name
  *         schema:
