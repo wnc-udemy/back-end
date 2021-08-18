@@ -88,7 +88,7 @@ configmap:
   SMTP_USERNAME: farm.udemy@gmail.com
   SMTP_PASSWORD: Tuanh0909@
   EMAIL_FROM: farm.udemy@gmail.com
-  URL_VERIFY_EMAIL: https://wnc-backend.farmhub.asia/v1/auth
+  URL_VERIFY_EMAIL: https://wnc-frontend.farmhub.asia/verify-email
 
 resources:
   {}
