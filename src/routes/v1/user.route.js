@@ -388,7 +388,12 @@ module.exports = router;
  *                 type: string
  *                 format: email
  *                 description: must be unique
- *               password:
+ *               oldPassword:
+ *                 type: string
+ *                 format: password
+ *                 minLength: 8
+ *                 description: At least one number and one letter
+ *               newPassword:
  *                 type: string
  *                 format: password
  *                 minLength: 8
@@ -396,7 +401,8 @@ module.exports = router;
  *             example:
  *               name: fake name
  *               email: fake@example.com
- *               password: password1
+ *               oldPassword: password1
+ *               newPassword: password1
  *     responses:
  *       "200":
  *         description: OK

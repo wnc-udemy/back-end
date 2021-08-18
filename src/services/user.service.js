@@ -5,6 +5,7 @@ const { getCourseById, getCourseSectionById } = require('./course.service');
 const { getSubCategoryByCourseId } = require('./sub-category.service');
 const { createHistories } = require('./history.service');
 const { getHistoriesByCourseId } = require('./history.service');
+const { password } = require('../validations/custom.validation');
 
 /**
  * Create a user
@@ -90,6 +91,14 @@ const updateUserById = async (userId, updateBody) => {
   if (updateBody.email && (await User.isEmailTaken(updateBody.email, userId))) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'Email already taken');
   }
+  const { oldPassword, newPassword } = updateBody;
+
+  if (oldPassword && newPassword && !(await user.isPasswordMatch(oldPassword))) {
+    throw new ApiError(httpStatus.UNAUTHORIZED, 'Incorrect password');
+  } else {
+    updateBody.password = newPassword;
+  }
+
   Object.assign(user, updateBody);
   await user.save();
   return user;
