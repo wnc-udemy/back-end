@@ -28,8 +28,6 @@ const createCourse = catchAsync(async (req, res) => {
 
 const getCourses = catchAsync(async (req, res) => {
   const { type } = req.query;
-  const { user } = req;
-  const { role: useRole } = user;
   let filter;
   let options;
   let result;
@@ -54,6 +52,11 @@ const getCourses = catchAsync(async (req, res) => {
       break;
 
     case 5:
+      // eslint-disable-next-line no-case-declarations
+      const { user } = req;
+      // eslint-disable-next-line no-case-declarations
+      const { role: useRole } = user;
+
       if (useRole !== 'admin') {
         throw new ApiError(httpStatus.FORBIDDEN, 'forbidden');
       }
