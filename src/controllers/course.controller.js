@@ -175,6 +175,7 @@ const getCourse = catchAsync(async (req, res) => {
 const updateCourse = catchAsync(async (req, res) => {
   const { courseId } = req.params;
   const { user } = req;
+
   let course;
 
   course = await courseService.getCourseById(courseId);
@@ -182,7 +183,7 @@ const updateCourse = catchAsync(async (req, res) => {
     throw new ApiError(httpStatus.NOT_FOUND, 'Course not found');
   }
 
-  if (course.instructor.toString() !== user._id.toString()) {
+  if (user.role !== 'admin' && course.instructor.toString() !== user._id.toString()) {
     throw new ApiError(httpStatus.FORBIDDEN, 'This course was not created by this user');
   }
 
@@ -191,7 +192,19 @@ const updateCourse = catchAsync(async (req, res) => {
 });
 
 const deleteCourse = catchAsync(async (req, res) => {
-  await courseService.deleteCourseById(req.params.courseId);
+  const { courseId } = req.params;
+  const { user } = req;
+
+  const course = await courseService.getCourseById(courseId);
+  if (!course) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Course not found');
+  }
+
+  if (user.role !== 'admin' && course.instructor.toString() !== user._id.toString()) {
+    throw new ApiError(httpStatus.FORBIDDEN, 'This course was not created by this user');
+  }
+
+  await courseService.deleteCourseById(courseId);
   res.status(httpStatus.NO_CONTENT).send();
 });
 

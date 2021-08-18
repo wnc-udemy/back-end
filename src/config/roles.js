@@ -22,6 +22,7 @@ roleRights.set(roles[1], [
   'user.update',
   'course.update',
   'course.create',
+  'course.delete',
   'course.gets',
   'course.get',
   'comment.delete',
