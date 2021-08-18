@@ -516,7 +516,46 @@ const queryCourses = async (filter, options) => {
  * @returns {Promise<QueryResult>}
  */
 const queryAdminCensorshipCourses = async (filter, options) => {
-  const courses = await Course.paginate(filter, options);
+  const limit = options.limit && parseInt(options.limit, 10) > 0 ? parseInt(options.limit, 10) : 10;
+  const page = options.page && parseInt(options.page, 10) > 0 ? parseInt(options.page, 10) : 1;
+  const skip = (page - 1) * limit;
+  const { status } = filter;
+
+  const courses = await Course.aggregate([
+    { $match: { status } },
+    {
+      $lookup: {
+        from: 'user',
+        localField: 'instructor',
+        foreignField: '_id',
+        as: 'instructor',
+      },
+    },
+    {
+      $project: {
+        _id: 1,
+        name: 1,
+        'instructor._id': 1,
+        'instructor.avatar': 1,
+        'instructor.email': 1,
+        'instructor.name': 1,
+        averageRating: 1,
+        totalTime: 1,
+        totalLecture: 1,
+        fee: 1,
+        urlThumb: 1,
+        createdAt: 1,
+        totalComment: {
+          $size: '$comments',
+        },
+        totalViewer: {
+          $size: '$viewers',
+        },
+      },
+    },
+    { $skip: skip },
+    { $limit: limit },
+  ]);
   return courses;
 };
 
