@@ -95,7 +95,7 @@ const updateUserById = async (userId, updateBody) => {
 
   if (oldPassword && newPassword && !(await user.isPasswordMatch(oldPassword))) {
     throw new ApiError(httpStatus.UNAUTHORIZED, 'Incorrect password');
-  } else {
+  } else if (oldPassword && newPassword && (await user.isPasswordMatch(oldPassword))) {
     updateBody.password = newPassword;
   }
 
