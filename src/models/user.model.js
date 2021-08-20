@@ -56,6 +56,11 @@ const userSchema = mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    status: {
+      // 0: Activate, 1: Deactivate
+      type: Number,
+      default: 0,
+    },
     createdAt: {
       type: Date,
       default: Date.now(),

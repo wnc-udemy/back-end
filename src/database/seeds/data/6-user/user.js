@@ -13,6 +13,7 @@ const users = [
     description:
       "I'm Angela, I'm a developer with a passion for teaching. I'm the lead instructor at the London App Brewery, London's leading Programming Bootcamp. I've helped hundreds of thousands of students learn to code and change their lives by becoming a developer. I've been invited by companies such as Twitter, Facebook and Google to teach their employees.",
     isEmailVerified: false,
+    status: 0,
     courses: [],
     favoriteCourses: [],
     histories: [],
@@ -29,6 +30,7 @@ const users = [
     description:
       "I'm Angela, I'm a developer with a passion for teaching. I'm the lead instructor at the London App Brewery, London's leading Programming Bootcamp. I've helped hundreds of thousands of students learn to code and change their lives by becoming a developer. I've been invited by companies such as Twitter, Facebook and Google to teach their employees.",
     isEmailVerified: false,
+    status: 0,
     courses: [],
     favoriteCourses: [],
     histories: [],
@@ -45,6 +47,7 @@ const users = [
     description:
       "I'm Angela, I'm a developer with a passion for teaching. I'm the lead instructor at the London App Brewery, London's leading Programming Bootcamp. I've helped hundreds of thousands of students learn to code and change their lives by becoming a developer. I've been invited by companies such as Twitter, Facebook and Google to teach their employees.",
     isEmailVerified: false,
+    status: 0,
     courses: [],
     favoriteCourses: [],
     histories: [],
@@ -61,6 +64,7 @@ const users = [
     description:
       "I'm Angela, I'm a developer with a passion for teaching. I'm the lead instructor at the London App Brewery, London's leading Programming Bootcamp. I've helped hundreds of thousands of students learn to code and change their lives by becoming a developer. I've been invited by companies such as Twitter, Facebook and Google to teach their employees.",
     isEmailVerified: false,
+    status: 0,
     courses: [],
     favoriteCourses: [],
     histories: [],
@@ -77,6 +81,7 @@ const users = [
     description:
       "I'm Angela, I'm a developer with a passion for teaching. I'm the lead instructor at the London App Brewery, London's leading Programming Bootcamp. I've helped hundreds of thousands of students learn to code and change their lives by becoming a developer. I've been invited by companies such as Twitter, Facebook and Google to teach their employees.",
     isEmailVerified: false,
+    status: 0,
     courses: [],
     favoriteCourses: [],
     histories: [],
@@ -93,6 +98,7 @@ const users = [
     description:
       "I'm Angela, I'm a developer with a passion for teaching. I'm the lead instructor at the London App Brewery, London's leading Programming Bootcamp. I've helped hundreds of thousands of students learn to code and change their lives by becoming a developer. I've been invited by companies such as Twitter, Facebook and Google to teach their employees.",
     isEmailVerified: false,
+    status: 0,
     courses: [],
     favoriteCourses: [],
     histories: [],
@@ -109,6 +115,7 @@ const users = [
     description:
       "I'm Angela, I'm a developer with a passion for teaching. I'm the lead instructor at the London App Brewery, London's leading Programming Bootcamp. I've helped hundreds of thousands of students learn to code and change their lives by becoming a developer. I've been invited by companies such as Twitter, Facebook and Google to teach their employees.",
     isEmailVerified: false,
+    status: 0,
     courses: [],
     favoriteCourses: [],
     histories: [],
@@ -125,6 +132,7 @@ const users = [
     description:
       "I'm Angela, I'm a developer with a passion for teaching. I'm the lead instructor at the London App Brewery, London's leading Programming Bootcamp. I've helped hundreds of thousands of students learn to code and change their lives by becoming a developer. I've been invited by companies such as Twitter, Facebook and Google to teach their employees.",
     isEmailVerified: false,
+    status: 0,
     courses: getObjectIds([
       'Web development 1',
       'Web development 2',
@@ -198,6 +206,7 @@ const users = [
     description:
       "I'm Angela, I'm a developer with a passion for teaching. I'm the lead instructor at the London App Brewery, London's leading Programming Bootcamp. I've helped hundreds of thousands of students learn to code and change their lives by becoming a developer. I've been invited by companies such as Twitter, Facebook and Google to teach their employees.",
     isEmailVerified: false,
+    status: 0,
     courses: getObjectIds([
       'Web development 1',
       'Web development 2',
@@ -271,6 +280,7 @@ const users = [
     description:
       "I'm Angela, I'm a developer with a passion for teaching. I'm the lead instructor at the London App Brewery, London's leading Programming Bootcamp. I've helped hundreds of thousands of students learn to code and change their lives by becoming a developer. I've been invited by companies such as Twitter, Facebook and Google to teach their employees.",
     isEmailVerified: false,
+    status: 0,
     courses: getObjectIds([
       'Web development 1',
       'Web development 2',
@@ -344,6 +354,7 @@ const users = [
     description:
       "I'm Angela, I'm a developer with a passion for teaching. I'm the lead instructor at the London App Brewery, London's leading Programming Bootcamp. I've helped hundreds of thousands of students learn to code and change their lives by becoming a developer. I've been invited by companies such as Twitter, Facebook and Google to teach their employees.",
     isEmailVerified: false,
+    status: 0,
     courses: getObjectIds([
       'Web development 1',
       'Web development 2',

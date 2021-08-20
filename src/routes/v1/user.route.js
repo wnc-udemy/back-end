@@ -108,6 +108,15 @@ module.exports = router;
  *           type: string
  *         description: User role
  *       - in: query
+ *         name: status
+ *         schema:
+ *           type: number
+ *           enum:
+ *              - 0
+ *              - 1
+ *           default: 0
+ *         description: 'Status of courses 0: Activate, 1: Deactivate'
+ *       - in: query
  *         name: sortBy
  *         schema:
  *           type: string
@@ -388,6 +397,9 @@ module.exports = router;
  *                 type: string
  *                 format: email
  *                 description: must be unique
+ *               status:
+ *                 type: number
+ *                 description: 0 - activate, 1 - deactivate
  *               oldPassword:
  *                 type: string
  *                 format: password
@@ -401,6 +413,7 @@ module.exports = router;
  *             example:
  *               name: fake name
  *               email: fake@example.com
+ *               status: 1
  *               oldPassword: password1
  *               newPassword: password1
  *     responses:

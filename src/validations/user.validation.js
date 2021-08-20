@@ -21,6 +21,7 @@ const getUsers = {
   query: Joi.object().keys({
     name: Joi.string(),
     role: Joi.string(),
+    status: Joi.number(),
     sortBy: Joi.string(),
     limit: Joi.number().integer(),
     page: Joi.number().integer(),
@@ -78,6 +79,7 @@ const updateUser = {
       newPassword: Joi.string().custom(password),
       name: Joi.string(),
       role: Joi.string().valid('user', 'instructor', 'admin'),
+      status: Joi.number().valid(0, 1),
       avatar: Joi.string(),
       intro: Joi.string(),
       description: Joi.string(),
