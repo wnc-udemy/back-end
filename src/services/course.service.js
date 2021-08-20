@@ -521,6 +521,16 @@ const queryAdminCensorshipCourses = async (filter, options) => {
   const skip = (page - 1) * limit;
   const { status } = filter;
 
+  const sort = {};
+  if (options.sortBy) {
+    options.sortBy.split(',').forEach((sortOption) => {
+      const [key, order] = sortOption.split(':');
+      sort[key] = order === 'desc' ? -1 : 1;
+    });
+  } else {
+    sort.createdAt = 1;
+  }
+
   const courses = await Course.aggregate([
     { $match: { status } },
     {
@@ -553,6 +563,7 @@ const queryAdminCensorshipCourses = async (filter, options) => {
         },
       },
     },
+    { $sort: sort },
     { $skip: skip },
     { $limit: limit },
   ]);
