@@ -22,7 +22,7 @@ const users = [
   {
     _id: getObjectId('Nguyen Thien Ly'),
     name: 'Nguyen Thien Ly',
-    email: 'nguyenmit2012@gmail.com',
+    email: 'nguyenmit201222@gmail.com',
     password: '$2a$08$zyLrgHNovaYjwv43Ubjx0.MoLonuwS0pLTZA0YNMg3ye2lbCgaey6',
     role: 'instructor',
     avatar: 'https://i.imgur.com/ZFP9ojv.jpg',
